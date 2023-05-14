@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 
 namespace GymJournal.Data.Entities
 {
-	public class MuscleGroup
+	public class Muscle
 	{
 		public Guid Id { get; set; }
 		public string Name { get; set; }

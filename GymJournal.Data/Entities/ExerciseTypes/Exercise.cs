@@ -15,6 +15,9 @@ namespace GymJournal.Data.Entities.ExerciseTypes
         public int Likes { get; set; }
         public bool IsBegginerFriendly { get; set; }
         public bool IsGymRequired { get; set; }
-		public ICollection<MuscleGroup> MuscleGroups { get; set; }
+        public bool IsPrivate { get; set; }
+		public ICollection<Muscle> Muscles { get; set; }
+        public ICollection<ExerciseEntry> ExerciseEntries { get; set; }
+        public ICollection<PastExercise> PastExercises { get; set; }
 	}
 }

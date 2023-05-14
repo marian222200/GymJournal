@@ -13,6 +13,7 @@ namespace GymJournal.Data.Entities
 		public string Name { get; set; }
 		public string Description { get; set; }
 		public string Likes { get; set; }
+		public bool IsPrivate { get; set; }
 		public ICollection<Workout> Workouts { get; set; }
 		//Coach that added the exercise
 	}
