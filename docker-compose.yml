@@ -1,0 +1,31 @@
+version: '3.4'
+
+services:
+    gymjournal.interface:
+        image: ${DOCKER_REGISTRY-}gymjournalinterface
+        build:
+            context: .
+            dockerfile: GymJournal.Interface/Dockerfile
+        ports:
+            - "8081:81"
+        depends_on:
+            - gymjournal.api
+
+    gymjournal.api:
+        image: ${DOCKER_REGISTRY-}gymjournalapi
+        build:
+            context: .
+            dockerfile: GymJournal.API/Dockerfile
+        ports:
+            - "8080:80"
+        depends_on:
+            - db
+
+    db:
+        image: "mcr.microsoft.com/mssql/server:2022-latest"
+        ports:
+            - "1433:1433"
+
+        environment:
+            SA_PASSWORD: "S3cur3P@ssW0rd!"
+            ACCEPT_EULA: "Y"
