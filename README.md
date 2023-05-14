@@ -1,1 +1,1 @@
-# gym-journal
+# gym-journal-api
