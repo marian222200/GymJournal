@@ -1,5 +1,4 @@
 ﻿using GymJournal.Data.Entities;
-using GymJournal.Data.Entities.ExerciseTypes;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
 using System;
@@ -10,7 +9,7 @@ using System.Threading.Tasks;
 
 namespace GymJournal.Data.Configuration
 {
-	public class ExerciseConfiguration : IEntityTypeConfiguration<Exercise>
+    public class ExerciseConfiguration : IEntityTypeConfiguration<Exercise>
 	{
 		public void Configure(EntityTypeBuilder<Exercise> builder)
 		{

@@ -1,17 +1,15 @@
 version: '3.4'
 
 services:
-    gymjournal.interface:
+    gymjournal.Interface:
         image: ${DOCKER_REGISTRY-}gymjournalinterface
         build:
             context: .
             dockerfile: GymJournal.Interface/Dockerfile
         ports:
             - "8081:81"
-        depends_on:
-            - gymjournal.api
 
-    gymjournal.api:
+    gymjournal.API:
         image: ${DOCKER_REGISTRY-}gymjournalapi
         build:
             context: .
