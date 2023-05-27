@@ -21,6 +21,7 @@ namespace GymJournal.Data.Repositories
 			_dbContext = dbContext ?? throw new ArgumentNullException(nameof(dbContext));
 			_mapper = mapper ?? throw new ArgumentNullException(nameof(mapper));
 		}
+
 		public async Task<ExerciseDto> Add(ExerciseDto dto, CancellationToken cancellationToken = default)
 		{
 			var entity = _mapper.Map<Exercise>(dto);
