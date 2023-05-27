@@ -1,12 +1,146 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using GymJournal.API.Models;
+using GymJournal.Data.Repositories;
+using GymJournal.Domain.DTOs;
+using Microsoft.AspNetCore.Mvc;
 
 namespace GymJournal.API.Controllers
 {
-	public class ExerciseController : Controller
+	[ApiController]
+	[Route("[controller]")]
+	public class ExerciseController : ControllerBase
 	{
-		public IActionResult Index()
+		private readonly IRepository<ExerciseDto> _exerciseRepository;
+
+		public ExerciseController(IRepository<ExerciseDto> exerciseRepository)
 		{
-			return View();
+			_exerciseRepository = exerciseRepository ?? throw new ArgumentNullException(nameof(exerciseRepository));
+		}
+
+		[HttpGet]
+		public async Task<IActionResult> GetAll()
+		{
+			try
+			{
+				var muscles = await _exerciseRepository.GetAll();
+
+				return Ok(muscles);
+			}
+			catch (Exception ex)
+			{
+				var errorResponse = new ErrorResponse
+				{
+					Message = ex.Message,
+				};
+
+				return StatusCode(StatusCodes.Status500InternalServerError, errorResponse);
+			}
+		}
+
+		[HttpGet("{id}")]
+		public async Task<IActionResult> GetById(Guid? id)
+		{
+			try
+			{
+				if (id == null)
+				{
+					return StatusCode(StatusCodes.Status400BadRequest, new ErrorResponse { Message = "Trying to GetById Exercise with null Id is invalid." });
+				}
+
+				var muscle = await _exerciseRepository.GetById(id);
+
+				return Ok(muscle);
+			}
+			catch (Exception ex)
+			{
+				var errorResponse = new ErrorResponse
+				{
+					Message = ex.Message,
+				};
+
+				return StatusCode(StatusCodes.Status500InternalServerError, errorResponse);
+			}
+		}
+
+		[HttpDelete("{id}")]
+		public async Task<IActionResult> Delete(Guid? id)
+		{
+			try
+			{
+				var exercise = await _exerciseRepository.GetById(id);
+
+				if(exercise == null)
+				{
+					return StatusCode(StatusCodes.Status400BadRequest, new ErrorResponse { Message = "Trying to Delete Exercise with invalid Id." });
+				}
+
+				await _exerciseRepository.Remove(id);
+
+				return StatusCode(StatusCodes.Status204NoContent);
+			}
+			catch (Exception ex)
+			{
+				var errorResponse = new ErrorResponse
+				{
+					Message = ex.Message,
+				};
+
+				return StatusCode(StatusCodes.Status500InternalServerError, errorResponse);
+			}
+		}
+
+		[HttpPost]
+		public async Task<IActionResult> Create([FromBody] ExerciseDto exercise)
+		{
+			try
+			{
+				if (exercise == null)
+				{
+					return StatusCode(StatusCodes.Status400BadRequest, new ErrorResponse { Message = "Trying to Add null Exercise." });
+				}
+
+				if (exercise.WorkoutIds == null) exercise.WorkoutIds = new List<Guid>();
+				if (exercise.MuscleIds == null) exercise.MuscleIds = new List<Guid>();
+
+				var responseExercise = await _exerciseRepository.Add(exercise);
+
+				return Created(string.Empty, responseExercise);
+			}
+			catch (Exception ex)
+			{
+				var errorResponse = new ErrorResponse
+				{
+					Message = ex.Message,
+				};
+
+				return StatusCode(StatusCodes.Status500InternalServerError, errorResponse);
+			}
+		}
+
+		[HttpPut]
+		public async Task<IActionResult> Update([FromBody] ExerciseDto exercise)
+		{
+			try
+			{
+				var existentExercise = await _exerciseRepository.GetById(exercise.Id);
+
+				if(existentExercise == null)
+				{
+					return StatusCode(StatusCodes.Status400BadRequest, new ErrorResponse { Message = "Trying to Update Exercise with not existent Id." });
+				}
+
+				var responseExercise = await _exerciseRepository.Update(exercise);
+
+				return Ok(responseExercise);
+			}
+			catch (Exception ex)
+			{
+				var errorResponse = new ErrorResponse
+				{
+					Message = ex.Message,
+				};
+
+				return StatusCode(StatusCodes.Status500InternalServerError, errorResponse);
+			}
 		}
 	}
 }

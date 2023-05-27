@@ -20,78 +20,78 @@ namespace GymJournal.Data.Configuration
 				Name = "Chest",
 				Exercises = new List<Exercise>(),
 			});
-			//builder.HasData(new Muscle
-			//{
-			//	Id = Guid.Parse("f62031db-81a1-4643-8e44-845c19eb51e4"),
-			//	Name = "Triceps",
-			//	Exercises = new List<Exercise>(),
-			//});
-			//builder.HasData(new Muscle
-			//{
-			//	Id = Guid.Parse("5a25a051-75d3-4733-839c-f645ca8f20f7"),
-			//	Name = "Back",
-			//	Exercises = new List<Exercise>(),
-			//});
-			//builder.HasData(new Muscle
-			//{
-			//	Id = Guid.Parse("3c0b0369-e88c-40f0-bc30-a1a309958db4"),
-			//	Name = "Biceps",
-			//	Exercises = new List<Exercise>(),
-			//});
-			//builder.HasData(new Muscle
-			//{
-			//	Id = Guid.Parse("909c35a3-a2c0-4fc9-97b6-5299a0d88dab"),
-			//	Name = "Forearms",
-			//	Exercises = new List<Exercise>(),
-			//});
-			//builder.HasData(new Muscle
-			//{
-			//	Id = Guid.Parse("f46d7cf7-a3a8-42eb-97c5-0e3b10b5bbe1"),
-			//	Name = "Abs",
-			//	Exercises = new List<Exercise>(),
-			//});
-			//builder.HasData(new Muscle
-			//{
-			//	Id = Guid.Parse("8bd9fdf8-f0b5-4361-b447-b926195637c7"),
-			//	Name = "FrontalDelt",
-			//	Exercises = new List<Exercise>(),
-			//});
-			//builder.HasData(new Muscle
-			//{
-			//	Id = Guid.Parse("576d342b-b493-4edc-ad56-fffd2ffa36fb"),
-			//	Name = "LateralDelt",
-			//	Exercises = new List<Exercise>(),
-			//});
-			//builder.HasData(new Muscle
-			//{
-			//	Id = Guid.Parse("6328df6e-3f56-4ad6-ba7b-50ab92270b48"),
-			//	Name = "RearDelt",
-			//	Exercises = new List<Exercise>(),
-			//});
-			//builder.HasData(new Muscle
-			//{
-			//	Id = Guid.Parse("3ef37065-e38e-4676-a0da-af322e750d45"),
-			//	Name = "Quads",
-			//	Exercises = new List<Exercise>(),
-			//});
-			//builder.HasData(new Muscle
-			//{
-			//	Id = Guid.Parse("dc0d5865-8fa7-48a1-89cc-65986e10928e"),
-			//	Name = "Hamstrings",
-			//	Exercises = new List<Exercise>(),
-			//});
-			//builder.HasData(new Muscle
-			//{
-			//	Id = Guid.Parse("a2d5742d-a68a-4b70-a7ac-94f31dd77b03"),
-			//	Name = "Calves",
-			//	Exercises = new List<Exercise>(),
-			//});
-			//builder.HasData(new Muscle
-			//{
-			//	Id = Guid.Parse("a8627c30-a7b9-4b2c-af13-350b77faa36b"),
-			//	Name = "Other",
-			//	Exercises = new List<Exercise>(),
-			//});
+			builder.HasData(new Muscle
+			{
+				Id = Guid.Parse("f62031db-81a1-4643-8e44-845c19eb51e4"),
+				Name = "Triceps",
+				Exercises = new List<Exercise>(),
+			});
+			builder.HasData(new Muscle
+			{
+				Id = Guid.Parse("5a25a051-75d3-4733-839c-f645ca8f20f7"),
+				Name = "Back",
+				Exercises = new List<Exercise>(),
+			});
+			builder.HasData(new Muscle
+			{
+				Id = Guid.Parse("3c0b0369-e88c-40f0-bc30-a1a309958db4"),
+				Name = "Biceps",
+				Exercises = new List<Exercise>(),
+			});
+			builder.HasData(new Muscle
+			{
+				Id = Guid.Parse("909c35a3-a2c0-4fc9-97b6-5299a0d88dab"),
+				Name = "Forearms",
+				Exercises = new List<Exercise>(),
+			});
+			builder.HasData(new Muscle
+			{
+				Id = Guid.Parse("f46d7cf7-a3a8-42eb-97c5-0e3b10b5bbe1"),
+				Name = "Abs",
+				Exercises = new List<Exercise>(),
+			});
+			builder.HasData(new Muscle
+			{
+				Id = Guid.Parse("8bd9fdf8-f0b5-4361-b447-b926195637c7"),
+				Name = "FrontalDelt",
+				Exercises = new List<Exercise>(),
+			});
+			builder.HasData(new Muscle
+			{
+				Id = Guid.Parse("576d342b-b493-4edc-ad56-fffd2ffa36fb"),
+				Name = "LateralDelt",
+				Exercises = new List<Exercise>(),
+			});
+			builder.HasData(new Muscle
+			{
+				Id = Guid.Parse("6328df6e-3f56-4ad6-ba7b-50ab92270b48"),
+				Name = "RearDelt",
+				Exercises = new List<Exercise>(),
+			});
+			builder.HasData(new Muscle
+			{
+				Id = Guid.Parse("3ef37065-e38e-4676-a0da-af322e750d45"),
+				Name = "Quads",
+				Exercises = new List<Exercise>(),
+			});
+			builder.HasData(new Muscle
+			{
+				Id = Guid.Parse("dc0d5865-8fa7-48a1-89cc-65986e10928e"),
+				Name = "Hamstrings",
+				Exercises = new List<Exercise>(),
+			});
+			builder.HasData(new Muscle
+			{
+				Id = Guid.Parse("a2d5742d-a68a-4b70-a7ac-94f31dd77b03"),
+				Name = "Calves",
+				Exercises = new List<Exercise>(),
+			});
+			builder.HasData(new Muscle
+			{
+				Id = Guid.Parse("a8627c30-a7b9-4b2c-af13-350b77faa36b"),
+				Name = "Other",
+				Exercises = new List<Exercise>(),
+			});
 		}
 	}
 }

@@ -1,14 +1,12 @@
-
 using GymJournal.Data.Context;
 using GymJournal.Data.Context.IContext;
-using GymJournal.Data.Mappers;
 using GymJournal.Data.Repositories;
 using GymJournal.Domain.DTOs;
 using Microsoft.EntityFrameworkCore;
 
 namespace GymJournal.API
 {
-	public class Program
+    public class Program
 	{
 		public static async Task Main(string[] args)
 		{
@@ -29,8 +27,6 @@ namespace GymJournal.API
 			// Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
 			builder.Services.AddEndpointsApiExplorer();
 			builder.Services.AddSwaggerGen();
-
-			builder.Services.AddAutoMapper(typeof(ExerciseProfile));
 
 			builder.Services.AddScoped<IRepository<ExerciseDto>, ExerciseRepository>();
 			builder.Services.AddScoped<IRepository<WorkoutPlanDto>, WorkoutPlanRepository>();

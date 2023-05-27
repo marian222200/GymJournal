@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 
 namespace GymJournal.Data.Repositories
 {
-	public interface IMuscleRepository
+    public interface IMuscleRepository
 	{
 		Task<IEnumerable<MuscleDto>> GetAll(CancellationToken cancellationToken = default);
 		Task<MuscleDto?> GetById(Guid? guid, CancellationToken cancellationToken = default);

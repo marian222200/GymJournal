@@ -1,5 +1,4 @@
-﻿using AutoMapper;
-using GymJournal.Data.Context.IContext;
+﻿using GymJournal.Data.Context.IContext;
 using GymJournal.Data.Entities;
 using GymJournal.Domain.DTOs;
 using Microsoft.EntityFrameworkCore;
@@ -11,33 +10,50 @@ using System.Threading.Tasks;
 
 namespace GymJournal.Data.Repositories
 {
-	public class WorkoutRepository : IRepository<WorkoutDto>
+    public class WorkoutRepository : IRepository<WorkoutDto>
 	{
 		private readonly IApplicationDbContext _dbContext;
-		private readonly IMapper _mapper;
 
-		public WorkoutRepository(IApplicationDbContext dbContext, IMapper mapper)
+		public WorkoutRepository(IApplicationDbContext dbContext)
 		{
 			_dbContext = dbContext ?? throw new ArgumentNullException(nameof(dbContext));
-			_mapper = mapper ?? throw new ArgumentNullException(nameof(mapper));
 		}
 		public async Task<WorkoutDto> Add(WorkoutDto dto, CancellationToken cancellationToken = default)
 		{
-			var entity = _mapper.Map<Workout>(dto);
+			var entity = new Workout
+			{
+				Id = Guid.NewGuid(),
+				Name = dto.Name,
+				Description = dto.Description,
+				Exercises = await _dbContext.Exercises.Where(e => dto.ExerciseIds.Contains(e.Id)).ToListAsync(),
+				WorkoutPlans = await _dbContext.WorkoutPlans.Where(w => dto.WorkoutPlanIds.Contains(w.Id)).ToListAsync(),
+			};
+
 			await _dbContext.Workouts.AddAsync(entity, cancellationToken);
 			await SaveChanges(cancellationToken);
 
-			return _mapper.Map<WorkoutDto>(entity);
+			return new WorkoutDto
+			{
+				Id = entity.Id,
+				Name = entity.Name,
+				Description = entity.Description,
+				ExerciseIds = entity.Exercises.Select(e => e.Id).ToList(),
+				WorkoutPlanIds = entity.WorkoutPlans.Select(w => w.Id).ToList(),
+			};
 		}
 
 		public async Task<IEnumerable<WorkoutDto>> GetAll(CancellationToken cancellationToken = default)
 		{
 			var dtos = await _dbContext.Workouts
-				.Include(w => w.Exercises)
-					.ThenInclude(e => e.Muscles)
-				.Include(w => w.WorkoutPlans)
 				.AsNoTracking()
-				.Select(w => _mapper.Map<WorkoutDto>(w))
+				.Select(entity => new WorkoutDto
+				{
+					Id = entity.Id,
+					Name = entity.Name,
+					Description = entity.Description,
+					ExerciseIds = entity.Exercises.Select(e => e.Id).ToList(),
+					WorkoutPlanIds = entity.WorkoutPlans.Select(w => w.Id).ToList(),
+				})
 				.ToListAsync(cancellationToken);
 
 			return dtos;
@@ -52,7 +68,6 @@ namespace GymJournal.Data.Repositories
 
 			var entity = await _dbContext.Workouts
 				.Include(w => w.Exercises)
-					.ThenInclude(e => e.Muscles)
 				.Include(w => w.WorkoutPlans)
 				.FirstOrDefaultAsync(w => w.Id == guid, cancellationToken);
 
@@ -61,7 +76,14 @@ namespace GymJournal.Data.Repositories
 				return null;
 			}
 
-			return _mapper.Map<WorkoutDto>(entity);
+			return new WorkoutDto
+			{
+				Id = entity.Id,
+				Name = entity.Name,
+				Description = entity.Description,
+				ExerciseIds = entity.Exercises.Select(e => e.Id).ToList(),
+				WorkoutPlanIds = entity.WorkoutPlans.Select(w => w.Id).ToList(),
+			};
 		}
 
 		public async Task Remove(Guid? id, CancellationToken cancellationToken = default)
@@ -71,7 +93,10 @@ namespace GymJournal.Data.Repositories
 				throw new ArgumentNullException(nameof(id));
 			}
 
-			var entity = await _dbContext.Workouts.FirstOrDefaultAsync(w => w.Id == id, cancellationToken);
+			var entity = await _dbContext.Workouts
+				.Include(w => w.Exercises)
+				.Include(w => w.WorkoutPlans)
+				.FirstOrDefaultAsync(w => w.Id == id, cancellationToken);
 
 			if (entity == null)
 			{
@@ -89,9 +114,18 @@ namespace GymJournal.Data.Repositories
 
 		public async Task<WorkoutDto> Update(WorkoutDto dto, CancellationToken cancellationToken = default)
 		{
-			var entity = _mapper.Map<Workout>(dto);
+			var entity = new Workout
+			{
+				Id = dto.Id,
+				Name = dto.Name,
+				Description = dto.Description,
+				Exercises = await _dbContext.Exercises.Where(e => dto.ExerciseIds.Contains(e.Id)).ToListAsync(),
+				WorkoutPlans = await _dbContext.WorkoutPlans.Where(w => dto.WorkoutPlanIds.Contains(w.Id)).ToListAsync(),
+			};
 
 			var entityToUpdate = await _dbContext.Workouts
+				.Include(w => w.Exercises)
+				.Include(w => w.WorkoutPlans)
 				.FirstOrDefaultAsync(w => w.Id == entity.Id, cancellationToken);
 
 			if (entityToUpdate == null)
@@ -101,9 +135,19 @@ namespace GymJournal.Data.Repositories
 
 			entityToUpdate.Name = entity.Name;
 			entityToUpdate.Description = entity.Description;
+			entityToUpdate.Exercises = entity.Exercises;
+			entityToUpdate.WorkoutPlans = entity.WorkoutPlans;
 
 			await SaveChanges(cancellationToken);
-			return _mapper.Map<WorkoutDto>(entityToUpdate);
+
+			return new WorkoutDto
+			{
+				Id = entityToUpdate.Id,
+				Name = entityToUpdate.Name,
+				Description = entityToUpdate.Description,
+				ExerciseIds = entityToUpdate.Exercises.Select(e => e.Id).ToList(),
+				WorkoutPlanIds = entityToUpdate.WorkoutPlans.Select(w => w.Id).ToList(),
+			};
 		}
 	}
 }

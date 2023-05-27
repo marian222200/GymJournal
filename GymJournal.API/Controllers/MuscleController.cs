@@ -43,7 +43,7 @@ namespace GymJournal.API.Controllers
 			{
 				if (id == null)
 				{
-					return StatusCode(StatusCodes.Status400BadRequest, new ErrorResponse { Message = "Trying to GetById with null Id is invalid." });
+					return StatusCode(StatusCodes.Status400BadRequest, new ErrorResponse { Message = "Trying to GetById Muscle with null Id is invalid." });
 				}
 
 				var muscle = await _muscleRepository.GetById(id);
