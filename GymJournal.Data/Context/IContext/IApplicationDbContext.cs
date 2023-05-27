@@ -10,7 +10,7 @@ namespace GymJournal.Data.Context.IContext
 {
     public interface IApplicationDbContext
 	{
-		public DbSet<Muscle> MuscleGroups { get; set; }
+		public DbSet<Muscle> Muscles { get; set; }
 		public DbSet<Exercise> Exercises { get; set; }
 		public DbSet<Workout> Workouts { get; set; }
 		public DbSet<WorkoutPlan> WorkoutPlans { get; set; }

@@ -7,7 +7,7 @@ namespace GymJournal.Data.Context
 {
     public class ApplicationDbContext : DbContext, IApplicationDbContext
     {
-        public virtual DbSet<Muscle> MuscleGroups { get; set; }
+        public virtual DbSet<Muscle> Muscles { get; set; }
         public virtual DbSet<Exercise> Exercises { get; set; }
         public virtual DbSet<Workout> Workouts { get; set; }
         public virtual DbSet<WorkoutPlan> WorkoutPlans { get; set; }
