@@ -4,14 +4,14 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace GymJournal.Data.Entities
+namespace GymJournal.Domain.DTOs
 {
-    public class Exercise
+    public class ExerciseDto
     {
         public Guid Id { get; set; }
         public string Name { get; set; }
         public string Description { get; set; }
-        public ICollection<Muscle> Muscles { get; set; }
-        public ICollection<Workout> Workouts { get; set; }
+        public ICollection<Guid> MuscleIds { get; set; }
+        public ICollection<Guid> WorkoutIds { get; set; }
     }
 }
