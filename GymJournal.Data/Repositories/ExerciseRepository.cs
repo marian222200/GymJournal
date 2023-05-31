@@ -23,7 +23,7 @@ namespace GymJournal.Data.Repositories
 		{
 			var entity = new Exercise
 			{
-				Id = Guid.NewGuid(),
+				//Id = Guid.NewGuid(),
 				Name = dto.Name,
 				Description = dto.Description,
 				Muscles = await _dbContext.Muscles.Where(m => dto.MuscleIds.Contains(m.Id)).ToListAsync(),
@@ -64,7 +64,7 @@ namespace GymJournal.Data.Repositories
 		{
 			if (guid == null)
 			{
-				return null;
+				throw new ArgumentNullException(nameof(guid));
 			}
 
 			var entity = await _dbContext.Exercises
@@ -74,7 +74,7 @@ namespace GymJournal.Data.Repositories
 
 			if (entity == null)
 			{
-				return null;
+				throw new ArgumentException("The exercise you want to GetById does not exist.");
 			}
 
 			var x = new ExerciseDto

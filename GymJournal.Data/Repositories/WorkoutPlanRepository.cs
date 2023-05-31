@@ -22,7 +22,7 @@ namespace GymJournal.Data.Repositories
 		{
 			var entity = new WorkoutPlan
 			{
-				Id = Guid.NewGuid(),
+				//Id = Guid.NewGuid(),
 				Name = dto.Name,
 				Description = dto.Description,
 				Workouts = await _dbContext.Workouts.Where(w => dto.WorkoutIds.Contains(w.Id)).ToListAsync(),
@@ -60,7 +60,7 @@ namespace GymJournal.Data.Repositories
 		{
 			if (guid == null)
 			{
-				return null;
+				throw new ArgumentNullException(nameof(guid));
 			}
 
 			var entity = await _dbContext.WorkoutPlans
@@ -69,7 +69,7 @@ namespace GymJournal.Data.Repositories
 
 			if (entity == null)
 			{
-				return null;
+				throw new ArgumentException("The WorkoutPlan you want to GetById does not exist.");
 			}
 
 			return new WorkoutPlanDto
@@ -94,7 +94,7 @@ namespace GymJournal.Data.Repositories
 
 			if (entity == null)
 			{
-				throw new ArgumentException("The workoutPlan you want to delete does not exist.");
+				throw new ArgumentException("The WorkoutPlan you want to delete does not exist.");
 			}
 
 			_dbContext.WorkoutPlans.Remove(entity);
