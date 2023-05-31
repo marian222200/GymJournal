@@ -21,9 +21,9 @@ namespace GymJournal.API.Controllers
 		{
 			try
 			{
-				var muscles = await _exerciseRepository.GetAll();
+				var exercises = await _exerciseRepository.GetAll();
 
-				return Ok(muscles);
+				return Ok(exercises);
 			}
 			catch (Exception ex)
 			{
@@ -46,9 +46,9 @@ namespace GymJournal.API.Controllers
 					return StatusCode(StatusCodes.Status400BadRequest, new ErrorResponse { Message = "Trying to GetById Exercise with null Id is invalid." });
 				}
 
-				var muscle = await _exerciseRepository.GetById(id);
+				var exercise = await _exerciseRepository.GetById(id);
 
-				return Ok(muscle);
+				return Ok(exercise);
 			}
 			catch (Exception ex)
 			{
@@ -98,8 +98,8 @@ namespace GymJournal.API.Controllers
 					return StatusCode(StatusCodes.Status400BadRequest, new ErrorResponse { Message = "Trying to Add null Exercise." });
 				}
 
-				if (exercise.WorkoutIds == null) exercise.WorkoutIds = new List<Guid>();
 				if (exercise.MuscleIds == null) exercise.MuscleIds = new List<Guid>();
+				if (exercise.WorkoutIds == null) exercise.WorkoutIds = new List<Guid>();
 
 				var responseExercise = await _exerciseRepository.Add(exercise);
 
