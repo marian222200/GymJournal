@@ -31,6 +31,7 @@
   </ItemGroup>
 
   <ItemGroup>
+    <ProjectReference Include="..\..\GymJournal.Shared\GymJournal.Domain\GymJournal.Domain.csproj" />
     <ProjectReference Include="..\GymJournal.Data\GymJournal.Data.csproj" />
   </ItemGroup>
 
