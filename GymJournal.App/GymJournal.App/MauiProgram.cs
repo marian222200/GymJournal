@@ -1,4 +1,7 @@
-﻿using Microsoft.Extensions.Logging;
+﻿using GymJournal.App.Services;
+using GymJournal.App.View;
+using GymJournal.App.ViewModel;
+using Microsoft.Extensions.Logging;
 
 namespace GymJournal.App;
 
@@ -14,6 +17,12 @@ public static class MauiProgram
 				fonts.AddFont("OpenSans-Regular.ttf", "OpenSansRegular");
 				fonts.AddFont("OpenSans-Semibold.ttf", "OpenSansSemibold");
 			});
+
+		builder.Services.AddSingleton<ExerciseService>();
+
+		builder.Services.AddSingleton<MainPageViewModel>();
+
+		builder.Services.AddSingleton<MainPage>();
 
 #if DEBUG
 		builder.Logging.AddDebug();

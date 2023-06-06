@@ -1,5 +1,6 @@
 ﻿using GymJournal.Data.Context.IContext;
 using GymJournal.Data.Entities;
+using GymJournal.Domain.Commands.ExerciseCommands;
 using GymJournal.Domain.DTOs;
 using Microsoft.EntityFrameworkCore;
 using System;
@@ -10,7 +11,7 @@ using System.Threading.Tasks;
 
 namespace GymJournal.Data.Repositories
 {
-	public class ExerciseRepository : IRepository<ExerciseDto>
+	public class ExerciseRepository : IExerciseRepository
 	{
 		private readonly IApplicationDbContext _dbContext;
 
@@ -19,15 +20,16 @@ namespace GymJournal.Data.Repositories
 			_dbContext = dbContext ?? throw new ArgumentNullException(nameof(dbContext));
 		}
 
-		public async Task<ExerciseDto> Add(ExerciseDto dto, CancellationToken cancellationToken = default)
+		public async Task<ExerciseDto> Add(AddExerciseCommand command, CancellationToken cancellationToken = default)
 		{
 			var entity = new Exercise
 			{
 				//Id = Guid.NewGuid(),
-				Name = dto.Name,
-				Description = dto.Description,
-				Muscles = await _dbContext.Muscles.Where(m => dto.MuscleIds.Contains(m.Id)).ToListAsync(),
-				Workouts = await _dbContext.Workouts.Where(w => dto.WorkoutIds.Contains(w.Id)).ToListAsync(),
+				Name = command.Name,
+				Description = command.Description,
+				Likes = command.Likes,
+				Muscles = await _dbContext.Muscles.Where(m => command.MuscleIds.Contains(m.Id)).ToListAsync(),
+				Workouts = await _dbContext.Workouts.Where(w => command.WorkoutIds.Contains(w.Id)).ToListAsync(),
 			};
 
 			await _dbContext.Exercises.AddAsync(entity, cancellationToken);
@@ -38,8 +40,21 @@ namespace GymJournal.Data.Repositories
 				Id = entity.Id,
 				Name = entity.Name,
 				Description = entity.Description,
-				MuscleIds = entity.Muscles.Select(m => m.Id).ToList(),
-				WorkoutIds = entity.Workouts.Select(w => w.Id).ToList(),
+				Likes = entity.Likes,
+				Muscles = entity.Muscles.Select(m => new MuscleDto
+				{
+					Id = m.Id,
+					Name = m.Name,
+					Exercises = new List<ExerciseDto>(),
+				}).ToList(),
+				Workouts = entity.Workouts.Select(w => new WorkoutDto
+				{
+					Id = w.Id,
+					Name = w.Name,
+					Description = w.Description,
+					Exercises = new List<ExerciseDto>(),
+					WorkoutPlans = new List<WorkoutPlanDto>(),
+				}).ToList(),
 			};
 		}
 
@@ -52,8 +67,21 @@ namespace GymJournal.Data.Repositories
 					Id = entity.Id,
 					Name = entity.Name,
 					Description = entity.Description,
-					MuscleIds = entity.Muscles.Select(m => m.Id).ToList(),
-					WorkoutIds = entity.Workouts.Select(w => w.Id).ToList(),
+					Likes = entity.Likes,
+					Muscles = entity.Muscles.Select(m => new MuscleDto
+					{
+						Id = m.Id,
+						Name = m.Name,
+						Exercises = new List<ExerciseDto>(),
+					}).ToList(),
+					Workouts = entity.Workouts.Select(w => new WorkoutDto
+					{
+						Id = w.Id,
+						Name = w.Name,
+						Description = w.Description,
+						Exercises = new List<ExerciseDto>(),
+						WorkoutPlans = new List<WorkoutPlanDto>(),
+					}).ToList(),
 				})
 				.ToListAsync(cancellationToken);
 			
@@ -82,8 +110,21 @@ namespace GymJournal.Data.Repositories
 				Id = entity.Id,
 				Name = entity.Name,
 				Description = entity.Description,
-				MuscleIds = entity.Muscles.Select(m => m.Id).ToList(),
-				WorkoutIds = entity.Workouts.Select(w => w.Id).ToList(),
+				Likes = entity.Likes,
+				Muscles = entity.Muscles.Select(m => new MuscleDto
+				{
+					Id = m.Id,
+					Name = m.Name,
+					Exercises = new List<ExerciseDto>(),
+				}).ToList(),
+				Workouts = entity.Workouts.Select(w => new WorkoutDto
+				{
+					Id = w.Id,
+					Name = w.Name,
+					Description = w.Description,
+					Exercises = new List<ExerciseDto>(),
+					WorkoutPlans = new List<WorkoutPlanDto>(),
+				}).ToList(),
 			};
 
 			return x;
@@ -115,15 +156,16 @@ namespace GymJournal.Data.Repositories
 			await _dbContext.SaveChangesAsync(cancellationToken);
 		}
 
-		public async Task<ExerciseDto> Update(ExerciseDto dto, CancellationToken cancellationToken = default)
+		public async Task<ExerciseDto> Update(UpdateExerciseCommand command, CancellationToken cancellationToken = default)
 		{
 			var entity = new Exercise
 			{
-				Id = dto.Id,
-				Name = dto.Name,
-				Description = dto.Description,
-				Muscles = await _dbContext.Muscles.Where(m => dto.MuscleIds.Contains(m.Id)).ToListAsync(),
-				Workouts = await _dbContext.Workouts.Where(w => dto.WorkoutIds.Contains(w.Id)).ToListAsync(),
+				Id = command.Id,
+				Name = command.Name,
+				Description = command.Description,
+				Likes = command.Likes,
+				Muscles = await _dbContext.Muscles.Where(m => command.MuscleIds.Contains(m.Id)).ToListAsync(),
+				Workouts = await _dbContext.Workouts.Where(w => command.WorkoutIds.Contains(w.Id)).ToListAsync(),
 			};
 
 			var entityToUpdate = await _dbContext.Exercises
@@ -138,6 +180,7 @@ namespace GymJournal.Data.Repositories
 
 			entityToUpdate.Name = entity.Name;
 			entityToUpdate.Description = entity.Description;
+			entityToUpdate.Likes = entity.Likes;
 			entityToUpdate.Muscles = entity.Muscles;
 			entityToUpdate.Workouts = entity.Workouts;
 
@@ -148,8 +191,21 @@ namespace GymJournal.Data.Repositories
 				Id = entityToUpdate.Id,
 				Name = entityToUpdate.Name,
 				Description = entityToUpdate.Description,
-				MuscleIds = entityToUpdate.Muscles.Select(m => m.Id).ToList(),
-				WorkoutIds = entityToUpdate.Workouts.Select(w => w.Id).ToList(),
+				Likes = entityToUpdate.Likes,
+				Muscles = entityToUpdate.Muscles.Select(m => new MuscleDto
+				{
+					Id = m.Id,
+					Name = m.Name,
+					Exercises = new List<ExerciseDto>(),
+				}).ToList(),
+				Workouts = entityToUpdate.Workouts.Select(w => new WorkoutDto
+				{
+					Id = w.Id,
+					Name = w.Name,
+					Description = w.Description,
+					Exercises = new List<ExerciseDto>(),
+					WorkoutPlans = new List<WorkoutPlanDto>(),
+				}).ToList(),
 			};
 		}
 	}

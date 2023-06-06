@@ -28,9 +28,9 @@ namespace GymJournal.API
 			builder.Services.AddEndpointsApiExplorer();
 			builder.Services.AddSwaggerGen();
 
-			builder.Services.AddScoped<IRepository<ExerciseDto>, ExerciseRepository>();
-			builder.Services.AddScoped<IRepository<WorkoutPlanDto>, WorkoutPlanRepository>();
-			builder.Services.AddScoped<IRepository<WorkoutDto>, WorkoutRepository>();
+			builder.Services.AddScoped<IExerciseRepository, ExerciseRepository>();
+			builder.Services.AddScoped<IWorkoutRepository, WorkoutRepository>();
+			builder.Services.AddScoped<IWorkoutPlanRepository, WorkoutPlanRepository>();
 			builder.Services.AddScoped<IMuscleRepository, MuscleRepository>();
 			builder.Services.AddScoped<IApplicationDbContext, ApplicationDbContext>();
 			builder.Services.AddScoped<ApplicationDbContextInitializer>();

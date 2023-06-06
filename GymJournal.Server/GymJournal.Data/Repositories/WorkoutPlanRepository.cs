@@ -1,5 +1,6 @@
 ﻿using GymJournal.Data.Context.IContext;
 using GymJournal.Data.Entities;
+using GymJournal.Domain.Commands.WorkoutPlanCommands;
 using GymJournal.Domain.DTOs;
 using Microsoft.EntityFrameworkCore;
 using System;
@@ -10,7 +11,7 @@ using System.Threading.Tasks;
 
 namespace GymJournal.Data.Repositories
 {
-    public class WorkoutPlanRepository : IRepository<WorkoutPlanDto>
+    public class WorkoutPlanRepository : IWorkoutPlanRepository
 	{
 		private readonly IApplicationDbContext _dbContext;
 
@@ -18,14 +19,14 @@ namespace GymJournal.Data.Repositories
 		{
 			_dbContext = dbContext ?? throw new ArgumentNullException(nameof(dbContext));
 		}
-		public async Task<WorkoutPlanDto> Add(WorkoutPlanDto dto, CancellationToken cancellationToken = default)
+		public async Task<WorkoutPlanDto> Add(AddWorkoutPlanCommand command, CancellationToken cancellationToken = default)
 		{
 			var entity = new WorkoutPlan
 			{
 				//Id = Guid.NewGuid(),
-				Name = dto.Name,
-				Description = dto.Description,
-				Workouts = await _dbContext.Workouts.Where(w => dto.WorkoutIds.Contains(w.Id)).ToListAsync(),
+				Name = command.Name,
+				Description = command.Description,
+				Workouts = await _dbContext.Workouts.Where(w => command.WorkoutIds.Contains(w.Id)).ToListAsync(),
 			};
 
 			await _dbContext.WorkoutPlans.AddAsync(entity, cancellationToken);
@@ -36,7 +37,14 @@ namespace GymJournal.Data.Repositories
 				Id = entity.Id,
 				Name = entity.Name,
 				Description = entity.Description,
-				WorkoutIds = entity.Workouts.Select(w => w.Id).ToList(),
+				Workouts = entity.Workouts.Select(w => new WorkoutDto
+				{
+					Id = w.Id,
+					Name = w.Name,
+					Description = w.Description,
+					Exercises = new List<ExerciseDto>(),
+					WorkoutPlans = new List<WorkoutPlanDto>(),
+				}).ToList(),
 			};
 		}
 
@@ -49,7 +57,14 @@ namespace GymJournal.Data.Repositories
 					Id = entity.Id,
 					Name = entity.Name,
 					Description = entity.Description,
-					WorkoutIds = entity.Workouts.Select(w => w.Id).ToList(),
+					Workouts = entity.Workouts.Select(w => new WorkoutDto
+					{
+						Id = w.Id,
+						Name = w.Name,
+						Description = w.Description,
+						Exercises = new List<ExerciseDto>(),
+						WorkoutPlans = new List<WorkoutPlanDto>(),
+					}).ToList(),
 				})
 				.ToListAsync(cancellationToken);
 
@@ -77,7 +92,14 @@ namespace GymJournal.Data.Repositories
 				Id = entity.Id,
 				Name = entity.Name,
 				Description = entity.Description,
-				WorkoutIds = entity.Workouts.Select(w => w.Id).ToList(),
+				Workouts = entity.Workouts.Select(w => new WorkoutDto
+				{
+					Id = w.Id,
+					Name = w.Name,
+					Description = w.Description,
+					Exercises = new List<ExerciseDto>(),
+					WorkoutPlans = new List<WorkoutPlanDto>(),
+				}).ToList(),
 			};
 		}
 
@@ -106,14 +128,14 @@ namespace GymJournal.Data.Repositories
 			await _dbContext.SaveChangesAsync(cancellationToken);
 		}
 
-		public async Task<WorkoutPlanDto> Update(WorkoutPlanDto dto, CancellationToken cancellationToken = default)
+		public async Task<WorkoutPlanDto> Update(UpdateWorkoutPlanCommand command, CancellationToken cancellationToken = default)
 		{
 			var entity = new WorkoutPlan
 			{
-				Id = dto.Id,
-				Name = dto.Name,
-				Description = dto.Description,
-				Workouts = await _dbContext.Workouts.Where(w => dto.WorkoutIds.Contains(w.Id)).ToListAsync(),
+				Id = command.Id,
+				Name = command.Name,
+				Description = command.Description,
+				Workouts = await _dbContext.Workouts.Where(w => command.WorkoutIds.Contains(w.Id)).ToListAsync(),
 			};
 
 			var entityToUpdate = await _dbContext.WorkoutPlans
@@ -136,7 +158,14 @@ namespace GymJournal.Data.Repositories
 				Id = entityToUpdate.Id,
 				Name = entityToUpdate.Name,
 				Description = entityToUpdate.Description,
-				WorkoutIds = entityToUpdate.Workouts.Select(w => w.Id).ToList(),
+				Workouts = entityToUpdate.Workouts.Select(w => new WorkoutDto
+				{
+					Id = w.Id,
+					Name = w.Name,
+					Description = w.Description,
+					Exercises = new List<ExerciseDto>(),
+					WorkoutPlans = new List<WorkoutPlanDto>(),
+				}).ToList(),
 			}; ;
 		}
 	}

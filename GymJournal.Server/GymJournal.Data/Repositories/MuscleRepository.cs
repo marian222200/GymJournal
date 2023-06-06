@@ -25,7 +25,15 @@ namespace GymJournal.Data.Repositories
 				{
 					Id = entity.Id,
 					Name = entity.Name,
-					ExerciseIds = entity.Exercises.Select(e => e.Id).ToList(),
+					Exercises = entity.Exercises.Select(e => new ExerciseDto
+					{
+						Id = e.Id,
+						Name = e.Name,
+						Description = e.Description,
+						Likes = e.Likes,
+						Muscles = new List<MuscleDto>(),
+						Workouts = new List<WorkoutDto>(),
+					}).ToList(),
 				})
 				.ToListAsync(cancellationToken);
 
@@ -52,7 +60,15 @@ namespace GymJournal.Data.Repositories
 			{
 				Id = entity.Id,
 				Name = entity.Name,
-				ExerciseIds = entity.Exercises.Select(e => e.Id).ToList(),
+				Exercises = entity.Exercises.Select(e => new ExerciseDto
+				{
+					Id = e.Id,
+					Name = e.Name,
+					Description = e.Description,
+					Likes = e.Likes,
+					Muscles = new List<MuscleDto>(),
+					Workouts = new List<WorkoutDto>(),
+				}).ToList(),
 			};
 		}
 	}

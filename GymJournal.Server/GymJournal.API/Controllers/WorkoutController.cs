@@ -1,6 +1,7 @@
 ﻿using GymJournal.API.Models;
 using GymJournal.Data.Entities;
 using GymJournal.Data.Repositories;
+using GymJournal.Domain.Commands.WorkoutCommands;
 using GymJournal.Domain.DTOs;
 using Microsoft.AspNetCore.Mvc;
 
@@ -10,9 +11,9 @@ namespace GymJournal.API.Controllers
 	[Route("[controller]")]
 	public class WorkoutController : ControllerBase
 	{
-		private readonly IRepository<WorkoutDto> _workoutRepository;
+		private readonly IWorkoutRepository _workoutRepository;
 
-		public WorkoutController(IRepository<WorkoutDto> workoutRepository)
+		public WorkoutController(IWorkoutRepository workoutRepository)
 		{
 			_workoutRepository = workoutRepository ?? throw new ArgumentNullException(nameof(workoutRepository));
 		}
@@ -90,19 +91,19 @@ namespace GymJournal.API.Controllers
 		}
 
 		[HttpPost]
-		public async Task<IActionResult> Create([FromBody] WorkoutDto workout)
+		public async Task<IActionResult> Create([FromBody] AddWorkoutCommand command)
 		{
 			try
 			{
-				if (workout == null)
+				if (command == null)
 				{
 					return StatusCode(StatusCodes.Status400BadRequest, new ErrorResponse { Message = "Trying to Add null Workout." });
 				}
 
-				if (workout.ExerciseIds == null) workout.ExerciseIds = new List<Guid>();
-				if (workout.WorkoutPlanIds == null) workout.WorkoutPlanIds = new List<Guid>();
+				if (command.ExerciseIds == null) command.ExerciseIds = new List<Guid>();
+				if (command.WorkoutPlanIds == null) command.WorkoutPlanIds = new List<Guid>();
 
-				var responseWorkout = await _workoutRepository.Add(workout);
+				var responseWorkout = await _workoutRepository.Add(command);
 
 				return Created(string.Empty, responseWorkout);
 			}
@@ -118,18 +119,18 @@ namespace GymJournal.API.Controllers
 		}
 
 		[HttpPut]
-		public async Task<IActionResult> Update([FromBody] WorkoutDto workout)
+		public async Task<IActionResult> Update([FromBody] UpdateWorkoutCommand command)
 		{
 			try
 			{
-				var existentWorkout = await _workoutRepository.GetById(workout.Id);
+				var existentWorkout = await _workoutRepository.GetById(command.Id);
 
 				if (existentWorkout == null)
 				{
 					return StatusCode(StatusCodes.Status400BadRequest, new ErrorResponse { Message = "Trying to Update Workout with not existent Id." });
 				}
 
-				var responseWorkout = await _workoutRepository.Update(workout);
+				var responseWorkout = await _workoutRepository.Update(command);
 
 				return Ok(responseWorkout);
 			}
