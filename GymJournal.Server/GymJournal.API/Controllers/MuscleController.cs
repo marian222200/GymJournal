@@ -36,12 +36,7 @@ namespace GymJournal.API.Controllers
 			}
 			catch (Exception ex)
 			{
-				var errorResponse = new ErrorResponse
-				{
-					Message = ex.Message,
-				};
-
-				return StatusCode(StatusCodes.Status500InternalServerError, errorResponse);
+				return HandleException(ex);
 			}
 		}
 
@@ -60,12 +55,7 @@ namespace GymJournal.API.Controllers
 			}
 			catch (Exception ex)
 			{
-				var errorResponse = new ErrorResponse
-				{
-					Message = ex.Message,
-				};
-
-				return StatusCode(StatusCodes.Status500InternalServerError, errorResponse);
+				return HandleException(ex);
 			}
 		}
 

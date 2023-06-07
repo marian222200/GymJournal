@@ -1,5 +1,6 @@
 ﻿using GymJournal.API.Models;
 using GymJournal.Data.Repositories;
+using GymJournal.Data.RequestValidators.Exceptions;
 using GymJournal.Data.RequestValidators.Validators;
 using GymJournal.Domain.Commands.UserInfoCommands;
 using GymJournal.Domain.Queries.UserInfoQueries;
@@ -36,12 +37,7 @@ namespace GymJournal.API.Controllers
 			}
 			catch (Exception ex)
 			{
-				var errorResponse = new ErrorResponse
-				{
-					Message = ex.Message,
-				};
-
-				return StatusCode(StatusCodes.Status500InternalServerError, errorResponse);
+				return HandleException(ex);
 			}
 		}
 
@@ -60,12 +56,7 @@ namespace GymJournal.API.Controllers
 			}
 			catch (Exception ex)
 			{
-				var errorResponse = new ErrorResponse
-				{
-					Message = ex.Message,
-				};
-
-				return StatusCode(StatusCodes.Status500InternalServerError, errorResponse);
+				return HandleException(ex);
 			}
 		}
 
@@ -82,12 +73,7 @@ namespace GymJournal.API.Controllers
 			}
 			catch (Exception ex)
 			{
-				var errorResponse = new ErrorResponse
-				{
-					Message = ex.Message,
-				};
-
-				return StatusCode(StatusCodes.Status500InternalServerError, errorResponse);
+				return HandleException(ex);
 			}
 		}
 
@@ -106,12 +92,7 @@ namespace GymJournal.API.Controllers
 			}
 			catch (Exception ex)
 			{
-				var errorResponse = new ErrorResponse
-				{
-					Message = ex.Message,
-				};
-
-				return StatusCode(StatusCodes.Status500InternalServerError, errorResponse);
+				return HandleException(ex);
 			}
 		}
 
@@ -130,12 +111,7 @@ namespace GymJournal.API.Controllers
 			}
 			catch (Exception ex)
 			{
-				var errorResponse = new ErrorResponse
-				{
-					Message = ex.Message,
-				};
-
-				return StatusCode(StatusCodes.Status500InternalServerError, errorResponse);
+				return HandleException(ex);
 			}
 		}
 
@@ -153,6 +129,41 @@ namespace GymJournal.API.Controllers
 				return Ok(serializedResponse);
 			}
 			catch (Exception ex)
+			{
+				return HandleException(ex);
+			}
+		}
+
+		public IActionResult HandleException(Exception ex)
+		{
+			if (ex is UnauthorizedAccessException)
+			{
+				var errorResponse = new ErrorResponse
+				{
+					Message = ex.Message,
+				};
+
+				return StatusCode(StatusCodes.Status401Unauthorized, errorResponse);
+			}
+			else if (ex is BadRequestException)
+			{
+				var errorResponse = new ErrorResponse
+				{
+					Message = ex.Message,
+				};
+
+				return StatusCode(StatusCodes.Status400BadRequest, errorResponse);
+			}
+			else if (ex is InvalidRequestException)
+			{
+				var errorResponse = new ErrorResponse
+				{
+					Message = ex.Message,
+				};
+
+				return StatusCode(StatusCodes.Status405MethodNotAllowed, errorResponse);
+			}
+			else
 			{
 				var errorResponse = new ErrorResponse
 				{

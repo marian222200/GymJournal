@@ -7,6 +7,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using Microsoft.EntityFrameworkCore;
+using GymJournal.Data.RequestValidators.Exceptions;
 
 namespace GymJournal.Data.RequestValidators.Validators
 {
@@ -25,7 +26,7 @@ namespace GymJournal.Data.RequestValidators.Validators
         {
             if (query == null)
             {
-                throw new Exception("null query");
+                throw new InvalidRequestException("null query");
             }
 
             await _validationAuthorization.ValidateRegularUser(query.UserId, query.UserToken);
@@ -35,7 +36,7 @@ namespace GymJournal.Data.RequestValidators.Validators
 		{
 			if (query == null)
 			{
-				throw new Exception("null query");
+				throw new InvalidRequestException("null query");
 			}
 
 			await _validationAuthorization.ValidateRegularUser(query.UserId, query.UserToken);
