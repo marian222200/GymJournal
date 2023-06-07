@@ -2,6 +2,7 @@
 using GymJournal.Data.Entities;
 using GymJournal.Domain.Commands.ExerciseCommands;
 using GymJournal.Domain.DTOs;
+using GymJournal.Domain.Queries.ExerciseQueries;
 using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
@@ -20,14 +21,13 @@ namespace GymJournal.Data.Repositories
 			_dbContext = dbContext ?? throw new ArgumentNullException(nameof(dbContext));
 		}
 
-		public async Task<ExerciseDto> Add(AddExerciseCommand command, CancellationToken cancellationToken = default)
+		public async Task<AddExerciseResponse> Add(AddExerciseCommand command, CancellationToken cancellationToken = default)
 		{
 			var entity = new Exercise
 			{
-				//Id = Guid.NewGuid(),
 				Name = command.Name,
 				Description = command.Description,
-				Likes = command.Likes,
+				Likes = 0,
 				Muscles = await _dbContext.Muscles.Where(m => command.MuscleIds.Contains(m.Id)).ToListAsync(),
 				Workouts = await _dbContext.Workouts.Where(w => command.WorkoutIds.Contains(w.Id)).ToListAsync(),
 			};
@@ -35,7 +35,7 @@ namespace GymJournal.Data.Repositories
 			await _dbContext.Exercises.AddAsync(entity, cancellationToken);
 			await SaveChanges(cancellationToken);
 
-			return new ExerciseDto
+			return new AddExerciseResponse
 			{
 				Id = entity.Id,
 				Name = entity.Name,
@@ -58,9 +58,25 @@ namespace GymJournal.Data.Repositories
 			};
 		}
 
-		public async Task<IEnumerable<ExerciseDto>> GetAll(CancellationToken cancellationToken = default)
+		public async Task Delete(DeleteExerciseCommand command, CancellationToken cancellationToken = default)
 		{
-			var dtos = await _dbContext.Exercises
+			var entity = await _dbContext.Exercises
+				.Include(e => e.Muscles)
+				.Include(e => e.Workouts)
+				.FirstOrDefaultAsync(e => e.Id == command.ExerciseId, cancellationToken);
+
+			if (entity == null)
+			{
+				throw new Exception("The exercise you want to delete does not exist.");
+			}
+
+			_dbContext.Exercises.Remove(entity);
+			await SaveChanges(cancellationToken);
+		}
+
+		public async Task<GetAllExerciseResponse> GetAll(GetAllExerciseQuery query, CancellationToken cancellationToken = default)
+		{
+			var exercises = await _dbContext.Exercises
 				.AsNoTracking()
 				.Select(entity => new ExerciseDto
 				{
@@ -84,28 +100,23 @@ namespace GymJournal.Data.Repositories
 					}).ToList(),
 				})
 				.ToListAsync(cancellationToken);
-			
-			return dtos;
+
+			return new GetAllExerciseResponse { Exercises = exercises };
 		}
 
-		public async Task<ExerciseDto?> GetById(Guid? guid, CancellationToken cancellationToken = default)
+		public async Task<GetByIdExerciseResponse> GetById(GetByIdExerciseQuery query, CancellationToken cancellationToken = default)
 		{
-			if (guid == null)
-			{
-				throw new ArgumentNullException(nameof(guid));
-			}
-
 			var entity = await _dbContext.Exercises
 				.Include(e => e.Muscles)
 				.Include(e => e.Workouts)
-				.FirstOrDefaultAsync(e => e.Id == guid, cancellationToken);
+				.FirstOrDefaultAsync(e => e.Id == query.ExerciseId, cancellationToken);
 
 			if (entity == null)
 			{
-				throw new ArgumentException("The exercise you want to GetById does not exist.");
+				throw new Exception("The exercise you want to GetById does not exist.");
 			}
 
-			var x = new ExerciseDto
+			var x = new GetByIdExerciseResponse
 			{
 				Id = entity.Id,
 				Name = entity.Name,
@@ -130,63 +141,34 @@ namespace GymJournal.Data.Repositories
 			return x;
 		}
 
-		public async Task Remove(Guid? id, CancellationToken cancellationToken = default)
-		{
-			if (id == null)
-			{
-				throw new ArgumentNullException(nameof(id));
-			}
-
-			var entity = await _dbContext.Exercises
-				.Include(e => e.Muscles)
-				.Include(e => e.Workouts)
-				.FirstOrDefaultAsync(e => e.Id == id, cancellationToken);
-
-			if (entity == null)
-			{
-				throw new ArgumentException("The exercise you want to delete does not exist.");
-			}
-
-			_dbContext.Exercises.Remove(entity);
-			await SaveChanges(cancellationToken);
-		}
-
 		public async Task SaveChanges(CancellationToken cancellationToken = default)
 		{
 			await _dbContext.SaveChangesAsync(cancellationToken);
 		}
 
-		public async Task<ExerciseDto> Update(UpdateExerciseCommand command, CancellationToken cancellationToken = default)
+		public async Task<UpdateExerciseResponse> Update(UpdateExerciseCommand command, CancellationToken cancellationToken = default)
 		{
-			var entity = new Exercise
-			{
-				Id = command.Id,
-				Name = command.Name,
-				Description = command.Description,
-				Likes = command.Likes,
-				Muscles = await _dbContext.Muscles.Where(m => command.MuscleIds.Contains(m.Id)).ToListAsync(),
-				Workouts = await _dbContext.Workouts.Where(w => command.WorkoutIds.Contains(w.Id)).ToListAsync(),
-			};
-
 			var entityToUpdate = await _dbContext.Exercises
 				.Include(e => e.Muscles)
 				.Include(e => e.Workouts)
-				.FirstOrDefaultAsync(e => e.Id== entity.Id, cancellationToken);
+				.FirstOrDefaultAsync(e => e.Id == command.ExerciseId, cancellationToken);
 
 			if (entityToUpdate == null)
 			{
-				throw new ArgumentException("The exercise you want to update does not exist.");
+				throw new Exception("The exercise you want to update does not exist.");
 			}
 
-			entityToUpdate.Name = entity.Name;
-			entityToUpdate.Description = entity.Description;
-			entityToUpdate.Likes = entity.Likes;
-			entityToUpdate.Muscles = entity.Muscles;
-			entityToUpdate.Workouts = entity.Workouts;
+			if (command.Name != null) { entityToUpdate.Name = command.Name; }
+			if (command.Description != null) { entityToUpdate.Description = command.Description; }
+			if (command.Likes != null) { entityToUpdate.Likes = command.Likes.Value; }
+			if (command.MuscleIds != null) { entityToUpdate.Muscles = 
+					await _dbContext.Muscles.Where(m => command.MuscleIds.Contains(m.Id)).ToListAsync(); }
+			if (command.WorkoutIds != null) { entityToUpdate.Workouts = 
+					await _dbContext.Workouts.Where(w => command.WorkoutIds.Contains(w.Id)).ToListAsync(); }
 
 			await SaveChanges(cancellationToken);
 
-			return new ExerciseDto
+			return new UpdateExerciseResponse
 			{
 				Id = entityToUpdate.Id,
 				Name = entityToUpdate.Name,

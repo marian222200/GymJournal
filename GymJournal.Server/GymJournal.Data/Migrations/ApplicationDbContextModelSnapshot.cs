@@ -156,6 +156,45 @@ namespace GymJournal.Interface.Data.Migrations
                         });
                 });
 
+            modelBuilder.Entity("GymJournal.Data.Entities.UserInfo", b =>
+                {
+                    b.Property<Guid>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<string>("Name")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(450)");
+
+                    b.Property<string>("Password")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("Role")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<Guid>("Token")
+                        .HasColumnType("uniqueidentifier");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("Name")
+                        .IsUnique();
+
+                    b.ToTable("UserInfos");
+
+                    b.HasData(
+                        new
+                        {
+                            Id = new Guid("42282faf-05a4-48ff-b062-65fed7b5e84a"),
+                            Name = "Admin",
+                            Password = "$2a$11$/LczuNMEzUqYtdPOiHoE6.EMXyydBl9nPCjR/XWtRf0fs5w4B77te",
+                            Role = "Admin",
+                            Token = new Guid("8ae01d7d-3965-4b7e-b8af-e12fd5f588f6")
+                        });
+                });
+
             modelBuilder.Entity("GymJournal.Data.Entities.Workout", b =>
                 {
                     b.Property<Guid>("Id")

@@ -1,4 +1,4 @@
-﻿using GymJournal.Domain.DTOs;
+﻿using GymJournal.Domain.Queries.MuscleQueries;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -9,7 +9,7 @@ namespace GymJournal.Data.Repositories
 {
     public interface IMuscleRepository
 	{
-		Task<IEnumerable<MuscleDto>> GetAll(CancellationToken cancellationToken = default);
-		Task<MuscleDto?> GetById(Guid? guid, CancellationToken cancellationToken = default);
+		public Task<GetAllMuscleResponse> GetAll(GetAllMuscleQuery query, CancellationToken cancellationToken = default);
+		public Task<GetByIdMuscleResponse> GetById(GetByIdMuscleQuery query, CancellationToken cancellationToken = default);
 	}
 }

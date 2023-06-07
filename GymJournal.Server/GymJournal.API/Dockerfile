@@ -8,8 +8,9 @@ EXPOSE 443
 FROM mcr.microsoft.com/dotnet/sdk:7.0 AS build
 WORKDIR /src
 COPY ["GymJournal.API/GymJournal.API.csproj", "GymJournal.API/"]
-COPY ["GymJournal.API/GymJournal.Data.csproj", "GymJournal.Data/"]
-COPY ["GymJournal.API/GymJournal.Domain.csproj", "GymJournal.Domain/"]
+COPY ["GymJournal.Data/GymJournal.Data.csproj", "GymJournal.Data/"]
+COPY ["../GymJournal.Shared/GymJournal.Domain/GymJournal.Domain.csproj", "GymJournal.Domain/"]
+COPY ["GymJournal.Tools/GymJournal.Tools.csproj", "GymJournal.Tools/"]
 RUN dotnet restore "GymJournal.API/GymJournal.API.csproj"
 COPY . .
 WORKDIR "/src/GymJournal.API"

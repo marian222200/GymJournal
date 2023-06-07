@@ -1,7 +1,9 @@
 using GymJournal.Data.Context;
 using GymJournal.Data.Context.IContext;
 using GymJournal.Data.Repositories;
-using GymJournal.Domain.DTOs;
+using GymJournal.Data.RequestValidators;
+using GymJournal.Data.RequestValidators.Validators;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 
 namespace GymJournal.API
@@ -28,12 +30,26 @@ namespace GymJournal.API
 			builder.Services.AddEndpointsApiExplorer();
 			builder.Services.AddSwaggerGen();
 
+
 			builder.Services.AddScoped<IExerciseRepository, ExerciseRepository>();
 			builder.Services.AddScoped<IWorkoutRepository, WorkoutRepository>();
 			builder.Services.AddScoped<IWorkoutPlanRepository, WorkoutPlanRepository>();
 			builder.Services.AddScoped<IMuscleRepository, MuscleRepository>();
+			builder.Services.AddScoped<IUserInfoRepository, UserInfoRepository>();
+
 			builder.Services.AddScoped<IApplicationDbContext, ApplicationDbContext>();
 			builder.Services.AddScoped<ApplicationDbContextInitializer>();
+
+
+			builder.Services.AddScoped<IValidationAuthorization, ValidationAuthorization>();
+
+
+			builder.Services.AddScoped<IMuscleValidators, MuscleValidators>();
+			builder.Services.AddScoped<IExerciseValidators, ExerciseValidators>();
+			builder.Services.AddScoped<IWorkoutValidators, WorkoutValidators>();
+			builder.Services.AddScoped<IWorkoutPlanValidators, WorkoutPlanValidators>();
+			builder.Services.AddScoped<IUserInfoValidators, UserInfoValidators>();
+
 
 			var app = builder.Build();
 

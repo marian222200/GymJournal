@@ -1,6 +1,6 @@
 ﻿using GymJournal.Domain.Commands.WorkoutCommands;
 using GymJournal.Domain.Commands.WorkoutPlanCommands;
-using GymJournal.Domain.DTOs;
+using GymJournal.Domain.Queries.WorkoutPlanQueries;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -9,13 +9,13 @@ using System.Threading.Tasks;
 
 namespace GymJournal.Data.Repositories
 {
-	public interface IWorkoutPlanRepository
+    public interface IWorkoutPlanRepository
 	{
-		Task<WorkoutPlanDto> GetById(Guid? guid, CancellationToken cancellationToken = default);
-		Task<IEnumerable<WorkoutPlanDto>> GetAll(CancellationToken cancellationToken = default);
-		Task<WorkoutPlanDto> Add(AddWorkoutPlanCommand command, CancellationToken cancellationToken = default);
-		Task<WorkoutPlanDto> Update(UpdateWorkoutPlanCommand command, CancellationToken cancellationToken = default);
-		Task Remove(Guid? id, CancellationToken cancellationToken = default);
+		public Task<AddWorkoutPlanResponse> Add(AddWorkoutPlanCommand command, CancellationToken cancellationToken = default);
+		public Task<UpdateWorkoutPlanResponse> Update(UpdateWorkoutPlanCommand command, CancellationToken cancellationToken = default);
+		public Task Delete(DeleteWorkoutPlanCommand command, CancellationToken cancellationToken = default);
+		public Task<GetAllWorkoutPlanResponse> GetAll(GetAllWorkoutPlanQuery query, CancellationToken cancellationToken = default);
+		public Task<GetByIdWorkoutPlanResponse> GetById(GetByIdWorkoutPlanQuery query, CancellationToken cancellationToken = default);
 		Task SaveChanges(CancellationToken cancellationToken = default);
 	}
 }

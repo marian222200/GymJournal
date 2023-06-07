@@ -11,6 +11,6 @@ namespace GymJournal.Domain.DTOs
         public Guid Id { get; set; }
         public string Name { get; set; }
         public string Description { get; set; }
-        public ICollection<WorkoutDto>? Workouts { get; set; }
+        public ICollection<WorkoutDto> Workouts { get; set; }
     }
 }

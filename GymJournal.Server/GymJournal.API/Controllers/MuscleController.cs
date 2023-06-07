@@ -1,7 +1,9 @@
 ﻿using GymJournal.API.Models;
 using GymJournal.Data.Repositories;
-using GymJournal.Domain.DTOs;
+using GymJournal.Data.RequestValidators.Validators;
+using GymJournal.Domain.Queries.MuscleQueries;
 using Microsoft.AspNetCore.Mvc;
+using System.Text.Json;
 
 namespace GymJournal.API.Controllers
 {
@@ -10,20 +12,26 @@ namespace GymJournal.API.Controllers
 	public class MuscleController : ControllerBase
 	{
 		private readonly IMuscleRepository _muscleRepository;
+		private readonly IMuscleValidators _muscleValidators;
 
-		public MuscleController(IMuscleRepository muscleRepository)
+		public MuscleController(IMuscleRepository muscleRepository, IMuscleValidators muscleValidators)
 		{
 			_muscleRepository = muscleRepository ?? throw new ArgumentNullException(nameof(muscleRepository));
+			_muscleValidators = muscleValidators ?? throw new ArgumentNullException(nameof(muscleValidators));
 		}
 
-		[HttpGet]
-		public async Task<IActionResult> GetAll()
+		[HttpGet("GetAll")]
+		public async Task<IActionResult> GetAll([FromQuery] GetAllMuscleQuery query)
 		{
 			try
 			{
-				var muscles = await _muscleRepository.GetAll();
+				await _muscleValidators.Validate(query);
 
-				return Ok(muscles);
+				var response = await _muscleRepository.GetAll(query);
+
+				var serializedResponse = JsonSerializer.Serialize(response);
+
+				return Ok(serializedResponse);
 			}
 			catch (Exception ex)
 			{
@@ -36,19 +44,18 @@ namespace GymJournal.API.Controllers
 			}
 		}
 
-		[HttpGet("{id}")]
-		public async Task<IActionResult> GetById(Guid? id)
+		[HttpGet("GetById")]
+		public async Task<IActionResult> GetById([FromQuery] GetByIdMuscleQuery query)
 		{
 			try
 			{
-				if (id == null)
-				{
-					return StatusCode(StatusCodes.Status400BadRequest, new ErrorResponse { Message = "Trying to GetById Muscle with null Id is invalid." });
-				}
+				await _muscleValidators.Validate(query);
 
-				var muscle = await _muscleRepository.GetById(id);
+				var response = await _muscleRepository.GetById(query);
 
-				return Ok(muscle);
+				var serializedResponse = JsonSerializer.Serialize(response);
+
+				return Ok(serializedResponse);
 			}
 			catch (Exception ex)
 			{

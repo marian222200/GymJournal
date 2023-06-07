@@ -1,8 +1,10 @@
 ﻿using GymJournal.API.Models;
 using GymJournal.Data.Repositories;
+using GymJournal.Data.RequestValidators.Validators;
 using GymJournal.Domain.Commands.ExerciseCommands;
-using GymJournal.Domain.DTOs;
+using GymJournal.Domain.Queries.ExerciseQueries;
 using Microsoft.AspNetCore.Mvc;
+using System.Text.Json;
 
 namespace GymJournal.API.Controllers
 {
@@ -11,20 +13,26 @@ namespace GymJournal.API.Controllers
 	public class ExerciseController : ControllerBase
 	{
 		private readonly IExerciseRepository _exerciseRepository;
+		private readonly IExerciseValidators _exerciseValidators;
 
-		public ExerciseController(IExerciseRepository exerciseRepository)
+		public ExerciseController(IExerciseRepository exerciseRepository, IExerciseValidators exerciseValidators)
 		{
 			_exerciseRepository = exerciseRepository ?? throw new ArgumentNullException(nameof(exerciseRepository));
+			_exerciseValidators = exerciseValidators ?? throw new ArgumentNullException(nameof(exerciseValidators));
 		}
 
-		[HttpGet]
-		public async Task<IActionResult> GetAll()
+		[HttpGet("GetAll")]
+		public async Task<IActionResult> GetAll([FromQuery] GetAllExerciseQuery query)
 		{
 			try
 			{
-				var exercises = await _exerciseRepository.GetAll();
+				await _exerciseValidators.Validate(query);
 
-				return Ok(exercises);
+				var response = await _exerciseRepository.GetAll(query);
+
+				var serializedResponse = JsonSerializer.Serialize(response);
+
+				return Ok(serializedResponse);
 			}
 			catch (Exception ex)
 			{
@@ -37,19 +45,18 @@ namespace GymJournal.API.Controllers
 			}
 		}
 
-		[HttpGet("{id}")]
-		public async Task<IActionResult> GetById(Guid? id)
+		[HttpGet("GetById")]
+		public async Task<IActionResult> GetById([FromQuery] GetByIdExerciseQuery query)
 		{
 			try
 			{
-				if (id == null)
-				{
-					return StatusCode(StatusCodes.Status400BadRequest, new ErrorResponse { Message = "Trying to GetById Exercise with null Id is invalid." });
-				}
+				await _exerciseValidators.Validate(query);
 
-				var exercise = await _exerciseRepository.GetById(id);
+				var response = await _exerciseRepository.GetById(query);
 
-				return Ok(exercise);
+				var serializedResponse = JsonSerializer.Serialize(response);
+
+				return Ok(serializedResponse);
 			}
 			catch (Exception ex)
 			{
@@ -62,19 +69,14 @@ namespace GymJournal.API.Controllers
 			}
 		}
 
-		[HttpDelete("{id}")]
-		public async Task<IActionResult> Delete(Guid? id)
+		[HttpDelete("Delete")]
+		public async Task<IActionResult> Delete([FromBody] DeleteExerciseCommand command)
 		{
 			try
 			{
-				var exercise = await _exerciseRepository.GetById(id);
+				await _exerciseValidators.Validate(command);
 
-				if(exercise == null)
-				{
-					return StatusCode(StatusCodes.Status400BadRequest, new ErrorResponse { Message = "Trying to Delete Exercise with invalid Id." });
-				}
-
-				await _exerciseRepository.Remove(id);
+				await _exerciseRepository.Delete(command);
 
 				return StatusCode(StatusCodes.Status204NoContent);
 			}
@@ -89,22 +91,18 @@ namespace GymJournal.API.Controllers
 			}
 		}
 
-		[HttpPost]
+		[HttpPost("Create")]
 		public async Task<IActionResult> Create([FromBody] AddExerciseCommand command)
 		{
 			try
 			{
-				if (command == null)
-				{
-					return StatusCode(StatusCodes.Status400BadRequest, new ErrorResponse { Message = "Trying to Add null Exercise." });
-				}
+				await _exerciseValidators.Validate(command);
 
-				if (command.MuscleIds == null) command.MuscleIds = new List<Guid>();
-				if (command.WorkoutIds == null) command.WorkoutIds = new List<Guid>();
+				var response = await _exerciseRepository.Add(command);
 
-				var responseExercise = await _exerciseRepository.Add(command);
+				var serializedResponse = JsonSerializer.Serialize(response);
 
-				return Created(string.Empty, responseExercise);
+				return Created(string.Empty, serializedResponse);
 			}
 			catch (Exception ex)
 			{
@@ -117,21 +115,18 @@ namespace GymJournal.API.Controllers
 			}
 		}
 
-		[HttpPut]
+		[HttpPut("Update")]
 		public async Task<IActionResult> Update([FromBody] UpdateExerciseCommand command)
 		{
 			try
 			{
-				var existentExercise = await _exerciseRepository.GetById(command.Id);
+				await _exerciseValidators.Validate(command);
 
-				if(existentExercise == null)
-				{
-					return StatusCode(StatusCodes.Status400BadRequest, new ErrorResponse { Message = "Trying to Update Exercise with not existent Id." });
-				}
+				var response = await _exerciseRepository.Update(command);
 
-				var responseExercise = await _exerciseRepository.Update(command);
+				var serializedResponse = JsonSerializer.Serialize(response);
 
-				return Ok(responseExercise);
+				return Ok(serializedResponse);
 			}
 			catch (Exception ex)
 			{

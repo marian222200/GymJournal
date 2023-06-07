@@ -14,6 +14,7 @@ namespace GymJournal.Data.Context.IContext
 		public DbSet<Exercise> Exercises { get; set; }
 		public DbSet<Workout> Workouts { get; set; }
 		public DbSet<WorkoutPlan> WorkoutPlans { get; set; }
+		public DbSet<UserInfo> UserInfos { get; set; }
 
 		Task<int> SaveChangesAsync(CancellationToken cancellationToken = default);
 	}

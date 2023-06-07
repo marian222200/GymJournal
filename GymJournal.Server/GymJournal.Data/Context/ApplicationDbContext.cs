@@ -1,4 +1,5 @@
-﻿using GymJournal.Data.Context.IContext;
+﻿using GymJournal.Data.Configuration;
+using GymJournal.Data.Context.IContext;
 using GymJournal.Data.Entities;
 using Microsoft.EntityFrameworkCore;
 using System.Reflection;
@@ -11,6 +12,7 @@ namespace GymJournal.Data.Context
         public virtual DbSet<Exercise> Exercises { get; set; }
         public virtual DbSet<Workout> Workouts { get; set; }
         public virtual DbSet<WorkoutPlan> WorkoutPlans { get; set; }
+		public virtual DbSet<UserInfo> UserInfos { get; set; }
 
 		public ApplicationDbContext(DbContextOptions<ApplicationDbContext>
 			options) : base(options) { }

@@ -1,5 +1,6 @@
 ﻿using GymJournal.Data.Context.IContext;
 using GymJournal.Domain.DTOs;
+using GymJournal.Domain.Queries.MuscleQueries;
 using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
@@ -17,9 +18,10 @@ namespace GymJournal.Data.Repositories
 		{
 			_dbContext = dbContext ?? throw new ArgumentNullException(nameof(dbContext));
 		}
-		public async Task<IEnumerable<MuscleDto>> GetAll(CancellationToken cancellationToken = default)
+
+		public async Task<GetAllMuscleResponse> GetAll(GetAllMuscleQuery query, CancellationToken cancellationToken = default)
 		{
-			var dtos = await _dbContext.Muscles
+			var muscles = await _dbContext.Muscles
 				.AsNoTracking()
 				.Select(entity => new MuscleDto
 				{
@@ -37,26 +39,21 @@ namespace GymJournal.Data.Repositories
 				})
 				.ToListAsync(cancellationToken);
 
-			return dtos;
+			return new GetAllMuscleResponse { Muscles = muscles };
 		}
 
-		public async Task<MuscleDto?> GetById(Guid? guid, CancellationToken cancellationToken = default)
+		public async Task<GetByIdMuscleResponse> GetById(GetByIdMuscleQuery query, CancellationToken cancellationToken = default)
 		{
-			if (guid == null)
-			{
-				return null;
-			}
-
 			var entity = await _dbContext.Muscles
 				.Include(e => e.Exercises)
-				.FirstOrDefaultAsync(m => m.Id == guid, cancellationToken);
+				.FirstOrDefaultAsync(m => m.Id == query.MuscleId, cancellationToken);
 
 			if (entity == null)
 			{
-				return null;
+				throw new Exception("The muscle you want to GetById does not exist.");
 			}
 
-			return new MuscleDto
+			return new GetByIdMuscleResponse
 			{
 				Id = entity.Id,
 				Name = entity.Name,
