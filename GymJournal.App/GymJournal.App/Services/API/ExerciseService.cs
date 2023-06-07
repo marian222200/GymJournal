@@ -1,4 +1,5 @@
 ﻿using GymJournal.App.Models;
+using GymJournal.Domain.Commands.ExerciseCommands;
 using GymJournal.Domain.DTOs;
 using GymJournal.Domain.Queries.ExerciseQueries;
 using System;
@@ -23,23 +24,86 @@ namespace GymJournal.App.Services.API
 			_identityService = identityService ?? throw new ArgumentNullException(nameof(identityService));
 			_constantsService = constantsService ?? throw new ArgumentNullException(nameof(constantsService));
 		}
-		public Task<ExerciseDto> AddExercise(ExerciseDto exercise)
+
+		public async Task<ExerciseDto> AddExercise(ExerciseDto exercise)
 		{
-			throw new NotImplementedException();
+			HttpClient httpClient = new HttpClient();
+
+			UriBuilder builder = new UriBuilder(_constantsService.HostAddress)
+			{
+				Path = "/Exercise/Add"
+			};
+			var url = builder.Uri.ToString();
+
+			var query = new AddExerciseCommand
+			{
+				UserId = _identityService.UserId,
+				UserToken = _identityService.UserToken,
+				Name = exercise.Name,
+				Description = exercise.Description,
+				MuscleIds = exercise.Muscles.Select(m => m.Id).ToArray(),
+				WorkoutIds = exercise.Workouts.Select(w => w.Id).ToArray(),
+			};
+
+			HttpContent content = new StringContent(JsonSerializer.Serialize(query), Encoding.UTF8, "application/json");
+
+			var response = await httpClient.PostAsync(url, content);
+
+			if (response.IsSuccessStatusCode)
+			{
+				var reponseObject = await content.ReadFromJsonAsync<AddExerciseResponse>();
+				return new ExerciseDto
+				{
+					Id = reponseObject.Id,
+					Name = reponseObject.Name,
+					Description = reponseObject.Description,
+					Likes = reponseObject.Likes,
+					Muscles = reponseObject.Muscles,
+					Workouts = reponseObject.Workouts,
+				};
+			}
+			else
+			{
+				throw new ServerRequestException(await response.Content.ReadAsStringAsync());
+			}
 		}
 
-		public Task Delete(ExerciseDto exercise)
+		public async Task Delete(Guid id)
 		{
-			throw new NotImplementedException();
+			HttpClient httpClient = new HttpClient();
+
+			UriBuilder builder = new UriBuilder(_constantsService.HostAddress)
+			{
+				Path = "/Exercise/Delete"
+			};
+			var url = builder.Uri.ToString();
+
+			var query = new DeleteExerciseCommand
+			{
+				UserId = _identityService.UserId,
+				UserToken = _identityService.UserToken,
+				ExerciseId = id,
+			};
+
+			HttpContent content = new StringContent(JsonSerializer.Serialize(query), Encoding.UTF8, "application/json");
+
+			var response = await httpClient.PostAsync(url, content);
+
+			if (!response.IsSuccessStatusCode)
+			{
+				throw new ServerRequestException(await response.Content.ReadAsStringAsync());
+			}
 		}
 
 		public async Task<List<ExerciseDto>> GetAll()
         {
 			HttpClient httpClient = new HttpClient();
 
-            UriBuilder builder = new UriBuilder(_constantsService.HostAddress);
-			builder.Path = "/Exercise/GetAll";
-            var url = builder.Uri.ToString();
+			UriBuilder builder = new UriBuilder(_constantsService.HostAddress)
+			{
+				Path = "/Exercise/GetAll"
+			};
+			var url = builder.Uri.ToString();
 
 			var query = new GetAllExerciseQuery
 			{
@@ -53,7 +117,8 @@ namespace GymJournal.App.Services.API
 
             if (response.IsSuccessStatusCode)
             {
-                return await response.Content.ReadFromJsonAsync<List<ExerciseDto>>();
+				var reponseObject = await content.ReadFromJsonAsync<GetAllExerciseResponse>();
+                return reponseObject.Exercises;
             }
 			else
 			{
@@ -61,14 +126,89 @@ namespace GymJournal.App.Services.API
 			}
         }
 
-		public Task<ExerciseDto> GetById(Guid id)
+		public async Task<ExerciseDto> GetById(Guid id)
 		{
-			throw new NotImplementedException();
+			HttpClient httpClient = new HttpClient();
+
+			UriBuilder builder = new UriBuilder(_constantsService.HostAddress)
+			{
+				Path = "/Exercise/GetById"
+			};
+			var url = builder.Uri.ToString();
+
+			var query = new GetByIdExerciseQuery
+			{
+				UserId = _identityService.UserId,
+				UserToken = _identityService.UserToken,
+				ExerciseId = id,
+			};
+
+			HttpContent content = new StringContent(JsonSerializer.Serialize(query), Encoding.UTF8, "application/json");
+
+			var response = await httpClient.PostAsync(url, content);
+
+			if (response.IsSuccessStatusCode)
+			{
+				var reponseObject = await content.ReadFromJsonAsync<GetByIdExerciseResponse>();
+				return new ExerciseDto
+				{
+					Id = reponseObject.Id,
+					Name = reponseObject.Name,
+					Description = reponseObject.Description,
+					Likes = reponseObject.Likes,
+					Muscles = reponseObject.Muscles,
+					Workouts = reponseObject.Workouts,
+				};
+			}
+			else
+			{
+				throw new ServerRequestException(await response.Content.ReadAsStringAsync());
+			}
 		}
 
-		public Task<ExerciseDto> Update(ExerciseDto exercise)
+		public async Task<ExerciseDto> Update(ExerciseDto exercise)
 		{
-			throw new NotImplementedException();
+			HttpClient httpClient = new HttpClient();
+
+			UriBuilder builder = new UriBuilder(_constantsService.HostAddress)
+			{
+				Path = "/Exercise/Update"
+			};
+			var url = builder.Uri.ToString();
+
+			var query = new UpdateExerciseCommand
+			{
+				UserId = _identityService.UserId,
+				UserToken = _identityService.UserToken,
+				ExerciseId = exercise.Id,
+				Name = exercise.Name,
+				Description = exercise.Description,
+				Likes = exercise.Likes,
+				MuscleIds = exercise.Muscles.Select(m => m.Id).ToArray(),
+				WorkoutIds = exercise.Workouts.Select(w => w.Id).ToArray(),
+			};
+
+			HttpContent content = new StringContent(JsonSerializer.Serialize(query), Encoding.UTF8, "application/json");
+
+			var response = await httpClient.PutAsync(url, content);
+
+			if (response.IsSuccessStatusCode)
+			{
+				var reponseObject = await content.ReadFromJsonAsync<UpdateExerciseResponse>();
+				return new ExerciseDto
+				{
+					Id = reponseObject.Id,
+					Name = reponseObject.Name,
+					Description = reponseObject.Description,
+					Likes = reponseObject.Likes,
+					Muscles = reponseObject.Muscles,
+					Workouts = reponseObject.Workouts,
+				};
+			}
+			else
+			{
+				throw new ServerRequestException(await response.Content.ReadAsStringAsync());
+			}
 		}
 	}
 }

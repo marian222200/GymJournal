@@ -1,12 +1,18 @@
-﻿using System;
+﻿using GymJournal.Domain.DTOs;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace GymJournal.App.Services
+namespace GymJournal.App.Services.API
 {
-	public interface IWorkoutService
+    public interface IWorkoutService
 	{
+		public Task<WorkoutDto> AddExercise(WorkoutDto workout);
+		public Task Delete(Guid id);
+		public Task<WorkoutDto> Update(WorkoutDto workout);
+		public Task<List<WorkoutDto>> GetAll();
+		public Task<WorkoutDto> GetById(Guid id);
 	}
 }

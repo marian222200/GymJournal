@@ -4,9 +4,9 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace GymJournal.App.Services
+namespace GymJournal.App.Services.API
 {
-	public class UserInfoService : IUserInfoService
-	{
-	}
+    public class UserInfoService : IUserInfoService
+    {
+    }
 }

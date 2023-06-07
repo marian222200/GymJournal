@@ -61,7 +61,7 @@ namespace GymJournal.API.Controllers
 			}
 		}
 
-		[HttpDelete("Delete")]
+		[HttpPost("Delete")]
 		public async Task<IActionResult> Delete([FromBody] DeleteWorkoutCommand command)
 		{
 			try

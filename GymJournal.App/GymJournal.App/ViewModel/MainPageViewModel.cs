@@ -1,5 +1,5 @@
 ﻿using CommunityToolkit.Mvvm.Input;
-using GymJournal.App.Services;
+using GymJournal.App.Services.API;
 using GymJournal.Domain.DTOs;
 using System;
 using System.Collections.Generic;
@@ -11,7 +11,7 @@ using System.Threading.Tasks;
 
 namespace GymJournal.App.ViewModel
 {
-	public partial class MainPageViewModel : BaseViewModel
+    public partial class MainPageViewModel : BaseViewModel
 	{
 		private readonly ExerciseService exerciseService;
 		public ObservableCollection<ExerciseDto> Exercises { get; } = new ObservableCollection<ExerciseDto>();
