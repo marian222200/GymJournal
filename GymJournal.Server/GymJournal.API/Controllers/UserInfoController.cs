@@ -21,8 +21,8 @@ namespace GymJournal.API.Controllers
 			_userInfoValidators = userInfoValidators ?? throw new ArgumentNullException(nameof(userInfoValidators));
 		}
 
-		[HttpGet("GetAll")]
-		public async Task<IActionResult> GetAll([FromQuery] GetAllUserInfoQuery query)
+		[HttpPost("GetAll")]
+		public async Task<IActionResult> GetAll([FromBody] GetAllUserInfoQuery query)
 		{
 			try
 			{
@@ -45,8 +45,8 @@ namespace GymJournal.API.Controllers
 			}
 		}
 
-		[HttpGet("GetById")]
-		public async Task<IActionResult> GetById([FromQuery] GetByIdUserInfoQuery query)
+		[HttpPost("GetById")]
+		public async Task<IActionResult> GetById([FromBody] GetByIdUserInfoQuery query)
 		{
 			try
 			{
@@ -139,8 +139,8 @@ namespace GymJournal.API.Controllers
 			}
 		}
 
-		[HttpGet("Login")]
-		public async Task<IActionResult> Login([FromQuery] LoginUserInfoQuery query)
+		[HttpPost("Login")]
+		public async Task<IActionResult> Login([FromBody] LoginUserInfoQuery query)
 		{
 			try
 			{

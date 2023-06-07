@@ -1,6 +1,7 @@
 ﻿using GymJournal.API.Models;
 using GymJournal.Data.Entities;
 using GymJournal.Data.Repositories;
+using GymJournal.Data.RequestValidators.Exceptions;
 using GymJournal.Data.RequestValidators.Validators;
 using GymJournal.Domain.Commands.WorkoutCommands;
 using GymJournal.Domain.Queries.WorkoutQueries;
@@ -22,8 +23,8 @@ namespace GymJournal.API.Controllers
 			_workoutValidators = workoutValidators ?? throw new ArgumentNullException(nameof(workoutValidators));
 		}
 
-		[HttpGet("GetAll")]
-		public async Task<IActionResult> GetAll([FromQuery] GetAllWorkoutQuery query)
+		[HttpPost("GetAll")]
+		public async Task<IActionResult> GetAll([FromBody] GetAllWorkoutQuery query)
 		{
 			try
 			{
@@ -37,17 +38,12 @@ namespace GymJournal.API.Controllers
 			}
 			catch (Exception ex)
 			{
-				var errorResponse = new ErrorResponse
-				{
-					Message = ex.Message,
-				};
-
-				return StatusCode(StatusCodes.Status500InternalServerError, errorResponse);
+				return HandleException(ex);
 			}
 		}
 
-		[HttpGet("GetById")]
-		public async Task<IActionResult> GetById([FromQuery] GetByIdWorkoutQuery query)
+		[HttpPost("GetById")]
+		public async Task<IActionResult> GetById([FromBody] GetByIdWorkoutQuery query)
 		{
 			try
 			{
@@ -61,12 +57,7 @@ namespace GymJournal.API.Controllers
 			}
 			catch (Exception ex)
 			{
-				var errorResponse = new ErrorResponse
-				{
-					Message = ex.Message,
-				};
-
-				return StatusCode(StatusCodes.Status500InternalServerError, errorResponse);
+				return HandleException(ex);
 			}
 		}
 
@@ -83,12 +74,7 @@ namespace GymJournal.API.Controllers
 			}
 			catch (Exception ex)
 			{
-				var errorResponse = new ErrorResponse
-				{
-					Message = ex.Message,
-				};
-
-				return StatusCode(StatusCodes.Status500InternalServerError, errorResponse);
+				return HandleException(ex);
 			}
 		}
 
@@ -107,12 +93,7 @@ namespace GymJournal.API.Controllers
 			}
 			catch (Exception ex)
 			{
-				var errorResponse = new ErrorResponse
-				{
-					Message = ex.Message,
-				};
-
-				return StatusCode(StatusCodes.Status500InternalServerError, errorResponse);
+				return HandleException(ex);
 			}
 		}
 
@@ -130,6 +111,41 @@ namespace GymJournal.API.Controllers
 				return Ok(serializedResponse);
 			}
 			catch (Exception ex)
+			{
+				return HandleException(ex);
+			}
+		}
+
+		public IActionResult HandleException(Exception ex)
+		{
+			if (ex is UnauthorizedAccessException)
+			{
+				var errorResponse = new ErrorResponse
+				{
+					Message = ex.Message,
+				};
+
+				return StatusCode(StatusCodes.Status401Unauthorized, errorResponse);
+			}
+			else if (ex is BadRequestException)
+			{
+				var errorResponse = new ErrorResponse
+				{
+					Message = ex.Message,
+				};
+
+				return StatusCode(StatusCodes.Status400BadRequest, errorResponse);
+			}
+			else if (ex is InvalidRequestException)
+			{
+				var errorResponse = new ErrorResponse
+				{
+					Message = ex.Message,
+				};
+
+				return StatusCode(StatusCodes.Status405MethodNotAllowed, errorResponse);
+			}
+			else
 			{
 				var errorResponse = new ErrorResponse
 				{

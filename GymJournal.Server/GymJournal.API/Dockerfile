@@ -10,7 +10,6 @@ WORKDIR /src
 COPY ["GymJournal.API/GymJournal.API.csproj", "GymJournal.API/"]
 COPY ["GymJournal.Data/GymJournal.Data.csproj", "GymJournal.Data/"]
 COPY ["../GymJournal.Shared/GymJournal.Domain/GymJournal.Domain.csproj", "GymJournal.Domain/"]
-COPY ["GymJournal.Tools/GymJournal.Tools.csproj", "GymJournal.Tools/"]
 RUN dotnet restore "GymJournal.API/GymJournal.API.csproj"
 COPY . .
 WORKDIR "/src/GymJournal.API"

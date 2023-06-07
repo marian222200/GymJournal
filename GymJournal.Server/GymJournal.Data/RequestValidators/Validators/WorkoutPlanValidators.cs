@@ -1,4 +1,5 @@
 ﻿using GymJournal.Data.Context.IContext;
+using GymJournal.Data.RequestValidators.Exceptions;
 using GymJournal.Domain.Commands.WorkoutPlanCommands;
 using GymJournal.Domain.Queries.WorkoutPlanQueries;
 using Microsoft.EntityFrameworkCore;
@@ -25,14 +26,14 @@ namespace GymJournal.Data.RequestValidators.Validators
 		{
 			if (command == null)
 			{
-				throw new Exception("null command");
+				throw new InvalidRequestException("null command");
 			}
 
 			foreach (var workoutId in command.WorkoutIds)
 			{
 				if (!await _dbContext.Workouts.AnyAsync(w => w.Id == workoutId))
 				{
-					throw new Exception("workout list has inexistent workouts");
+					throw new BadRequestException("workout list has inexistent workouts");
 				}
 			}
 
@@ -43,7 +44,7 @@ namespace GymJournal.Data.RequestValidators.Validators
 		{
 			if (command == null)
 			{
-				throw new Exception("null command");
+				throw new InvalidRequestException("null command");
 			}
 
 			await _validationAuthorization.ValidateRegularUser(command.UserId, command.UserToken);
@@ -53,7 +54,7 @@ namespace GymJournal.Data.RequestValidators.Validators
 		{
 			if (command == null)
 			{
-				throw new Exception("null command");
+				throw new InvalidRequestException("null command");
 			}
 
 			if (command.WorkoutIds != null)
@@ -62,7 +63,7 @@ namespace GymJournal.Data.RequestValidators.Validators
 				{
 					if (!await _dbContext.Workouts.AnyAsync(w => w.Id == workoutId))
 					{
-						throw new Exception("workout list has inexistent workouts");
+						throw new BadRequestException("workout list has inexistent workouts");
 					}
 				}
 			}
@@ -74,7 +75,7 @@ namespace GymJournal.Data.RequestValidators.Validators
 		{
 			if (query == null)
 			{
-				throw new Exception("null query");
+				throw new InvalidRequestException("null query");
 			}
 
 			await _validationAuthorization.ValidateRegularUser(query.UserId, query.UserToken);
@@ -84,7 +85,7 @@ namespace GymJournal.Data.RequestValidators.Validators
 		{
 			if (query == null)
 			{
-				throw new Exception("null query");
+				throw new InvalidRequestException("null query");
 			}
 
 			await _validationAuthorization.ValidateRegularUser(query.UserId, query.UserToken);

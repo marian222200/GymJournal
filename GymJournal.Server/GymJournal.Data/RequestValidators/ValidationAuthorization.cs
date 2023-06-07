@@ -24,17 +24,17 @@ namespace GymJournal.Data.RequestValidators
 
 			if (user == null)
 			{
-				throw new Exception("invalid UserId");
+				throw new UnauthorizedAccessException("invalid UserId");
 			}
 
 			if (user.Token != UserToken)
 			{
-				throw new Exception("invalid UserToken");
+				throw new UnauthorizedAccessException("invalid UserToken");
 			}
 
 			if(user.Role != "Admin")
 			{
-				throw new Exception("unauthorized User");
+				throw new UnauthorizedAccessException("unauthorized User");
 			}
 		}
 
@@ -44,12 +44,12 @@ namespace GymJournal.Data.RequestValidators
 
 			if (user == null)
 			{
-				throw new Exception("invalid UserId");
+				throw new UnauthorizedAccessException("invalid UserId");
 			}
 
 			if (user.Token != UserToken)
 			{
-				throw new Exception("invalid UserToken");
+				throw new UnauthorizedAccessException("invalid UserToken");
 			}
 		}
 	}

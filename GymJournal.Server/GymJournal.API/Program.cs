@@ -1,3 +1,4 @@
+using GymJournal.API.Controllers;
 using GymJournal.Data.Context;
 using GymJournal.Data.Context.IContext;
 using GymJournal.Data.Repositories;

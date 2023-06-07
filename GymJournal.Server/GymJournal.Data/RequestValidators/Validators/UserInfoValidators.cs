@@ -1,4 +1,5 @@
 ﻿using GymJournal.Data.Context.IContext;
+using GymJournal.Data.RequestValidators.Exceptions;
 using GymJournal.Domain.Commands.UserInfoCommands;
 using GymJournal.Domain.Queries.UserInfoQueries;
 using Microsoft.EntityFrameworkCore;
@@ -25,12 +26,12 @@ namespace GymJournal.Data.RequestValidators.Validators
 		{
 			if (command == null)
 			{
-				throw new Exception("null command");
+				throw new InvalidRequestException("null command");
 			}
 
 			if (await _dbContext.UserInfos.AnyAsync(u => u.Name == command.Name))
 			{
-				throw new Exception("name already used");
+				throw new BadRequestException("name already used");
 			}
 		}
 
@@ -38,7 +39,7 @@ namespace GymJournal.Data.RequestValidators.Validators
 		{
 			if (command == null)
 			{
-				throw new Exception("null command");
+				throw new InvalidRequestException("null command");
 			}
 
 			if (command.DeleteId != command.UserId)
@@ -55,12 +56,12 @@ namespace GymJournal.Data.RequestValidators.Validators
 		{
 			if (command == null)
 			{
-				throw new Exception("null command");
+				throw new InvalidRequestException("null command");
 			}
 
 			if (command.Name != null && await _dbContext.UserInfos.AnyAsync(u => u.Name == command.Name))
 			{
-				throw new Exception("name already used");
+				throw new BadRequestException("name already used");
 			}
 
 			if ((command.UpdateId != command.UserId) || (command.Role != null))
@@ -77,7 +78,7 @@ namespace GymJournal.Data.RequestValidators.Validators
 		{
 			if (query == null)
 			{
-				throw new Exception("null query");
+				throw new InvalidRequestException("null query");
 			}
 
 			await _validationAuthorization.ValidateRegularUser(query.UserId, query.UserToken);
@@ -87,7 +88,7 @@ namespace GymJournal.Data.RequestValidators.Validators
 		{
 			if (query == null)
 			{
-				throw new Exception("null query");
+				throw new InvalidRequestException("null query");
 			}
 
 			await _validationAuthorization.ValidateRegularUser(query.UserId, query.UserToken);

@@ -1,4 +1,5 @@
 ﻿using GymJournal.Data.Context.IContext;
+using GymJournal.Data.RequestValidators.Exceptions;
 using GymJournal.Domain.Commands.WorkoutCommands;
 using GymJournal.Domain.Queries.WorkoutQueries;
 using Microsoft.EntityFrameworkCore;
@@ -26,14 +27,14 @@ namespace GymJournal.Data.RequestValidators.Validators
 
 			if (command == null)
 			{
-				throw new Exception("null command");
+				throw new InvalidRequestException("null command");
 			}
 
 			foreach (var exerciseId in command.ExerciseIds)
 			{
 				if (!await _dbContext.Exercises.AnyAsync(e => e.Id == exerciseId))
 				{
-					throw new Exception("exercise list has inexistent exercises");
+					throw new BadRequestException("exercise list has inexistent exercises");
 				}
 			}
 
@@ -41,7 +42,7 @@ namespace GymJournal.Data.RequestValidators.Validators
 			{
 				if (!await _dbContext.WorkoutPlans.AnyAsync(w => w.Id == workoutPlanId))
 				{
-					throw new Exception("workoutPlan list has inexistent workoutPlans");
+					throw new BadRequestException("workoutPlan list has inexistent workoutPlans");
 				}
 			}
 
@@ -52,7 +53,7 @@ namespace GymJournal.Data.RequestValidators.Validators
 		{
 			if (command == null)
 			{
-				throw new Exception("null command");
+				throw new InvalidRequestException("null command");
 			}
 
 			await _validationAuthorization.ValidateRegularUser(command.UserId, command.UserToken);
@@ -62,7 +63,7 @@ namespace GymJournal.Data.RequestValidators.Validators
 		{
 			if (command == null)
 			{
-				throw new Exception("null command");
+				throw new InvalidRequestException("null command");
 			}
 
 			if (command.ExerciseIds != null)
@@ -71,7 +72,7 @@ namespace GymJournal.Data.RequestValidators.Validators
 				{
 					if (!await _dbContext.Exercises.AnyAsync(e => e.Id == exerciseId))
 					{
-						throw new Exception("exercise list has inexistent exercises");
+						throw new BadRequestException("exercise list has inexistent exercises");
 					}
 				}
 			}
@@ -82,7 +83,7 @@ namespace GymJournal.Data.RequestValidators.Validators
 				{
 					if (!await _dbContext.WorkoutPlans.AnyAsync(w => w.Id == workoutPlanId))
 					{
-						throw new Exception("workoutPlan list has inexistent workoutPlans");
+						throw new BadRequestException("workoutPlan list has inexistent workoutPlans");
 					}
 				}
 			}
@@ -93,7 +94,7 @@ namespace GymJournal.Data.RequestValidators.Validators
 		{
 			if (query == null)
 			{
-				throw new Exception("null query");
+				throw new InvalidRequestException("null query");
 			}
 
 			await _validationAuthorization.ValidateRegularUser(query.UserId, query.UserToken);
@@ -103,7 +104,7 @@ namespace GymJournal.Data.RequestValidators.Validators
 		{
 			if (query == null)
 			{
-				throw new Exception("null query");
+				throw new InvalidRequestException("null query");
 			}
 
 			await _validationAuthorization.ValidateRegularUser(query.UserId, query.UserToken);
