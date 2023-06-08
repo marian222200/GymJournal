@@ -51,15 +51,15 @@ namespace GymJournal.App.Services.API
 
 			if (response.IsSuccessStatusCode)
 			{
-				var reponseObject = await content.ReadFromJsonAsync<AddExerciseResponse>();
+				var responseObject = await content.ReadFromJsonAsync<AddExerciseResponse>();
 				return new ExerciseDto
 				{
-					Id = reponseObject.Id,
-					Name = reponseObject.Name,
-					Description = reponseObject.Description,
-					Likes = reponseObject.Likes,
-					Muscles = reponseObject.Muscles,
-					Workouts = reponseObject.Workouts,
+					Id = responseObject.Id,
+					Name = responseObject.Name,
+					Description = responseObject.Description,
+					Likes = responseObject.Likes,
+					Muscles = responseObject.Muscles,
+					Workouts = responseObject.Workouts,
 				};
 			}
 			else
@@ -117,8 +117,8 @@ namespace GymJournal.App.Services.API
 
             if (response.IsSuccessStatusCode)
             {
-				var reponseObject = await content.ReadFromJsonAsync<GetAllExerciseResponse>();
-                return reponseObject.Exercises;
+				var responseObject = await content.ReadFromJsonAsync<GetAllExerciseResponse>();
+                return responseObject.Exercises;
             }
 			else
 			{
@@ -149,15 +149,15 @@ namespace GymJournal.App.Services.API
 
 			if (response.IsSuccessStatusCode)
 			{
-				var reponseObject = await content.ReadFromJsonAsync<GetByIdExerciseResponse>();
+				var responseObject = await content.ReadFromJsonAsync<GetByIdExerciseResponse>();
 				return new ExerciseDto
 				{
-					Id = reponseObject.Id,
-					Name = reponseObject.Name,
-					Description = reponseObject.Description,
-					Likes = reponseObject.Likes,
-					Muscles = reponseObject.Muscles,
-					Workouts = reponseObject.Workouts,
+					Id = responseObject.Id,
+					Name = responseObject.Name,
+					Description = responseObject.Description,
+					Likes = responseObject.Likes,
+					Muscles = responseObject.Muscles,
+					Workouts = responseObject.Workouts,
 				};
 			}
 			else
@@ -194,15 +194,15 @@ namespace GymJournal.App.Services.API
 
 			if (response.IsSuccessStatusCode)
 			{
-				var reponseObject = await content.ReadFromJsonAsync<UpdateExerciseResponse>();
+				var responseObject = await content.ReadFromJsonAsync<UpdateExerciseResponse>();
 				return new ExerciseDto
 				{
-					Id = reponseObject.Id,
-					Name = reponseObject.Name,
-					Description = reponseObject.Description,
-					Likes = reponseObject.Likes,
-					Muscles = reponseObject.Muscles,
-					Workouts = reponseObject.Workouts,
+					Id = responseObject.Id,
+					Name = responseObject.Name,
+					Description = responseObject.Description,
+					Likes = responseObject.Likes,
+					Muscles = responseObject.Muscles,
+					Workouts = responseObject.Workouts,
 				};
 			}
 			else

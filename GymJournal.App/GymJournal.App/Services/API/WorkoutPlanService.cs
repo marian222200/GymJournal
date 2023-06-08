@@ -50,13 +50,13 @@ namespace GymJournal.App.Services.API
 
 			if (response.IsSuccessStatusCode)
 			{
-				var reponseObject = await content.ReadFromJsonAsync<AddWorkoutPlanResponse>();
+				var responseObject = await content.ReadFromJsonAsync<AddWorkoutPlanResponse>();
 				return new WorkoutPlanDto
 				{
-					Id = reponseObject.Id,
-					Name = reponseObject.Name,
-					Description = reponseObject.Description,
-					Workouts = reponseObject.Workouts,
+					Id = responseObject.Id,
+					Name = responseObject.Name,
+					Description = responseObject.Description,
+					Workouts = responseObject.Workouts,
 				};
 			}
 			else
@@ -114,8 +114,8 @@ namespace GymJournal.App.Services.API
 
 			if (response.IsSuccessStatusCode)
 			{
-				var reponseObject = await content.ReadFromJsonAsync<GetAllWorkoutPlanResponse>();
-				return reponseObject.WorkoutPlans;
+				var responseObject = await content.ReadFromJsonAsync<GetAllWorkoutPlanResponse>();
+				return responseObject.WorkoutPlans;
 			}
 			else
 			{
@@ -146,13 +146,13 @@ namespace GymJournal.App.Services.API
 
 			if (response.IsSuccessStatusCode)
 			{
-				var reponseObject = await content.ReadFromJsonAsync<GetByIdWorkoutPlanResponse>();
+				var responseObject = await content.ReadFromJsonAsync<GetByIdWorkoutPlanResponse>();
 				return new WorkoutPlanDto
 				{
-					Id = reponseObject.Id,
-					Name = reponseObject.Name,
-					Description = reponseObject.Description,
-					Workouts = reponseObject.Workouts,
+					Id = responseObject.Id,
+					Name = responseObject.Name,
+					Description = responseObject.Description,
+					Workouts = responseObject.Workouts,
 				};
 			}
 			else
@@ -187,13 +187,13 @@ namespace GymJournal.App.Services.API
 
 			if (response.IsSuccessStatusCode)
 			{
-				var reponseObject = await content.ReadFromJsonAsync<UpdateWorkoutPlanResponse>();
+				var responseObject = await content.ReadFromJsonAsync<UpdateWorkoutPlanResponse>();
 				return new WorkoutPlanDto
 				{
-					Id = reponseObject.Id,
-					Name = reponseObject.Name,
-					Description = reponseObject.Description,
-					Workouts = reponseObject.Workouts,
+					Id = responseObject.Id,
+					Name = responseObject.Name,
+					Description = responseObject.Description,
+					Workouts = responseObject.Workouts,
 				};
 			}
 			else

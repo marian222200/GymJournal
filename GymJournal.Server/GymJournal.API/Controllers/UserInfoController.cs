@@ -15,11 +15,13 @@ namespace GymJournal.API.Controllers
 	{
 		private readonly IUserInfoRepository _userInfoRepository;
 		private readonly IUserInfoValidators _userInfoValidators;
+		private readonly ExceptionHandler _exceptionHandler;
 
-		public UserInfoController(IUserInfoRepository userInfoRepository, IUserInfoValidators userInfoValidators)
+		public UserInfoController(IUserInfoRepository userInfoRepository, IUserInfoValidators userInfoValidators, ExceptionHandler exceptionHandler)
 		{
 			_userInfoRepository = userInfoRepository ?? throw new ArgumentNullException(nameof(userInfoRepository));
 			_userInfoValidators = userInfoValidators ?? throw new ArgumentNullException(nameof(userInfoValidators));
+			_exceptionHandler = exceptionHandler ?? throw new ArgumentNullException(nameof(exceptionHandler));
 		}
 
 		[HttpPost("GetAll")]
@@ -37,7 +39,7 @@ namespace GymJournal.API.Controllers
 			}
 			catch (Exception ex)
 			{
-				return HandleException(ex);
+				return _exceptionHandler.HandleException(ex);
 			}
 		}
 
@@ -56,7 +58,7 @@ namespace GymJournal.API.Controllers
 			}
 			catch (Exception ex)
 			{
-				return HandleException(ex);
+				return _exceptionHandler.HandleException(ex);
 			}
 		}
 
@@ -73,7 +75,7 @@ namespace GymJournal.API.Controllers
 			}
 			catch (Exception ex)
 			{
-				return HandleException(ex);
+				return _exceptionHandler.HandleException(ex);
 			}
 		}
 
@@ -92,7 +94,7 @@ namespace GymJournal.API.Controllers
 			}
 			catch (Exception ex)
 			{
-				return HandleException(ex);
+				return _exceptionHandler.HandleException(ex);
 			}
 		}
 
@@ -111,7 +113,7 @@ namespace GymJournal.API.Controllers
 			}
 			catch (Exception ex)
 			{
-				return HandleException(ex);
+				return _exceptionHandler.HandleException(ex);
 			}
 		}
 
@@ -130,47 +132,7 @@ namespace GymJournal.API.Controllers
 			}
 			catch (Exception ex)
 			{
-				return HandleException(ex);
-			}
-		}
-
-		public IActionResult HandleException(Exception ex)
-		{
-			if (ex is UnauthorizedAccessException)
-			{
-				var errorResponse = new ErrorResponse
-				{
-					Message = ex.Message,
-				};
-
-				return StatusCode(StatusCodes.Status401Unauthorized, errorResponse);
-			}
-			else if (ex is BadRequestException)
-			{
-				var errorResponse = new ErrorResponse
-				{
-					Message = ex.Message,
-				};
-
-				return StatusCode(StatusCodes.Status400BadRequest, errorResponse);
-			}
-			else if (ex is InvalidRequestException)
-			{
-				var errorResponse = new ErrorResponse
-				{
-					Message = ex.Message,
-				};
-
-				return StatusCode(StatusCodes.Status405MethodNotAllowed, errorResponse);
-			}
-			else
-			{
-				var errorResponse = new ErrorResponse
-				{
-					Message = ex.Message,
-				};
-
-				return StatusCode(StatusCodes.Status500InternalServerError, errorResponse);
+				return _exceptionHandler.HandleException(ex);
 			}
 		}
 	}

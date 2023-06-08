@@ -45,8 +45,8 @@ namespace GymJournal.App.Services.API
 
 			if (response.IsSuccessStatusCode)
 			{
-				var reponseObject = await content.ReadFromJsonAsync<GetAllMuscleResponse>();
-				return reponseObject.Muscles;
+				var responseObject = await content.ReadFromJsonAsync<GetAllMuscleResponse>();
+				return responseObject.Muscles;
 			}
 			else
 			{
@@ -77,12 +77,12 @@ namespace GymJournal.App.Services.API
 
 			if (response.IsSuccessStatusCode)
 			{
-				var reponseObject = await content.ReadFromJsonAsync<GetByIdMuscleResponse>();
+				var responseObject = await content.ReadFromJsonAsync<GetByIdMuscleResponse>();
 				return new MuscleDto
 				{
-					Id = reponseObject.Id,
-					Name = reponseObject.Name,
-					Exercises = reponseObject.Exercises,
+					Id = responseObject.Id,
+					Name = responseObject.Name,
+					Exercises = responseObject.Exercises,
 				};
 			}
 			else

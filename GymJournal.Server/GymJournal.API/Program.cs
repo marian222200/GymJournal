@@ -43,6 +43,7 @@ namespace GymJournal.API
 
 
 			builder.Services.AddScoped<IValidationAuthorization, ValidationAuthorization>();
+			builder.Services.AddScoped<ExceptionHandler>();
 
 
 			builder.Services.AddScoped<IMuscleValidators, MuscleValidators>();
