@@ -217,9 +217,12 @@ namespace GymJournal.App.Services.API
 			{
 				var responseObject = await content.ReadFromJsonAsync<UpdateUserInfoResponse>();
 
-				_identityService.UserId = responseObject.UserId;
-				_identityService.UserToken = responseObject.UserToken;
-				_identityService.UserRole = responseObject.UserRole;
+				if (_identityService.UserRole != "Admin")
+				{
+					_identityService.UserId = responseObject.UserId;
+					_identityService.UserToken = responseObject.UserToken;
+					_identityService.UserRole = responseObject.UserRole;
+				}
 			}
 			else
 			{
