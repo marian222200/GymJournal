@@ -1,4 +1,5 @@
 ﻿using GymJournal.Data.Context.IContext;
+using GymJournal.Data.RequestValidators.Exceptions;
 using GymJournal.Domain.DTOs;
 using GymJournal.Domain.Queries.MuscleQueries;
 using Microsoft.EntityFrameworkCore;
@@ -50,7 +51,7 @@ namespace GymJournal.Data.Repositories
 
 			if (entity == null)
 			{
-				throw new Exception("The muscle you want to GetById does not exist.");
+				throw new BadRequestException("The muscle you want to GetById does not exist.");
 			}
 
 			return new GetByIdMuscleResponse

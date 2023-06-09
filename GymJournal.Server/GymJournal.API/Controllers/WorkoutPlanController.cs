@@ -50,7 +50,7 @@ namespace GymJournal.API.Controllers
 			{
 				await _workoutPlanValidators.Validate(query);
 
-				var response = _workoutPlanRepository.GetById(query);
+				var response = await _workoutPlanRepository.GetById(query);
 
 				var serializedResponse = JsonSerializer.Serialize(response);
 
@@ -86,7 +86,7 @@ namespace GymJournal.API.Controllers
 			{
 				await _workoutPlanValidators.Validate(command);
 
-				var response = _workoutPlanRepository.Add(command);
+				var response = await _workoutPlanRepository.Add(command);
 
 				var serializedResponse = JsonSerializer.Serialize(response);
 
@@ -105,7 +105,7 @@ namespace GymJournal.API.Controllers
 			{
 				await _workoutPlanValidators.Validate(command);
 
-				var response = _workoutPlanRepository.Update(command);
+				var response = await _workoutPlanRepository.Update(command);
 
 				var serializedResponse = JsonSerializer.Serialize(response);
 

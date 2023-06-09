@@ -9,8 +9,7 @@ namespace GymJournal.Domain.Commands.UserInfoCommands
 	public class AddUserInfoResponse
 	{
 		public Guid UserId { get; set; }
-		public Guid Token { get; set; }
-		public string Name { get; set; }
-		public string Role { get; set; }
+		public Guid UserToken { get; set; }
+		public string UserRole { get; set; }
 	}
 }

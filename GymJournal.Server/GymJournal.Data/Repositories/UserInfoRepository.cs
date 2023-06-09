@@ -1,6 +1,7 @@
 ﻿using BCrypt.Net;
 using GymJournal.Data.Context.IContext;
 using GymJournal.Data.Entities;
+using GymJournal.Data.RequestValidators.Exceptions;
 using GymJournal.Domain.Commands.ExerciseCommands;
 using GymJournal.Domain.Commands.UserInfoCommands;
 using GymJournal.Domain.DTOs;
@@ -41,9 +42,8 @@ namespace GymJournal.Data.Repositories
 			return new AddUserInfoResponse
 			{
 				UserId = entity.Id,
-				Token = entity.Token,
-				Name = entity.Name,
-				Role = entity.Role,
+				UserToken = entity.Token,
+				UserRole = entity.Role,
 			};
 		}
 
@@ -54,7 +54,7 @@ namespace GymJournal.Data.Repositories
 
 			if (entity == null)
 			{
-				throw new Exception("The userInfo you want to delete does not exist.");
+				throw new BadRequestException("The userInfo you want to delete does not exist.");
 			}
 
 			_dbContext.UserInfos.Remove(entity);
@@ -83,7 +83,7 @@ namespace GymJournal.Data.Repositories
 
 			if (entity == null)
 			{
-				throw new Exception("The userInfo you want to GetById does not exist.");
+				throw new BadRequestException("The userInfo you want to GetById does not exist.");
 			}
 
 			var x = new GetByIdUserInfoResponse
@@ -103,13 +103,12 @@ namespace GymJournal.Data.Repositories
 
 			if (entity == null)
 			{
-				throw new Exception("The userInfo you want to Login does not exist.");
+				throw new BadRequestException("The userInfo you want to Login does not exist.");
 			}
 
-			var x = BCryptNet.HashPassword(query.Password);
-			if (!BCryptNet.Verify(query.Password, entity.Password))
+			if (!BCryptNet.Verify(query.UserPassword, entity.Password))
 			{
-				throw new Exception("Invalid password for login.");
+				throw new UnauthorizedAccessException("Invalid password for login.");
 			}
 
 			entity.Token = Guid.NewGuid();
@@ -119,6 +118,7 @@ namespace GymJournal.Data.Repositories
 			{
 				UserId = entity.Id,
 				UserToken = entity.Token,
+				UserRole = entity.Role,
 			};
 		}
 
@@ -134,7 +134,7 @@ namespace GymJournal.Data.Repositories
 
 			if (entityToUpdate == null)
 			{
-				throw new Exception("The userInfo you want to update does not exist.");
+				throw new BadRequestException("The userInfo you want to update does not exist.");
 			}
 
 			if (command.Name != null) { entityToUpdate.Name = command.Name; }
@@ -147,9 +147,8 @@ namespace GymJournal.Data.Repositories
 			return new UpdateUserInfoResponse
 			{
 				UserId = entityToUpdate.Id,
-				Token = command.UserId == command.UpdateId ? entityToUpdate.Token : null,
-				Name = entityToUpdate.Name,
-				Role = entityToUpdate.Role,
+				UserToken = entityToUpdate.Token,//command.UserId == command.UpdateId ? entityToUpdate.Token : null,
+				UserRole = entityToUpdate.Role,
 			};
 		}
 	}

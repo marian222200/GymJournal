@@ -50,7 +50,7 @@ namespace GymJournal.API.Controllers
 			{
 				await _userInfoValidators.Validate(query);
 
-				var response = _userInfoRepository.GetById(query);
+				var response = await _userInfoRepository.GetById(query);
 
 				var serializedResponse = JsonSerializer.Serialize(response);
 
@@ -86,7 +86,7 @@ namespace GymJournal.API.Controllers
 			{
 				await _userInfoValidators.Validate(command);
 
-				var response = _userInfoRepository.Add(command);
+				var response = await _userInfoRepository.Add(command);
 
 				var serializedResponse = JsonSerializer.Serialize(response);
 
@@ -105,7 +105,7 @@ namespace GymJournal.API.Controllers
 			{
 				await _userInfoValidators.Validate(command);
 
-				var response = _userInfoRepository.Update(command);
+				var response = await _userInfoRepository.Update(command);
 
 				var serializedResponse = JsonSerializer.Serialize(response);
 
@@ -124,7 +124,7 @@ namespace GymJournal.API.Controllers
 			{
 				await _userInfoValidators.Validate(query);
 
-				var response = _userInfoRepository.Login(query);
+				var response = await _userInfoRepository.Login(query);
 
 				var serializedResponse = JsonSerializer.Serialize(response);
 

@@ -35,7 +35,7 @@ namespace GymJournal.App.Services.API
 			};
 			var url = builder.Uri.ToString();
 
-			var query = new AddWorkoutCommand
+			var command = new AddWorkoutCommand
 			{
 				UserId = _identityService.UserId,
 				UserToken = _identityService.UserToken,
@@ -45,7 +45,7 @@ namespace GymJournal.App.Services.API
 				WorkoutPlanIds = workout.WorkoutPlans.Select(w => w.Id).ToArray(),
 			};
 
-			HttpContent content = new StringContent(JsonSerializer.Serialize(query), Encoding.UTF8, "application/json");
+			HttpContent content = new StringContent(JsonSerializer.Serialize(command), Encoding.UTF8, "application/json");
 
 			var response = await httpClient.PostAsync(url, content);
 
@@ -77,14 +77,14 @@ namespace GymJournal.App.Services.API
 			};
 			var url = builder.Uri.ToString();
 
-			var query = new DeleteWorkoutCommand
+			var command = new DeleteWorkoutCommand
 			{
 				UserId = _identityService.UserId,
 				UserToken = _identityService.UserToken,
 				WorkoutId = id,
 			};
 
-			HttpContent content = new StringContent(JsonSerializer.Serialize(query), Encoding.UTF8, "application/json");
+			HttpContent content = new StringContent(JsonSerializer.Serialize(command), Encoding.UTF8, "application/json");
 
 			var response = await httpClient.PostAsync(url, content);
 
@@ -174,7 +174,7 @@ namespace GymJournal.App.Services.API
 			};
 			var url = builder.Uri.ToString();
 
-			var query = new UpdateWorkoutCommand
+			var command = new UpdateWorkoutCommand
 			{
 				UserId = _identityService.UserId,
 				UserToken = _identityService.UserToken,
@@ -185,7 +185,7 @@ namespace GymJournal.App.Services.API
 				WorkoutPlanIds = workout.WorkoutPlans.Select(w => w.Id).ToArray(),
 			};
 
-			HttpContent content = new StringContent(JsonSerializer.Serialize(query), Encoding.UTF8, "application/json");
+			HttpContent content = new StringContent(JsonSerializer.Serialize(command), Encoding.UTF8, "application/json");
 
 			var response = await httpClient.PutAsync(url, content);
 

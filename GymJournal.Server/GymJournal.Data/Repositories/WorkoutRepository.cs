@@ -1,5 +1,6 @@
 ﻿using GymJournal.Data.Context.IContext;
 using GymJournal.Data.Entities;
+using GymJournal.Data.RequestValidators.Exceptions;
 using GymJournal.Domain.Commands.WorkoutCommands;
 using GymJournal.Domain.DTOs;
 using GymJournal.Domain.Queries.WorkoutQueries;
@@ -63,7 +64,7 @@ namespace GymJournal.Data.Repositories
 
 			if (entity == null)
 			{
-				throw new Exception("The Workout you want to delete does not exist.");
+				throw new BadRequestException("The Workout you want to delete does not exist.");
 			}
 
 			_dbContext.Workouts.Remove(entity);
@@ -111,7 +112,7 @@ namespace GymJournal.Data.Repositories
 
 			if (entity == null)
 			{
-				throw new Exception("The Workout you want to GetById does not exist.");
+				throw new BadRequestException("The Workout you want to GetById does not exist.");
 			}
 
 			return new GetByIdWorkoutResponse
@@ -152,7 +153,7 @@ namespace GymJournal.Data.Repositories
 
 			if (entityToUpdate == null)
 			{
-				throw new Exception("The Workout you want to update does not exist.");
+				throw new BadRequestException("The Workout you want to update does not exist.");
 			}
 
 			if (command.Name != null) { entityToUpdate.Name = command.Name; }
