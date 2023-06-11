@@ -26,7 +26,7 @@ namespace GymJournal.App.Services.API
 			_constantsService = constantsService ?? throw new ArgumentNullException(nameof(constantsService));
 		}
 
-		public async Task AddUser(string userName, string password)
+		public async Task Add(string userName, string password)
 		{
 			HttpClient httpClient = new HttpClient();
 
@@ -52,6 +52,7 @@ namespace GymJournal.App.Services.API
 
 				_identityService.UserId = responseObject.UserId;
 				_identityService.UserToken = responseObject.UserToken;
+				_identityService.IsAuthenticated = true;
 				_identityService.UserRole = responseObject.UserRole;
 			}
 			else
@@ -80,8 +81,11 @@ namespace GymJournal.App.Services.API
 			HttpContent content = new StringContent(JsonSerializer.Serialize(command), Encoding.UTF8, "application/json");
 
 			var response = await httpClient.PostAsync(url, content);
-
-			if (!response.IsSuccessStatusCode)
+			if (response.IsSuccessStatusCode)
+			{
+				_identityService.IsAuthenticated = false;
+			}
+			else
 			{
 				throw new ServerRequestException(await response.Content.ReadAsStringAsync());
 			}
@@ -181,6 +185,7 @@ namespace GymJournal.App.Services.API
 
 				_identityService.UserId = responseObject.UserId;
 				_identityService.UserToken = responseObject.UserToken;
+				_identityService.IsAuthenticated = true;
 				_identityService.UserRole = responseObject.UserRole;
 			}
 			else

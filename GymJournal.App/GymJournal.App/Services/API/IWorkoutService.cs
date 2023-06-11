@@ -9,7 +9,7 @@ namespace GymJournal.App.Services.API
 {
     public interface IWorkoutService
 	{
-		public Task<WorkoutDto> AddExercise(WorkoutDto workout);
+		public Task<WorkoutDto> Add(WorkoutDto workout);
 		public Task Delete(Guid id);
 		public Task<WorkoutDto> Update(WorkoutDto workout);
 		public Task<List<WorkoutDto>> GetAll();

@@ -30,7 +30,8 @@ public static class MauiProgram
 		builder.Services.AddSingleton<MainPage>();
 
 		builder.Services.AddSingleton<IdentityService>();
-		builder.Services.AddSingleton<ConstantsService>();
+		builder.Services.AddScoped<ConstantsService>();
+		builder.Services.AddScoped<ExceptionHandlerService>();
 
 #if DEBUG
 		builder.Logging.AddDebug();

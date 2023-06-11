@@ -25,7 +25,7 @@ namespace GymJournal.App.Services.API
 			_constantsService = constantsService ?? throw new ArgumentNullException(nameof(constantsService));
 		}
 
-		public async Task<WorkoutDto> AddExercise(WorkoutDto workout)
+		public async Task<WorkoutDto> Add(WorkoutDto workout)
 		{
 			HttpClient httpClient = new HttpClient();
 

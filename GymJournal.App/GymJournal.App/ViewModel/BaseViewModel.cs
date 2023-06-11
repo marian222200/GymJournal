@@ -11,10 +11,8 @@ namespace GymJournal.App.ViewModel
 		[ObservableProperty]
 		string title;
 
-		public bool IsNotBusy => !isBusy;
+		public bool IsNotBusy => !IsBusy;
 
-		public BaseViewModel()
-		{
-		}
+		public BaseViewModel() { }
 	}
 }

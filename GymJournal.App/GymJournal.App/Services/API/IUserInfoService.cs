@@ -9,7 +9,7 @@ namespace GymJournal.App.Services.API
 {
     public interface IUserInfoService
 	{
-		public Task AddUser(string userName, string password);
+		public Task Add(string userName, string password);
 		public Task Delete(Guid id);
 		public Task Update(UserInfoDto userInfoDto, string? password);
 		public Task<List<UserInfoDto>> GetAll();
