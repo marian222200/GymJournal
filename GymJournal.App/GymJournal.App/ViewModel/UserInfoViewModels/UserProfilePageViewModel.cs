@@ -12,12 +12,12 @@ using System.Threading.Tasks;
 
 namespace GymJournal.App.ViewModel.UserInfoViewModels
 {
-	public partial class ProfilePageViewModel : BaseViewModel
+	public partial class UserProfilePageViewModel : BaseViewModel
 	{
 		private readonly IUserInfoService _userInfoService;
 		private readonly ExceptionHandlerService _exceptionHandlerService;
 
-		public ProfilePageViewModel(IUserInfoService userInfoService, ExceptionHandlerService exceptionHandlerService)
+		public UserProfilePageViewModel(IUserInfoService userInfoService, ExceptionHandlerService exceptionHandlerService)
 		{
 			_userInfoService = userInfoService ?? throw new ArgumentNullException(nameof(userInfoService));
 			_exceptionHandlerService = exceptionHandlerService ?? throw new ArgumentNullException(nameof(exceptionHandlerService));

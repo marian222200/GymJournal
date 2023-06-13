@@ -12,13 +12,13 @@ using System.Threading.Tasks;
 
 namespace GymJournal.App.ViewModel.WorkoutViewModels
 {
-	public partial class UpsertWorkoutPageViewModel : BaseViewModel
+	public partial class WorkoutUpsertPageViewModel : BaseViewModel
 	{
 		private readonly IWorkoutService _workoutService;
 		private readonly IExerciseService _exerciseService;
 		private readonly ExceptionHandlerService _exceptionHandlerService;
 
-		public UpsertWorkoutPageViewModel(IWorkoutService workoutService, IExerciseService exerciseService, ExceptionHandlerService exceptionHandlerService)
+		public WorkoutUpsertPageViewModel(IWorkoutService workoutService, IExerciseService exerciseService, ExceptionHandlerService exceptionHandlerService)
 		{
 			_workoutService = workoutService ?? throw new ArgumentNullException(nameof(workoutService));
 			_exerciseService = exerciseService ?? throw new ArgumentNullException(nameof(exerciseService));
