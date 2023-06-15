@@ -2,6 +2,8 @@
 using CommunityToolkit.Mvvm.Input;
 using GymJournal.App.Services;
 using GymJournal.App.Services.API;
+using GymJournal.App.View;
+using GymJournal.App.View.WorkoutPages;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -14,11 +16,15 @@ namespace GymJournal.App.ViewModel
 	{
 		private readonly IUserInfoService _userInfoService;
 		private readonly ExceptionHandlerService _exceptionHandlerService;
+		private readonly IdentityService _identityService;
 
-		public UserLoginPageViewModel(IUserInfoService userInfoService, ExceptionHandlerService exceptionHandlerService)
+		public UserLoginPageViewModel(IUserInfoService userInfoService, ExceptionHandlerService exceptionHandlerService, IdentityService identityService)
 		{
 			_userInfoService = userInfoService ?? throw new ArgumentNullException(nameof(userInfoService));
 			_exceptionHandlerService = exceptionHandlerService ?? throw new ArgumentNullException(nameof(exceptionHandlerService));
+			_identityService = identityService ?? throw new ArgumentNullException(nameof(identityService));
+
+			Title = "Login";
 		}
 
 		[ObservableProperty]
@@ -37,6 +43,10 @@ namespace GymJournal.App.ViewModel
 				IsBusy = true;
 
 				await _userInfoService.Login(InputUserName, InputPassword);
+
+				_identityService.StoreIdentity();
+
+				await Shell.Current.GoToAsync($"//{nameof(WorkoutTodayPage)}", true);
 			}
 			catch (Exception ex)
 			{

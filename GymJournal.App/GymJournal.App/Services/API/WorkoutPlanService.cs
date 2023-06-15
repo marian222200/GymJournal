@@ -31,7 +31,7 @@ namespace GymJournal.App.Services.API
 
 			UriBuilder builder = new UriBuilder(_constantsService.HostAddress)
 			{
-				Path = "/WorkoutPlan/Add"
+				Path = "/WorkoutPlan/Create"
 			};
 			var url = builder.Uri.ToString();
 
@@ -50,7 +50,7 @@ namespace GymJournal.App.Services.API
 
 			if (response.IsSuccessStatusCode)
 			{
-				var responseObject = await content.ReadFromJsonAsync<AddWorkoutPlanResponse>();
+				var responseObject = await response.Content.ReadFromJsonAsync<AddWorkoutPlanResponse>();
 				return new WorkoutPlanDto
 				{
 					Id = responseObject.Id,
@@ -114,7 +114,7 @@ namespace GymJournal.App.Services.API
 
 			if (response.IsSuccessStatusCode)
 			{
-				var responseObject = await content.ReadFromJsonAsync<GetAllWorkoutPlanResponse>();
+				var responseObject = await response.Content.ReadFromJsonAsync<GetAllWorkoutPlanResponse>();
 				return responseObject.WorkoutPlans;
 			}
 			else
@@ -146,7 +146,7 @@ namespace GymJournal.App.Services.API
 
 			if (response.IsSuccessStatusCode)
 			{
-				var responseObject = await content.ReadFromJsonAsync<GetByIdWorkoutPlanResponse>();
+				var responseObject = await response.Content.ReadFromJsonAsync<GetByIdWorkoutPlanResponse>();
 				return new WorkoutPlanDto
 				{
 					Id = responseObject.Id,
@@ -187,7 +187,7 @@ namespace GymJournal.App.Services.API
 
 			if (response.IsSuccessStatusCode)
 			{
-				var responseObject = await content.ReadFromJsonAsync<UpdateWorkoutPlanResponse>();
+				var responseObject = await response.Content.ReadFromJsonAsync<UpdateWorkoutPlanResponse>();
 				return new WorkoutPlanDto
 				{
 					Id = responseObject.Id,

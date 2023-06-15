@@ -3,7 +3,6 @@ using CommunityToolkit.Mvvm.Input;
 using GymJournal.App.Services;
 using GymJournal.App.Services.API;
 using GymJournal.Domain.DTOs;
-using IntelliJ.Lang.Annotations;
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
@@ -13,6 +12,7 @@ using System.Threading.Tasks;
 
 namespace GymJournal.App.ViewModel.ExerciseViewModels
 {
+	[QueryProperty("ExerciseId", "ExerciseId")]
 	public partial class ExerciseUpsertPageViewModel : BaseViewModel
 	{
 		private readonly IExerciseService _exerciseService;
@@ -24,8 +24,13 @@ namespace GymJournal.App.ViewModel.ExerciseViewModels
 			_exerciseService = exerciseService ?? throw new ArgumentNullException(nameof(exerciseService));
 			_muscleService = muscleService ?? throw new ArgumentNullException(nameof(muscleService));
 			_exceptionHandlerService = exceptionHandlerService ?? throw new ArgumentNullException(nameof(exceptionHandlerService));
+
+			if (ExerciseId == Guid.Empty)
+				Title = "Add a new Exercise";
+			else Title = "Update Exercise";
 		}
 
+		public Guid ExerciseId { get; set; }
 		[ObservableProperty]
 		public ExerciseDto upsertExercise;
 
@@ -40,6 +45,8 @@ namespace GymJournal.App.ViewModel.ExerciseViewModels
 				IsBusy = true;
 
 				Muscles = new ObservableCollection<MuscleDto>(await _muscleService.GetAll());
+
+				if (ExerciseId != Guid.Empty) UpsertExercise = await _exerciseService.GetById(ExerciseId);
 			}
 			catch (Exception ex)
 			{
@@ -52,7 +59,7 @@ namespace GymJournal.App.ViewModel.ExerciseViewModels
 		}
 
 		[RelayCommand]
-		public async Task Update()
+		public async Task SendForm()
 		{
 			if (IsBusy) return;
 
@@ -60,28 +67,12 @@ namespace GymJournal.App.ViewModel.ExerciseViewModels
 			{
 				IsBusy = true;
 
-				UpsertExercise = await _exerciseService.Update(UpsertExercise);
-			}
-			catch (Exception ex)
-			{
-				await _exceptionHandlerService.HandleException(ex);
-			}
-			finally
-			{
-				IsBusy = false;
-			}
-		}
+				if (ExerciseId == Guid.Empty)
+					UpsertExercise = await _exerciseService.Add(UpsertExercise);
+				else
+					UpsertExercise = await _exerciseService.Update(UpsertExercise);
 
-		[RelayCommand]
-		public async Task Add()
-		{
-			if (IsBusy) return;
-
-			try
-			{
-				IsBusy = true;
-
-				UpsertExercise = await _exerciseService.Add(UpsertExercise);
+				await Shell.Current.Navigation.PopAsync();
 			}
 			catch (Exception ex)
 			{

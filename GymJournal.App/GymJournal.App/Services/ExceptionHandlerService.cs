@@ -13,6 +13,10 @@ namespace GymJournal.App.Services
 		{
 			if (ex is ServerRequestException)
 				await Shell.Current.DisplayAlert("Server Request Error", ex.Message, "OK");
+			else
+			{
+				await Shell.Current.DisplayAlert("Error", ex.Message, "OK");
+			}
 		}
 	}
 }

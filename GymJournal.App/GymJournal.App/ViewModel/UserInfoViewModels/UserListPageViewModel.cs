@@ -9,7 +9,6 @@ using System.Collections.ObjectModel;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using static Android.Provider.ContactsContract;
 
 namespace GymJournal.App.ViewModel.UserInfoViewModels
 {

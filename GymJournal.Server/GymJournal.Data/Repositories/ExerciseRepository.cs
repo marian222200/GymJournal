@@ -28,7 +28,6 @@ namespace GymJournal.Data.Repositories
 			{
 				Name = command.Name,
 				Description = command.Description,
-				Likes = 0,
 				Muscles = await _dbContext.Muscles.Where(m => command.MuscleIds.Contains(m.Id)).ToListAsync(),
 				Workouts = await _dbContext.Workouts.Where(w => command.WorkoutIds.Contains(w.Id)).ToListAsync(),
 			};
@@ -41,7 +40,6 @@ namespace GymJournal.Data.Repositories
 				Id = entity.Id,
 				Name = entity.Name,
 				Description = entity.Description,
-				Likes = entity.Likes,
 				Muscles = entity.Muscles.Select(m => new MuscleDto
 				{
 					Id = m.Id,
@@ -84,7 +82,6 @@ namespace GymJournal.Data.Repositories
 					Id = entity.Id,
 					Name = entity.Name,
 					Description = entity.Description,
-					Likes = entity.Likes,
 					Muscles = entity.Muscles.Select(m => new MuscleDto
 					{
 						Id = m.Id,
@@ -122,7 +119,6 @@ namespace GymJournal.Data.Repositories
 				Id = entity.Id,
 				Name = entity.Name,
 				Description = entity.Description,
-				Likes = entity.Likes,
 				Muscles = entity.Muscles.Select(m => new MuscleDto
 				{
 					Id = m.Id,
@@ -161,7 +157,6 @@ namespace GymJournal.Data.Repositories
 
 			if (command.Name != null) { entityToUpdate.Name = command.Name; }
 			if (command.Description != null) { entityToUpdate.Description = command.Description; }
-			if (command.Likes != null) { entityToUpdate.Likes = command.Likes.Value; }
 			if (command.MuscleIds != null) { entityToUpdate.Muscles = 
 					await _dbContext.Muscles.Where(m => command.MuscleIds.Contains(m.Id)).ToListAsync(); }
 			if (command.WorkoutIds != null) { entityToUpdate.Workouts = 
@@ -174,7 +169,6 @@ namespace GymJournal.Data.Repositories
 				Id = entityToUpdate.Id,
 				Name = entityToUpdate.Name,
 				Description = entityToUpdate.Description,
-				Likes = entityToUpdate.Likes,
 				Muscles = entityToUpdate.Muscles.Select(m => new MuscleDto
 				{
 					Id = m.Id,

@@ -4,7 +4,6 @@ namespace GymJournal.App.ViewModel
 {
 	public partial class BaseViewModel : ObservableObject
 	{
-
 		[ObservableProperty]
 		[NotifyPropertyChangedFor(nameof(IsNotBusy))]
 		bool isBusy;

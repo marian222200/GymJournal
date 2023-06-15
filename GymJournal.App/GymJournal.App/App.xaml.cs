@@ -4,7 +4,7 @@ namespace GymJournal.App;
 
 public partial class App : Application
 {
-	private IdentityService _identityService; 
+	private IdentityService _identityService;
 	public App(IdentityService identityService)
 	{
 		_identityService = identityService ?? throw new ArgumentNullException(nameof(identityService));

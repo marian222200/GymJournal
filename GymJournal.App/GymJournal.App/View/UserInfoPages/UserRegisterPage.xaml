@@ -1,0 +1,105 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:viewmodel="clr-namespace:GymJournal.App.ViewModel"
+             x:DataType="viewmodel:UserRegisterPageViewModel"
+             x:Class="GymJournal.App.View.UserInfoPages.UserRegisterPage"
+             Title="{Binding Title}">
+
+    <Grid ColumnDefinitions="*"
+          RowDefinitions="auto,auto,auto,auto,auto,auto,auto,auto,auto,auto"
+          RowSpacing="10"
+          Margin="20">
+        <Label Text="UserName"
+               FontSize="20"
+               FontAttributes="Bold"
+               HorizontalOptions="Start"
+               VerticalOptions="Center"
+               Grid.Row="0"
+               Margin="0,15,0,0">
+        </Label>
+        <Label Text="{Binding UserNameValidationResult}"
+               IsVisible="{Binding IsUserNameInvalid}"
+               FontSize="15"
+               TextColor="Red"
+               HorizontalOptions="Start"
+               VerticalOptions="Center"
+               Grid.Row="1">
+        </Label>
+        <Entry Text="{Binding InputUserName}"
+               Placeholder="User Name"
+               FontSize="15"
+               HorizontalOptions="Start"
+               VerticalOptions="Center"
+               Grid.Row="2"
+               ReturnType="Next"
+               MaxLength="20"
+               MinimumWidthRequest="200">
+        </Entry>
+        <Label Text="Password"
+               FontSize="20"
+               FontAttributes="Bold"
+               HorizontalOptions="Start"
+               VerticalOptions="Center"
+               Grid.Row="3"
+               Margin="0,50,0,0">
+        </Label>
+        <Label Text="{Binding PasswordValidationResult}"
+               IsVisible="{Binding IsPasswordInvalid}"
+               FontSize="15"
+               TextColor="Red"
+               HorizontalOptions="Start"
+               VerticalOptions="Center"
+               Grid.Row="4">
+        </Label>
+        <Entry Text="{Binding InputPassword}"
+               IsPassword="True"
+               Placeholder="Password"
+               FontSize="15"
+               HorizontalOptions="StartAndExpand"
+               VerticalOptions="Center"
+               Grid.Row="5"
+               MaxLength="20"
+               MinimumWidthRequest="200"
+               ReturnType="Next">
+        </Entry>
+        <Label Text="Repeat Password"
+               FontSize="20"
+               FontAttributes="Bold"
+               HorizontalOptions="Start"
+               VerticalOptions="Center"
+               Grid.Row="6"
+               Margin="0,50,0,0">
+        </Label>
+        <Label Text="{Binding RepeatPasswordValidationResult}"
+               IsVisible="{Binding IsRepeatPasswordInvalid}"
+               FontSize="15"
+               TextColor="Red"
+               HorizontalOptions="Start"
+               VerticalOptions="Center"
+               Grid.Row="7">
+        </Label>
+        <Entry Text="{Binding InputRepeatPassword}"
+               IsPassword="True"
+               Placeholder="Repeat Password"
+               FontSize="15"
+               HorizontalOptions="StartAndExpand"
+               VerticalOptions="Center"
+               Grid.Row="8"
+               MaxLength="20"
+               MinimumWidthRequest="200"
+               ReturnType="Done"
+               ReturnCommand="{Binding RegisterCommand}">
+        </Entry>
+        <Button Text="Register"
+                FontSize="15"
+                FontAttributes="Bold"
+                HorizontalOptions="End"
+                VerticalOptions="Center"
+                Grid.Row="9"
+                Margin="0,35,0,0"
+                Padding="30,10,30,10"
+                Command="{Binding RegisterCommand}">
+        </Button>
+    </Grid>
+</ContentPage>

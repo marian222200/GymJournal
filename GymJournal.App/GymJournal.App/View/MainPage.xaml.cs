@@ -8,6 +8,7 @@ public partial class MainPage : ContentPage
 	{
 		InitializeComponent();
 		BindingContext = viewModel;
+		Title = viewModel.Title;
 	}
 
 	protected override async void OnAppearing()

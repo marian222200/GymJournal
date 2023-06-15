@@ -11,6 +11,7 @@ using System.Threading.Tasks;
 
 namespace GymJournal.App.ViewModel.ExerciseViewModels
 {
+	[QueryProperty("ExerciseId","ExerciseId")]
 	public partial class ExerciseDetailsPageViewModel : BaseViewModel
 	{
 		private readonly IExerciseService _exerciseService;
@@ -20,7 +21,11 @@ namespace GymJournal.App.ViewModel.ExerciseViewModels
 		{
 			_exerciseService = exerciseService ?? throw new ArgumentNullException(nameof(exerciseService));
 			_exceptionHandlerService = exceptionHandlerService ?? throw new ArgumentNullException(nameof(exceptionHandlerService));
+
+			Title = "Exercise Details";
 		}
+
+		public Guid ExerciseId { get; set; }
 
 		[ObservableProperty]
 		public ExerciseDto detailsExercise;
@@ -33,7 +38,9 @@ namespace GymJournal.App.ViewModel.ExerciseViewModels
 			{
 				IsBusy = true;
 
-				DetailsExercise = await _exerciseService.GetById(DetailsExercise.Id);
+				DetailsExercise = await _exerciseService.GetById(ExerciseId);
+
+				Title = DetailsExercise.Name;
 			}
 			catch (Exception ex)
 			{

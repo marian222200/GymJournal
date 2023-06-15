@@ -1,33 +1,62 @@
 ﻿<?xml version="1.0" encoding="utf-8" ?>
 <ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
-             xmlns:model="clr-namespace:GymJournal.Domain.DTOs;assembly=GymJournal.Domain"
              xmlns:viewmodel="clr-namespace:GymJournal.App.ViewModel"
              x:DataType="viewmodel:MainPageViewModel"
              x:Class="GymJournal.App.View.MainPage"
              Title="{Binding Title}">
 
-    <Grid ColumnDefinitions="*,*">
-        <CollectionView Background="Transparent" 
-                        Grid.ColumnSpan="2"
-                        ItemsSource="{Binding Exercises}"
-                        SelectionMode="None">
-            <CollectionView.ItemTemplate>
-                <DataTemplate x:DataType="model:ExerciseDto">
-                    <VerticalStackLayout Padding="10">
-                        <Label Text="{Binding Name}" FontSize="20"></Label>
-                        <Label Text="{Binding Likes, StringFormat='{0:### ### ###} Likes'}" FontSize="15"></Label>
-                    </VerticalStackLayout>
-                </DataTemplate>
-            </CollectionView.ItemTemplate>
-        </CollectionView>
-
-        <ActivityIndicator IsVisible="{Binding IsBusy}"
-                           IsRunning="{Binding IsBusy}"
-                           HorizontalOptions="FillAndExpand"
-                           VerticalOptions="CenterAndExpand"
-                           Grid.RowSpan ="2"
-                           Grid.ColumnSpan="2">
-        </ActivityIndicator>
+    <Grid ColumnDefinitions="*"
+          RowDefinitions="*,*"
+          Margin="10">
+        <Grid ColumnDefinitions="*"
+              RowDefinitions="auto, auto"
+              HorizontalOptions="Center"
+              VerticalOptions="Start"
+              Grid.Row="0"
+              Margin="0,100,0,0"
+              RowSpacing="20">
+            <Label Text="GymJournal"
+                   FontSize="35"
+                   FontAttributes="Bold"
+                   HorizontalOptions="Center"
+                   VerticalOptions="Center"
+                   Grid.Row="0">
+            </Label>
+            <Label Text="Workout Tracker"
+                   FontSize="20"
+                   HorizontalOptions="Center"
+                   VerticalOptions="Center"
+                   Grid.Row="1">
+            </Label>
+        </Grid>
+        <Grid ColumnDefinitions="*"
+              RowDefinitions="auto, auto"
+              HorizontalOptions="Center"
+              VerticalOptions="End"
+              Grid.Row="1"
+              Margin="0,0,0,100"
+              RowSpacing="20">
+            <Button Text="Log in"
+                    IsVisible="{Binding IsNotBusy}"
+                    FontSize="20"
+                    FontAttributes="Bold"
+                    HorizontalOptions="Center"
+                    VerticalOptions="Center"
+                    Grid.Row="0"
+                    Padding="30,10,30,10"
+                    Command="{Binding GoToLoginCommand}">
+            </Button>
+            <Button Text="Register"
+                    IsVisible="{Binding IsNotBusy}"
+                    FontSize="20"
+                    FontAttributes="Bold"
+                    HorizontalOptions="Center"
+                    VerticalOptions="Center"
+                    Grid.Row="1"
+                    Padding="30,10,30,10"
+                    Command="{Binding GoToRegisterCommand}">
+            </Button>
+        </Grid>
     </Grid>
 </ContentPage>

@@ -1,6 +1,7 @@
 ﻿using CommunityToolkit.Mvvm.Input;
 using GymJournal.App.Services;
 using GymJournal.App.Services.API;
+using GymJournal.App.View.WorkoutPages;
 using GymJournal.Domain.DTOs;
 using System;
 using System.Collections.Generic;
@@ -20,9 +21,11 @@ namespace GymJournal.App.ViewModel.WorkoutViewModels
 		{
 			_workoutService = workoutService ?? throw new ArgumentNullException(nameof(workoutService));
 			_exceptionHandlerService = exceptionHandlerService ?? throw new ArgumentNullException(nameof(exceptionHandlerService));
+
+			Title = "Explore";
 		}
 
-		public ObservableCollection<WorkoutDto> Workouts;
+		public ObservableCollection<WorkoutDto> Workouts { get; } = new();
 
 		public async Task OnAppearing()
 		{
@@ -32,7 +35,13 @@ namespace GymJournal.App.ViewModel.WorkoutViewModels
 			{
 				IsBusy = true;
 
-				Workouts = new ObservableCollection<WorkoutDto>(await _workoutService.GetAll());
+				var workouts = new ObservableCollection<WorkoutDto>(await _workoutService.GetAll());
+
+				if (Workouts.Count > 0)
+					Workouts.Clear();
+
+				foreach (var workout in workouts)
+					Workouts.Add(workout);
 			}
 			catch (Exception ex)
 			{
@@ -45,24 +54,26 @@ namespace GymJournal.App.ViewModel.WorkoutViewModels
 		}
 
 		[RelayCommand]
-		public async void Delete(Guid id)
+		public async Task GoToDetailsAsync(WorkoutDto workout)
 		{
-			if (IsBusy) return;
+			if (workout is null)
+				return;
 
-			try
-			{
-				IsBusy = true;
+			await Shell.Current.GoToAsync($"{nameof(WorkoutDetailsPage)}", true,
+				new Dictionary<string, object>
+				{
+					{"WorkoutId", workout.Id}
+				});
+		}
 
-				await _workoutService.Delete(id);
-			}
-			catch (Exception ex)
-			{
-				await _exceptionHandlerService.HandleException(ex);
-			}
-			finally
-			{
-				IsBusy = false;
-			}
+		[RelayCommand]
+		public async Task GoToAddAsync()
+		{
+			await Shell.Current.GoToAsync($"{nameof(WorkoutUpsertPage)}", true,
+				new Dictionary<string, object>
+				{
+					{"WorkoutId", Guid.Empty}
+				});
 		}
 	}
 }

@@ -12,7 +12,7 @@ using System.Threading.Tasks;
 
 namespace GymJournal.App.ViewModel.WorkoutPlanViewModels
 {
-
+	[QueryProperty("WorkoutPlanId","WorkoutPlanId")]
 	public partial class WorkoutPlanUpsertPageViewModel : BaseViewModel
 	{
 		private readonly IWorkoutPlanService _workoutPlanService;
@@ -24,8 +24,13 @@ namespace GymJournal.App.ViewModel.WorkoutPlanViewModels
 			_workoutPlanService = workoutPlanService ?? throw new ArgumentNullException(nameof(workoutPlanService));
 			_workoutService = workoutService ?? throw new ArgumentNullException(nameof(workoutService));
 			_exceptionHandlerService = exceptionHandlerService ?? throw new ArgumentNullException(nameof(exceptionHandlerService));
+
+			if (WorkoutPlanId == Guid.Empty)
+				Title = "Add a new Exercise";
+			else Title = "Update Exercise";
 		}
 
+		public Guid WorkoutPlanId { get; set; }
 		[ObservableProperty]
 		public WorkoutPlanDto upsertWorkoutPlan;
 
@@ -40,6 +45,8 @@ namespace GymJournal.App.ViewModel.WorkoutPlanViewModels
 				IsBusy = true;
 
 				Workouts = new ObservableCollection<WorkoutDto>(await _workoutService.GetAll());
+
+				if(WorkoutPlanId != Guid.Empty) UpsertWorkoutPlan = await _workoutPlanService.GetById(WorkoutPlanId);
 			}
 			catch (Exception ex)
 			{
@@ -52,7 +59,7 @@ namespace GymJournal.App.ViewModel.WorkoutPlanViewModels
 		}
 
 		[RelayCommand]
-		public async Task Update()
+		public async Task SendForm()
 		{
 			if (IsBusy) return;
 
@@ -60,28 +67,12 @@ namespace GymJournal.App.ViewModel.WorkoutPlanViewModels
 			{
 				IsBusy = true;
 
-				UpsertWorkoutPlan = await _workoutPlanService.Update(UpsertWorkoutPlan);
-			}
-			catch (Exception ex)
-			{
-				await _exceptionHandlerService.HandleException(ex);
-			}
-			finally
-			{
-				IsBusy = false;
-			}
-		}
+				if (WorkoutPlanId == Guid.Empty)
+					UpsertWorkoutPlan = await _workoutPlanService.Add(UpsertWorkoutPlan);
+				else
+					UpsertWorkoutPlan = await _workoutPlanService.Update(UpsertWorkoutPlan);
 
-		[RelayCommand]
-		public async Task Add()
-		{
-			if (IsBusy) return;
-
-			try
-			{
-				IsBusy = true;
-
-				UpsertWorkoutPlan = await _workoutPlanService.Add(UpsertWorkoutPlan);
+				await Shell.Current.Navigation.PopAsync();
 			}
 			catch (Exception ex)
 			{

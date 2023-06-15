@@ -4,11 +4,61 @@
     xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
     xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
     xmlns:local="clr-namespace:GymJournal.App.View"
-    Shell.FlyoutBehavior="Disabled">
+    xmlns:workoutPages="clr-namespace:GymJournal.App.View.WorkoutPages"
+    xmlns:exercisePages="clr-namespace:GymJournal.App.View.ExercisePages"
+    xmlns:workoutPlanPages="clr-namespace:GymJournal.App.View.WorkoutPlanPages"
+    Shell.TabBarIsVisible="False">
 
     <ShellContent
         Title="Home"
         ContentTemplate="{DataTemplate local:MainPage}"
-        Route="MainPage" />
+        Route="MainPage"
+        FlyoutItemIsVisible="False"
+        Shell.FlyoutBehavior="Disabled"/>
+
+    <FlyoutItem Route="WorkoutTodayPage"
+                FlyoutDisplayOptions="AsMultipleItems">
+        <ShellContent Title="Today's Workout" ContentTemplate="{DataTemplate workoutPages:WorkoutTodayPage}"/>
+    </FlyoutItem>
+    <FlyoutItem Title="Explore"
+                Route="Explore"
+                FlyoutDisplayOptions="AsSingleItem">
+        <Tab>
+            <ShellContent Title="Exercises" 
+                          ContentTemplate="{DataTemplate exercisePages:ExerciseListPage}"/>
+            <ShellContent Title="Workouts" 
+                          ContentTemplate="{DataTemplate workoutPages:WorkoutListPage}"/>
+            <ShellContent Title="Workout Plans" 
+                          ContentTemplate="{DataTemplate workoutPlanPages:WorkoutPlanListPage}"/>
+            <!--Trainers Page-->
+        </Tab>
+    </FlyoutItem>
+    <FlyoutItem Title="Profile"
+                Route="Profile"
+                FlyoutDisplayOptions="AsSingleItem">
+    </FlyoutItem>
+    <FlyoutItem Title="Library"
+                Route="Library"
+                FlyoutDisplayOptions="AsSingleItem">
+    </FlyoutItem>
+    <FlyoutItem Title="Trainer"
+                Route="Trainer"
+                FlyoutDisplayOptions="AsSingleItem">
+    </FlyoutItem>
+    <FlyoutItem Title="Admin"
+                Route="Admin"
+                FlyoutDisplayOptions="AsSingleItem">
+    </FlyoutItem>
+    <Shell.FlyoutFooter>
+        <StackLayout>
+            <Button Text="Sign Out"
+                    Margin="20"
+                    FontSize="15"
+                    VerticalOptions="Center"
+                    HorizontalOptions="Center"
+                    FontAttributes="Bold"
+                    Padding="30,10,30,10"/>
+        </StackLayout>
+    </Shell.FlyoutFooter>
 
 </Shell>

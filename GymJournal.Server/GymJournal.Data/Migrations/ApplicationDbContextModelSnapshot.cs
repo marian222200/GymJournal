@@ -62,9 +62,6 @@ namespace GymJournal.Interface.Data.Migrations
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<int>("Likes")
-                        .HasColumnType("int");
-
                     b.Property<string>("Name")
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
@@ -189,7 +186,7 @@ namespace GymJournal.Interface.Data.Migrations
                         {
                             Id = new Guid("42282faf-05a4-48ff-b062-65fed7b5e84a"),
                             Name = "Admin",
-                            Password = "$2a$11$/LczuNMEzUqYtdPOiHoE6.EMXyydBl9nPCjR/XWtRf0fs5w4B77te",
+                            Password = "$2a$11$2vY5cml5zqY34Q8ZppZ4cepzvTz81bHc2PxKIStZAIoMIBRnik172",
                             Role = "Admin",
                             Token = new Guid("8ae01d7d-3965-4b7e-b8af-e12fd5f588f6")
                         });

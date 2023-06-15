@@ -1,6 +1,7 @@
 ﻿using CommunityToolkit.Mvvm.Input;
 using GymJournal.App.Services;
 using GymJournal.App.Services.API;
+using GymJournal.App.View.WorkoutPlanPages;
 using GymJournal.Domain.DTOs;
 using System;
 using System.Collections.Generic;
@@ -20,9 +21,11 @@ namespace GymJournal.App.ViewModel.WorkoutPlanViewModels
 		{
 			_workoutPlanService = workoutPlanService ?? throw new ArgumentNullException(nameof(workoutPlanService));
 			_exceptionHandlerService = exceptionHandlerService ?? throw new ArgumentNullException(nameof(exceptionHandlerService));
+
+			Title = "Explore";
 		}
 
-		public ObservableCollection<WorkoutPlanDto> WorkoutPlans;
+		public ObservableCollection<WorkoutPlanDto> WorkoutPlans { get; } = new();
 
 		public async Task OnAppearing()
 		{
@@ -32,7 +35,13 @@ namespace GymJournal.App.ViewModel.WorkoutPlanViewModels
 			{
 				IsBusy = true;
 
-				WorkoutPlans = new ObservableCollection<WorkoutPlanDto>(await _workoutPlanService.GetAll());
+				var workoutPlans = new ObservableCollection<WorkoutPlanDto>(await _workoutPlanService.GetAll());
+
+				if (WorkoutPlans.Count > 0)
+					WorkoutPlans.Clear();
+
+				foreach (var workoutPlan in workoutPlans)
+					WorkoutPlans.Add(workoutPlan);
 			}
 			catch (Exception ex)
 			{
@@ -45,24 +54,26 @@ namespace GymJournal.App.ViewModel.WorkoutPlanViewModels
 		}
 
 		[RelayCommand]
-		public async void Delete(Guid id)
+		public async Task GoToDetailsAsync(WorkoutPlanDto workoutPlan)
 		{
-			if (IsBusy) return;
+			if (workoutPlan is null)
+				return;
 
-			try
-			{
-				IsBusy = true;
+			await Shell.Current.GoToAsync($"{nameof(WorkoutPlanDetailsPage)}", true,
+				new Dictionary<string, object>
+				{
+					{"WorkoutPlanId", workoutPlan.Id}
+				});
+		}
 
-				await _workoutPlanService.Delete(id);
-			}
-			catch (Exception ex)
-			{
-				await _exceptionHandlerService.HandleException(ex);
-			}
-			finally
-			{
-				IsBusy = false;
-			}
+		[RelayCommand]
+		public async Task GoToAddAsync()
+		{
+			await Shell.Current.GoToAsync($"{nameof(WorkoutPlanUpsertPage)}", true,
+				new Dictionary<string, object>
+				{
+					{"WorkoutPlanId", Guid.Empty}
+				});
 		}
 	}
 }

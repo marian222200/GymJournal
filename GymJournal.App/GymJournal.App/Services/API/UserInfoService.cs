@@ -32,7 +32,7 @@ namespace GymJournal.App.Services.API
 
 			UriBuilder builder = new UriBuilder(_constantsService.HostAddress)
 			{
-				Path = "/UserInfo/Add"
+				Path = "/UserInfo/Create"
 			};
 			var url = builder.Uri.ToString();
 
@@ -48,7 +48,7 @@ namespace GymJournal.App.Services.API
 
 			if (response.IsSuccessStatusCode)
 			{
-				var responseObject = await content.ReadFromJsonAsync<AddUserInfoResponse>();
+				var responseObject = await response.Content.ReadFromJsonAsync<AddUserInfoResponse>();
 
 				_identityService.UserId = responseObject.UserId;
 				_identityService.UserToken = responseObject.UserToken;
@@ -113,7 +113,7 @@ namespace GymJournal.App.Services.API
 
 			if (response.IsSuccessStatusCode)
 			{
-				var responseObject = await content.ReadFromJsonAsync<GetAllUserInfoResponse>();
+				var responseObject = await response.Content.ReadFromJsonAsync<GetAllUserInfoResponse>();
 				return responseObject.UserInfos;
 			}
 			else
@@ -145,7 +145,7 @@ namespace GymJournal.App.Services.API
 
 			if (response.IsSuccessStatusCode)
 			{
-				var responseObject = await content.ReadFromJsonAsync<GetByIdUserInfoResponse>();
+				var responseObject = await response.Content.ReadFromJsonAsync<GetByIdUserInfoResponse>();
 				return new UserInfoDto
 				{
 					Id = responseObject.Id,
@@ -181,7 +181,7 @@ namespace GymJournal.App.Services.API
 
 			if (response.IsSuccessStatusCode)
 			{
-				var responseObject = await content.ReadFromJsonAsync<LoginUserInfoResponse>();
+				var responseObject = await response.Content.ReadFromJsonAsync<LoginUserInfoResponse>();
 
 				_identityService.UserId = responseObject.UserId;
 				_identityService.UserToken = responseObject.UserToken;
@@ -220,7 +220,7 @@ namespace GymJournal.App.Services.API
 
 			if (response.IsSuccessStatusCode)
 			{
-				var responseObject = await content.ReadFromJsonAsync<UpdateUserInfoResponse>();
+				var responseObject = await response.Content.ReadFromJsonAsync<UpdateUserInfoResponse>();
 
 				if (_identityService.UserRole != "Admin")
 				{

@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:viewmodel="clr-namespace:GymJournal.App.ViewModel.WorkoutViewModels"
+             xmlns:model="clr-namespace:GymJournal.Domain.DTOs;assembly=GymJournal.Domain"
+             x:DataType="viewmodel:WorkoutDetailsPageViewModel"
+             x:Class="GymJournal.App.View.WorkoutPages.WorkoutDetailsPage"
+             Title="{Binding Title}">
+    <VerticalStackLayout
+        Margin="0,80,0,10"
+        Spacing="80">
+        <Label Text="{Binding DetailsWorkout.Name}"
+                   FontSize="35"
+                   FontAttributes="Bold"
+                   HorizontalOptions="Center"
+                   VerticalOptions="Center">
+        </Label>
+        <Label Text="{Binding DetailsWorkout.Description}"
+                   FontSize="20"
+                   HorizontalOptions="Center"
+                   VerticalOptions="Center">
+        </Label>
+        <CollectionView Background="Transparent"
+                        SelectionMode="None"
+                        ItemsSource="{Binding DetailsWorkout.Exercises}">
+            <CollectionView.ItemTemplate>
+                <DataTemplate x:DataType="model:ExerciseDto">
+                    <Grid Padding="10">
+                        <Frame Padding="20">
+                            <Label FontSize="20"
+                                   Text="{Binding Name}"
+                                   VerticalOptions="Center"
+                                   HorizontalOptions="Center"
+                                   FontAttributes="Bold">
+                            </Label>
+                        </Frame>
+                    </Grid>
+                </DataTemplate>
+            </CollectionView.ItemTemplate>
+        </CollectionView>
+    </VerticalStackLayout>
+</ContentPage>

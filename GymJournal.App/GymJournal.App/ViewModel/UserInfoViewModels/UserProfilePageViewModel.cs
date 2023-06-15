@@ -1,6 +1,5 @@
 ﻿using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
-using Google.Android.Material.BottomNavigation;
 using GymJournal.App.Services;
 using GymJournal.App.Services.API;
 using GymJournal.Domain.DTOs;
