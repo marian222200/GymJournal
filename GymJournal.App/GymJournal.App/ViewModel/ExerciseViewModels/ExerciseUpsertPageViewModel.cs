@@ -26,13 +26,22 @@ namespace GymJournal.App.ViewModel.ExerciseViewModels
 			_exceptionHandlerService = exceptionHandlerService ?? throw new ArgumentNullException(nameof(exceptionHandlerService));
 
 			if (ExerciseId == Guid.Empty)
+			{
 				Title = "Add a new Exercise";
-			else Title = "Update Exercise";
+				ButtonName = "Add";
+			}
+			else
+			{
+				Title = "Update Exercise";
+				ButtonName = "Update";
+			}
 		}
 
 		public Guid ExerciseId { get; set; }
 		[ObservableProperty]
 		public ExerciseDto upsertExercise;
+		[ObservableProperty]
+		public string buttonName;
 
 		public ObservableCollection<MuscleDto> Muscles;
 

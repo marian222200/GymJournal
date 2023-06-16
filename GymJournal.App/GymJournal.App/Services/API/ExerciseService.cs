@@ -57,7 +57,6 @@ namespace GymJournal.App.Services.API
 					Id = responseObject.Id,
 					Name = responseObject.Name,
 					Description = responseObject.Description,
-					Likes = responseObject.Likes,
 					Muscles = responseObject.Muscles,
 					Workouts = responseObject.Workouts,
 				};
@@ -155,7 +154,6 @@ namespace GymJournal.App.Services.API
 					Id = responseObject.Id,
 					Name = responseObject.Name,
 					Description = responseObject.Description,
-					Likes = responseObject.Likes,
 					Muscles = responseObject.Muscles,
 					Workouts = responseObject.Workouts,
 				};
@@ -183,7 +181,6 @@ namespace GymJournal.App.Services.API
 				ExerciseId = exercise.Id,
 				Name = exercise.Name,
 				Description = exercise.Description,
-				Likes = exercise.Likes,
 				MuscleIds = exercise.Muscles.Select(m => m.Id).ToArray(),
 				WorkoutIds = exercise.Workouts.Select(w => w.Id).ToArray(),
 			};
@@ -200,7 +197,6 @@ namespace GymJournal.App.Services.API
 					Id = responseObject.Id,
 					Name = responseObject.Name,
 					Description = responseObject.Description,
-					Likes = responseObject.Likes,
 					Muscles = responseObject.Muscles,
 					Workouts = responseObject.Workouts,
 				};

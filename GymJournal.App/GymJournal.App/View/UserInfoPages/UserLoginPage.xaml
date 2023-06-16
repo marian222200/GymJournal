@@ -40,7 +40,7 @@
                IsPassword="True"
                Placeholder="Password"
                FontSize="15"
-               HorizontalOptions="StartAndExpand"
+               HorizontalOptions="Start"
                VerticalOptions="Center"
                Grid.Row="3"
                MaxLength="20"

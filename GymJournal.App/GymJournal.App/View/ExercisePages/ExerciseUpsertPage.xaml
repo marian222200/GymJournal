@@ -1,12 +1,95 @@
 <?xml version="1.0" encoding="utf-8" ?>
 <ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:model="clr-namespace:GymJournal.Domain.DTOs;assembly=GymJournal.Domain"
+             xmlns:viewmodel="clr-namespace:GymJournal.App.ViewModel.ExerciseViewModels"
+             x:DataType="viewmodel:ExerciseUpsertPageViewModel"
              x:Class="GymJournal.App.View.ExercisePages.ExerciseUpsertPage"
-             Title="ExerciseUpsertPage">
-    <VerticalStackLayout>
-        <Label 
-            Text="Welcome to .NET MAUI!"
-            VerticalOptions="Center" 
-            HorizontalOptions="Center" />
-    </VerticalStackLayout>
+             Title="{Binding Title}">
+    <Grid ColumnDefinitions="*"
+          RowDefinitions="auto,auto,auto,auto,auto,*,auto"
+          RowSpacing="10"
+          Margin="20">
+        <Label Text="Exercise Name"
+               FontSize="20"
+               FontAttributes="Bold"
+               HorizontalOptions="Start"
+               VerticalOptions="Center"
+               Grid.Row="0"
+               Margin="0,15,0,0">
+        </Label>
+        <Entry Text="{Binding UpsertExercise.Name}"
+               Placeholder="Exercise Name"
+               FontSize="15"
+               HorizontalOptions="Start"
+               VerticalOptions="Center"
+               Grid.Row="1"
+               ReturnType="Next"
+               MaxLength="20"
+               MinimumWidthRequest="200">
+        </Entry>
+        <Label Text="Description"
+               FontSize="20"
+               FontAttributes="Bold"
+               HorizontalOptions="Start"
+               VerticalOptions="Center"
+               Grid.Row="2"
+               Margin="0,50,0,0">
+        </Label>
+        <Entry Text="{Binding UpsertExercise.Description}"
+               IsPassword="True"
+               FontSize="15"
+               HorizontalOptions="Start"
+               VerticalOptions="Center"
+               Grid.Row="3"
+               MaxLength="100"
+               MinimumWidthRequest="200"
+               ReturnType="Next">
+        </Entry>
+        <Label Text="Muscles"
+               FontSize="20"
+               FontAttributes="Bold"
+               HorizontalOptions="Start"
+               VerticalOptions="Center"
+               Grid.Row="4"
+               Margin="0,50,0,0">
+        </Label>
+        <CollectionView Grid.Row="5"
+                        SelectionMode="Multiple"
+                        SelectionChanged=""
+                        ItemsSource="{Binding Muscles}">
+            <CollectionView.ItemsLayout>
+                <GridItemsLayout Orientation="Vertical" Span="1" />
+            </CollectionView.ItemsLayout>
+            <CollectionView.ItemTemplate>
+                <DataTemplate x:DataType="model:MuscleDto">
+                    <Grid Padding="10">
+                        <Frame Padding="20">
+                            <Grid Padding="0"
+                                  ColumnDefinitions="*"
+                                  RowDefinitions="*">
+                                <Label Grid.Row="0"
+                                       Grid.Column="0"
+                                       FontSize="20"
+                                       Text="{Binding Name}"
+                                       HorizontalOptions="Start"
+                                       VerticalOptions="Center">
+                                </Label>
+                            </Grid>
+                        </Frame>
+                    </Grid>
+                </DataTemplate>
+            </CollectionView.ItemTemplate>
+        </CollectionView>
+        <Button Text="Login"
+                FontSize="15"
+                FontAttributes="Bold"
+                HorizontalOptions="End"
+                VerticalOptions="Center"
+                Grid.Row="6"
+                Margin="0,35,0,0"
+                Padding="30,10,30,10"
+                Command="{Binding SendFormCommand}">
+        </Button>
+    </Grid>
 </ContentPage>
