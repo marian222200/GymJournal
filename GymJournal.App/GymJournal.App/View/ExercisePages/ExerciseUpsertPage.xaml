@@ -36,16 +36,14 @@
                Grid.Row="2"
                Margin="0,50,0,0">
         </Label>
-        <Entry Text="{Binding UpsertExercise.Description}"
-               IsPassword="True"
+        <Editor Text="{Binding UpsertExercise.Description}"
                FontSize="15"
                HorizontalOptions="Start"
                VerticalOptions="Center"
                Grid.Row="3"
-               MaxLength="100"
-               MinimumWidthRequest="200"
-               ReturnType="Next">
-        </Entry>
+               WidthRequest="300"
+               HeightRequest="100">
+        </Editor>
         <Label Text="Muscles"
                FontSize="20"
                FontAttributes="Bold"
@@ -56,38 +54,31 @@
         </Label>
         <CollectionView Grid.Row="5"
                         SelectionMode="Multiple"
-                        SelectionChanged=""
-                        ItemsSource="{Binding Muscles}">
+                        ItemsSource="{Binding Muscles}"
+                        SelectedItems="{Binding SelectedMuscles}">
             <CollectionView.ItemsLayout>
-                <GridItemsLayout Orientation="Vertical" Span="1" />
+                <LinearItemsLayout Orientation="Vertical" 
+                                   ItemSpacing="10"/>
             </CollectionView.ItemsLayout>
             <CollectionView.ItemTemplate>
                 <DataTemplate x:DataType="model:MuscleDto">
-                    <Grid Padding="10">
-                        <Frame Padding="20">
-                            <Grid Padding="0"
-                                  ColumnDefinitions="*"
-                                  RowDefinitions="*">
-                                <Label Grid.Row="0"
-                                       Grid.Column="0"
-                                       FontSize="20"
-                                       Text="{Binding Name}"
-                                       HorizontalOptions="Start"
-                                       VerticalOptions="Center">
-                                </Label>
-                            </Grid>
-                        </Frame>
-                    </Grid>
+                    <Label Text="{Binding Name}"
+                           FontSize="20"
+                           HorizontalOptions="Start"
+                           VerticalOptions="Center"
+                           Padding="10"
+                           Margin="10">
+                    </Label>
                 </DataTemplate>
             </CollectionView.ItemTemplate>
         </CollectionView>
-        <Button Text="Login"
+        <Button Text="{Binding ButtonName}"
                 FontSize="15"
                 FontAttributes="Bold"
                 HorizontalOptions="End"
                 VerticalOptions="Center"
                 Grid.Row="6"
-                Margin="0,35,0,0"
+                Margin="0,10,0,0"
                 Padding="30,10,30,10"
                 Command="{Binding SendFormCommand}">
         </Button>
