@@ -43,6 +43,7 @@ namespace GymJournal.Data.Repositories
 			{
 				UserId = entity.Id,
 				UserToken = entity.Token,
+				UserName = entity.Name,
 				UserRole = entity.Role,
 			};
 		}
@@ -118,6 +119,7 @@ namespace GymJournal.Data.Repositories
 			{
 				UserId = entity.Id,
 				UserToken = entity.Token,
+				UserName = entity.Name,
 				UserRole = entity.Role,
 			};
 		}

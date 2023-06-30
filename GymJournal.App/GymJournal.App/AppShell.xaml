@@ -7,6 +7,8 @@
     xmlns:workoutPages="clr-namespace:GymJournal.App.View.WorkoutPages"
     xmlns:exercisePages="clr-namespace:GymJournal.App.View.ExercisePages"
     xmlns:workoutPlanPages="clr-namespace:GymJournal.App.View.WorkoutPlanPages"
+    xmlns:viewmodel="clr-namespace:GymJournal.App.ViewModel"
+    x:DataType="viewmodel:AppShellViewModel"
     Shell.TabBarIsVisible="False">
 
     <ShellContent
@@ -57,8 +59,8 @@
                     VerticalOptions="Center"
                     HorizontalOptions="Center"
                     FontAttributes="Bold"
-                    Padding="30,10,30,10"/>
+                    Padding="30,10,30,10"
+                    Command="{Binding SignOutCommand}"/>
         </StackLayout>
     </Shell.FlyoutFooter>
-
 </Shell>

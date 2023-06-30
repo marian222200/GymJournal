@@ -42,7 +42,7 @@ namespace GymJournal.App.Services.API
 				Name = workout.Name,
 				Description = workout.Description,
 				ExerciseIds = workout.Exercises.Select(e => e.Id).ToArray(),
-				WorkoutPlanIds = workout.WorkoutPlans.Select(w => w.Id).ToArray(),
+				WorkoutPlanIds = new List<Guid>(),
 			};
 
 			HttpContent content = new StringContent(JsonSerializer.Serialize(command), Encoding.UTF8, "application/json");

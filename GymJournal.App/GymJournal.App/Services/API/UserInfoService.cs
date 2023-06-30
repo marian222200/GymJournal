@@ -52,6 +52,7 @@ namespace GymJournal.App.Services.API
 
 				_identityService.UserId = responseObject.UserId;
 				_identityService.UserToken = responseObject.UserToken;
+				_identityService.UserName = responseObject.UserName;
 				_identityService.IsAuthenticated = true;
 				_identityService.UserRole = responseObject.UserRole;
 			}
@@ -185,6 +186,7 @@ namespace GymJournal.App.Services.API
 
 				_identityService.UserId = responseObject.UserId;
 				_identityService.UserToken = responseObject.UserToken;
+				_identityService.UserName = responseObject.UserName;
 				_identityService.IsAuthenticated = true;
 				_identityService.UserRole = responseObject.UserRole;
 			}

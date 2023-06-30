@@ -6,13 +6,17 @@ namespace GymJournal.App.Services
 	{
 		public Guid UserId { get; set; }
 		public Guid UserToken { get; set; }
+		public string UserName { get; set; }
 		public bool IsAuthenticated { get; set; }
 		public string UserRole { get; set; }
+
+		public bool IsAdmin => UserRole == "Admin";
 
 		public void StoreIdentity()
 		{
 			Preferences.Default.Set(nameof(UserId), UserId.ToString());
 			Preferences.Default.Set(nameof(UserToken), UserToken.ToString());
+			Preferences.Default.Set(nameof(UserName), UserName);
 			Preferences.Default.Set(nameof(IsAuthenticated), IsAuthenticated);
 			Preferences.Default.Set(nameof(UserRole), UserRole);
 		}
@@ -21,11 +25,13 @@ namespace GymJournal.App.Services
 		{
 			if (Preferences.Default.ContainsKey(nameof(UserId)) 
 				&& Preferences.Default.ContainsKey(nameof(UserToken)) 
+				&& Preferences.Default.ContainsKey(nameof(UserName))
 				&& Preferences.Default.ContainsKey(nameof(IsAuthenticated))
 				&& Preferences.Default.ContainsKey(nameof(UserRole)))
 			{
 				UserId = Guid.Parse(Preferences.Default.Get(nameof(UserId), ""));
 				UserToken = Guid.Parse(Preferences.Default.Get(nameof(UserToken), ""));
+				UserName = Preferences.Default.Get(nameof(UserName), "");
 				IsAuthenticated = Preferences.Default.Get(nameof (IsAuthenticated), false);
 				UserRole = Preferences.Default.Get(nameof(UserRole), "");
 			}
@@ -39,6 +45,7 @@ namespace GymJournal.App.Services
 		{
 			Preferences.Default.Remove(nameof(UserId));
 			Preferences.Default.Remove(nameof(UserToken));
+			Preferences.Default.Remove(nameof(UserName));
 			Preferences.Default.Remove(nameof(IsAuthenticated));
 			Preferences.Default.Remove(nameof(UserRole));
 		}

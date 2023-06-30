@@ -35,6 +35,7 @@ public static class MauiProgram
 		builder.Services.AddScoped<IWorkoutPlanService, WorkoutPlanService>();
 		builder.Services.AddScoped<IWorkoutService, WorkoutService>();
 
+		//builder.Services.AddSingleton<AppShellViewModel>();
 		builder.Services.AddSingleton<MainPageViewModel>();
 		builder.Services.AddTransient<UserEditPageViewModel>();
 		builder.Services.AddTransient<UserListPageViewModel>();

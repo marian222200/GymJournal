@@ -10,6 +10,7 @@ namespace GymJournal.Domain.Commands.UserInfoCommands
 	{
 		public Guid UserId { get; set; }
 		public Guid UserToken { get; set; }
+		public string UserName { get; set; }
 		public string UserRole { get; set; }
 	}
 }

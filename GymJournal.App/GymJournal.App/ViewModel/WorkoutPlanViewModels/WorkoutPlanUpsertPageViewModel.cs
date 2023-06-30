@@ -26,15 +26,41 @@ namespace GymJournal.App.ViewModel.WorkoutPlanViewModels
 			_exceptionHandlerService = exceptionHandlerService ?? throw new ArgumentNullException(nameof(exceptionHandlerService));
 
 			if (WorkoutPlanId == Guid.Empty)
-				Title = "Add a new Exercise";
-			else Title = "Update Exercise";
+			{
+				Title = "Add a new WorkoutPlan";
+				ButtonName = "Add";
+				UpsertWorkoutPlan = new WorkoutPlanDto();
+			}
+			else
+			{
+				Title = "Update WorkoutPlan";
+			}
+
+			SelectedWorkouts = new ObservableCollection<object>();
 		}
 
 		public Guid WorkoutPlanId { get; set; }
 		[ObservableProperty]
 		public WorkoutPlanDto upsertWorkoutPlan;
+		[ObservableProperty]
+		public string buttonName;
 
-		public ObservableCollection<WorkoutDto> Workouts;
+		public ObservableCollection<WorkoutDto> Workouts { get; } = new();
+		ObservableCollection<object> selectedWorkouts;
+		public ObservableCollection<object> SelectedWorkouts
+		{
+			get
+			{
+				return selectedWorkouts;
+			}
+			set
+			{
+				if(selectedWorkouts != value)
+				{
+					selectedWorkouts = value;
+				}
+			}
+		}
 
 		public async Task OnAppearing()
 		{
@@ -44,9 +70,25 @@ namespace GymJournal.App.ViewModel.WorkoutPlanViewModels
 			{
 				IsBusy = true;
 
-				Workouts = new ObservableCollection<WorkoutDto>(await _workoutService.GetAll());
+				var workouts = new ObservableCollection<WorkoutDto>(await _workoutService.GetAll());
 
-				if(WorkoutPlanId != Guid.Empty) UpsertWorkoutPlan = await _workoutPlanService.GetById(WorkoutPlanId);
+				if (workouts.Count > 0)
+					Workouts.Clear();
+				
+				foreach (var workout in workouts)
+					Workouts.Add(workout);
+
+				if (WorkoutPlanId != Guid.Empty)
+				{
+					UpsertWorkoutPlan = await _workoutPlanService.GetById(WorkoutPlanId);
+					foreach (var workout in Workouts)
+					{
+						if(UpsertWorkoutPlan.Workouts.Any(w => w.Id == workout.Id))
+						{
+							SelectedWorkouts.Append(workout);
+						}
+					}
+				}
 			}
 			catch (Exception ex)
 			{
@@ -66,6 +108,15 @@ namespace GymJournal.App.ViewModel.WorkoutPlanViewModels
 			try
 			{
 				IsBusy = true;
+
+				var workouts = SelectedWorkouts.Cast<WorkoutDto>().Select(w => new WorkoutDto
+				{
+					Id = w.Id,
+					Name = w.Name,
+					Exercises = w.Exercises,
+				});
+
+				UpsertWorkoutPlan.Workouts = new List<WorkoutDto>(workouts);
 
 				if (WorkoutPlanId == Guid.Empty)
 					UpsertWorkoutPlan = await _workoutPlanService.Add(UpsertWorkoutPlan);

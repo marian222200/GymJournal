@@ -1,4 +1,5 @@
-﻿using CommunityToolkit.Mvvm.Input;
+﻿using CommunityToolkit.Mvvm.ComponentModel;
+using CommunityToolkit.Mvvm.Input;
 using GymJournal.App.Services;
 using GymJournal.App.Services.API;
 using GymJournal.App.View.WorkoutPages;
@@ -16,16 +17,21 @@ namespace GymJournal.App.ViewModel.WorkoutViewModels
 	{
 		private readonly IWorkoutService _workoutService;
 		private readonly ExceptionHandlerService _exceptionHandlerService;
+		private readonly IdentityService _identityService;
 
-		public WorkoutListPageViewModel(IWorkoutService workoutService, ExceptionHandlerService exceptionHandlerService)
+		public WorkoutListPageViewModel(IWorkoutService workoutService, ExceptionHandlerService exceptionHandlerService, IdentityService identityService)
 		{
 			_workoutService = workoutService ?? throw new ArgumentNullException(nameof(workoutService));
 			_exceptionHandlerService = exceptionHandlerService ?? throw new ArgumentNullException(nameof(exceptionHandlerService));
+			_identityService = identityService ?? throw new ArgumentNullException(nameof(identityService));
 
 			Title = "Explore";
 		}
 
 		public ObservableCollection<WorkoutDto> Workouts { get; } = new();
+
+		[ObservableProperty]
+		public bool isAdmin;
 
 		public async Task OnAppearing()
 		{
@@ -34,6 +40,8 @@ namespace GymJournal.App.ViewModel.WorkoutViewModels
 			try
 			{
 				IsBusy = true;
+
+				IsAdmin = _identityService.IsAdmin;
 
 				var workouts = new ObservableCollection<WorkoutDto>(await _workoutService.GetAll());
 

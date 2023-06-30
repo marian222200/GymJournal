@@ -1,15 +1,23 @@
-﻿using GymJournal.App.View.ExercisePages;
+﻿using CommunityToolkit.Mvvm.ComponentModel;
+using GymJournal.App.Services;
+using GymJournal.App.View.ExercisePages;
 using GymJournal.App.View.UserInfoPages;
 using GymJournal.App.View.WorkoutPages;
 using GymJournal.App.View.WorkoutPlanPages;
+using GymJournal.App.ViewModel;
 
 namespace GymJournal.App;
 
 public partial class AppShell : Shell
 {
-	public AppShell()
+	public readonly IdentityService _identityService;
+
+	public AppShell(IdentityService identityService)
 	{
 		InitializeComponent();
+
+		_identityService = identityService ?? throw new ArgumentNullException(nameof(identityService));
+		BindingContext = new AppShellViewModel(_identityService);
 
 		//Routing.RegisterRoute(nameof(UserEditPage), typeof(UserEditPage));
 		//Routing.RegisterRoute(nameof(UserListPage), typeof(UserListPage));

@@ -1,12 +1,86 @@
 <?xml version="1.0" encoding="utf-8" ?>
 <ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:model="clr-namespace:GymJournal.Domain.DTOs;assembly=GymJournal.Domain"
+             xmlns:viewmodel="clr-namespace:GymJournal.App.ViewModel.WorkoutViewModels"
+             x:DataType="viewmodel:WorkoutUpsertPageViewModel"
              x:Class="GymJournal.App.View.WorkoutPages.WorkoutUpsertPage"
-             Title="WorkoutUpsertPage">
-    <VerticalStackLayout>
-        <Label 
-            Text="Welcome to .NET MAUI!"
-            VerticalOptions="Center" 
-            HorizontalOptions="Center" />
-    </VerticalStackLayout>
+             Title="{Binding Title}">
+    <Grid ColumnDefinitions="*"
+          RowDefinitions="auto,auto,auto,auto,auto,*,auto"
+          RowSpacing="10"
+          Margin="20">
+        <Label Text="Workout Name"
+               FontSize="20"
+               FontAttributes="Bold"
+               HorizontalOptions="Start"
+               VerticalOptions="Center"
+               Grid.Row="0"
+               Margin="0,15,0,0">
+        </Label>
+        <Entry Text="{Binding UpsertWorkout.Name}"
+               Placeholder="Workout Name"
+               FontSize="15"
+               HorizontalOptions="Start"
+               VerticalOptions="Center"
+               Grid.Row="1"
+               ReturnType="Next"
+               MaxLength="20"
+               MinimumWidthRequest="200">
+        </Entry>
+        <Label Text="Description"
+               FontSize="20"
+               FontAttributes="Bold"
+               HorizontalOptions="Start"
+               VerticalOptions="Center"
+               Grid.Row="2"
+               Margin="0,50,0,0">
+        </Label>
+        <Editor Text="{Binding UpsertWorkout.Description}"
+               FontSize="15"
+               HorizontalOptions="Start"
+               VerticalOptions="Center"
+               Grid.Row="3"
+               WidthRequest="300"
+               HeightRequest="100">
+        </Editor>
+        <Label Text="Choose Exercises"
+               FontSize="20"
+               FontAttributes="Bold"
+               HorizontalOptions="Start"
+               VerticalOptions="Center"
+               Grid.Row="4"
+               Margin="0,50,0,0">
+        </Label>
+        <CollectionView Grid.Row="5"
+                        SelectionMode="Multiple"
+                        ItemsSource="{Binding Exercises}"
+                        SelectedItems="{Binding SelectedExercises}">
+            <CollectionView.ItemsLayout>
+                <LinearItemsLayout Orientation="Vertical" 
+                                   ItemSpacing="10"/>
+            </CollectionView.ItemsLayout>
+            <CollectionView.ItemTemplate>
+                <DataTemplate x:DataType="model:ExerciseDto">
+                    <Label Text="{Binding Name}"
+                           FontSize="15"
+                           HorizontalOptions="Start"
+                           VerticalOptions="Center"
+                           Padding="10"
+                           Margin="10">
+                    </Label>
+                </DataTemplate>
+            </CollectionView.ItemTemplate>
+        </CollectionView>
+        <Button Text="{Binding ButtonName}"
+                FontSize="15"
+                FontAttributes="Bold"
+                HorizontalOptions="End"
+                VerticalOptions="Center"
+                Grid.Row="6"
+                Margin="0,10,0,0"
+                Padding="30,10,30,10"
+                Command="{Binding SendFormCommand}">
+        </Button>
+    </Grid>
 </ContentPage>

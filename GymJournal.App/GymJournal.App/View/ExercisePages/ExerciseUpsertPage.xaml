@@ -44,7 +44,7 @@
                WidthRequest="300"
                HeightRequest="100">
         </Editor>
-        <Label Text="Muscles"
+        <Label Text="Choose Muscles"
                FontSize="20"
                FontAttributes="Bold"
                HorizontalOptions="Start"
@@ -63,7 +63,7 @@
             <CollectionView.ItemTemplate>
                 <DataTemplate x:DataType="model:MuscleDto">
                     <Label Text="{Binding Name}"
-                           FontSize="20"
+                           FontSize="15"
                            HorizontalOptions="Start"
                            VerticalOptions="Center"
                            Padding="10"
