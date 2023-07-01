@@ -15,7 +15,7 @@ namespace GymJournal.Data.Repositories
 		public Task<AddWorkSetResponse> Add(AddWorkSetCommand command, CancellationToken cancellationToken = default);
 		public Task Delete(DeleteWorkSetCommand command, CancellationToken cancellationToken = default);
 		public Task<GetAllWorkSetResponse> GetAll(GetAllWorkSetQuery query, CancellationToken cancellationToken = default);
-		public Task<GetByIdWorkSetReponse> GetById(GetByIdWorkSetQuery query, CancellationToken cancellationToken = default);
+		public Task<GetByIdWorkSetResponse> GetById(GetByIdWorkSetQuery query, CancellationToken cancellationToken = default);
 		Task SaveChanges(CancellationToken cancellationToken = default);
 	}
 }

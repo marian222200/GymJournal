@@ -84,7 +84,7 @@ namespace GymJournal.Data.Repositories
 			return new GetAllWorkSetResponse { WorkSets = workSets };
 		}
 
-		public async Task<GetByIdWorkSetReponse> GetById(GetByIdWorkSetQuery query, CancellationToken cancellationToken = default)
+		public async Task<GetByIdWorkSetResponse> GetById(GetByIdWorkSetQuery query, CancellationToken cancellationToken = default)
 		{
 			var entity = await _dbContext.WorkSets
 				.FirstOrDefaultAsync(w => w.Id == query.WorkSetId, cancellationToken);
@@ -94,7 +94,7 @@ namespace GymJournal.Data.Repositories
 				throw new BadRequestException("The workSet you want to GetById does not exist.");
 			}
 
-			var x = new GetByIdWorkSetReponse
+			var x = new GetByIdWorkSetResponse
 			{
 				Id = entity.Id,
 				Date = entity.Date,

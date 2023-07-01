@@ -34,41 +34,52 @@ public static class MauiProgram
 		builder.Services.AddScoped<IUserInfoService, UserInfoService>();
 		builder.Services.AddScoped<IWorkoutPlanService, WorkoutPlanService>();
 		builder.Services.AddScoped<IWorkoutService, WorkoutService>();
+		builder.Services.AddScoped<IWorkSetService, WorkSetService>();
 
-		//builder.Services.AddSingleton<AppShellViewModel>();
+
 		builder.Services.AddSingleton<MainPageViewModel>();
+
 		builder.Services.AddTransient<UserEditPageViewModel>();
 		builder.Services.AddTransient<UserListPageViewModel>();
 		builder.Services.AddTransient<UserLoginPageViewModel>();
 		builder.Services.AddTransient<UserProfilePageViewModel>();
 		builder.Services.AddTransient<UserRegisterPageViewModel>();
+
 		builder.Services.AddTransient<ExerciseDetailsPageViewModel>();
 		builder.Services.AddTransient<ExerciseListPageViewModel>();
 		builder.Services.AddTransient<ExerciseUpsertPageViewModel>();
+
 		builder.Services.AddTransient<WorkoutDetailsPageViewModel>();
 		builder.Services.AddTransient<WorkoutListPageViewModel>();
 		builder.Services.AddTransient<WorkoutTodayPageViewModel>();
 		builder.Services.AddTransient<WorkoutUpsertPageViewModel>();
+
 		builder.Services.AddTransient<WorkoutPlanDetailsPageViewModel>();
 		builder.Services.AddTransient<WorkoutPlanListPageViewModel>();
 		builder.Services.AddTransient<WorkoutPlanUpsertPageViewModel>();
 
+
 		builder.Services.AddSingleton<MainPage>();
+
 		builder.Services.AddTransient<UserEditPage>();
 		builder.Services.AddTransient<UserListPage>();
 		builder.Services.AddTransient<UserLoginPage>();
 		builder.Services.AddTransient<UserProfilePage>();
 		builder.Services.AddTransient<UserRegisterPage>();
+
 		builder.Services.AddTransient<ExerciseDetailsPage>();
 		builder.Services.AddTransient<ExerciseListPage>();
 		builder.Services.AddTransient<ExerciseUpsertPage>();
+
 		builder.Services.AddTransient<WorkoutDetailsPage>();
 		builder.Services.AddTransient<WorkoutListPage>();
 		builder.Services.AddTransient<WorkoutTodayPage>();
 		builder.Services.AddTransient<WorkoutUpsertPage>();
+
 		builder.Services.AddTransient<WorkoutPlanDetailsPage>();
 		builder.Services.AddTransient<WorkoutPlanListPage>();
 		builder.Services.AddTransient<WorkoutPlanUpsertPage>();
+
 
 		builder.Services.AddSingleton<IdentityService>();
 		builder.Services.AddTransient<ConstantsService>();

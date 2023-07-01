@@ -7,5 +7,5 @@ using System.Threading.Tasks;
 
 namespace GymJournal.Domain.Queries.WorkSetQueries
 {
-	public class GetByIdWorkSetReponse : WorkSetDto { }
+	public class GetByIdWorkSetResponse : WorkSetDto { }
 }
