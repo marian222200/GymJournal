@@ -39,7 +39,7 @@
         <Grid Padding="10"
               Grid.Row="1">
             <Button Text="Add new Exercise"
-                    Padding="20"
+                    Padding="10"
                     FontSize="20"
                     FontAttributes="Bold"
                     Command="{Binding GoToAddCommand}"

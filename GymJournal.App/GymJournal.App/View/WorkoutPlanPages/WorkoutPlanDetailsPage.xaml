@@ -6,7 +6,92 @@
              x:DataType="viewmodel:WorkoutPlanDetailsPageViewModel"
              x:Class="GymJournal.App.View.WorkoutPlanPages.WorkoutPlanDetailsPage"
              Title="{Binding Title}">
-    <VerticalStackLayout
+    <Grid ColumnDefinitions="*,*,*"
+          RowDefinitions="auto,auto,*,auto"
+          RowSpacing="20"
+          ColumnSpacing="5"
+          Margin="20">
+        <Label Text="{Binding DetailsWorkoutPlan.Name}"
+               FontSize="35"
+               FontAttributes="Bold"
+               HorizontalOptions="Center"
+               VerticalOptions="Center"
+               Grid.ColumnSpan="3"
+               Grid.Column="0"
+               Grid.Row="0">
+        </Label>
+        <Label Text="{Binding DetailsWorkoutPlan.Description}"
+               FontSize="15"
+               HorizontalOptions="Start"
+               VerticalOptions="Center"
+               Grid.ColumnSpan="3"
+               Grid.Column="0"
+               Grid.Row="1">
+        </Label>
+        <CollectionView Background="Transparent"
+                        SelectionMode="None"
+                        ItemsSource="{Binding DetailsWorkoutPlan.Workouts}"
+                        Grid.ColumnSpan="3"
+                        Grid.Column="0"
+                        Grid.Row="2">
+            <CollectionView.ItemTemplate>
+                <DataTemplate x:DataType="model:WorkoutDto">
+                    <Grid Padding="10">
+                        <Frame Padding="10">
+                            <Frame.GestureRecognizers>
+                                <TapGestureRecognizer CommandParameter="{Binding .}"
+                                                      Command="{Binding Source={RelativeSource AncestorType={x:Type viewmodel:WorkoutPlanDetailsPageViewModel}}, Path=GoToDetailsCommand}"/>
+                            </Frame.GestureRecognizers>
+                            <Label FontSize="15"
+                                   Text="{Binding Name}"
+                                   VerticalOptions="Center"
+                                   HorizontalOptions="Center"
+                                   FontAttributes="Bold">
+                            </Label>
+                        </Frame>
+                    </Grid>
+                </DataTemplate>
+            </CollectionView.ItemTemplate>
+        </CollectionView>
+        <Button Text="Delete"
+                FontSize="15"
+                FontAttributes="Bold"
+                HorizontalOptions="FillAndExpand"
+                VerticalOptions="FillAndExpand"
+                Grid.Row="3"
+                Grid.Column="0"
+                IsVisible="False">
+        </Button>
+        <Button Text="Edit"
+                FontSize="15"
+                FontAttributes="Bold"
+                HorizontalOptions="FillAndExpand"
+                VerticalOptions="FillAndExpand"
+                Grid.Row="3"
+                Grid.Column="1"
+                IsVisible="False">
+        </Button>
+        <Button Text="Choose"
+                FontSize="15"
+                FontAttributes="Bold"
+                HorizontalOptions="FillAndExpand"
+                VerticalOptions="FillAndExpand"
+                Grid.Row="3"
+                Grid.Column="2"
+                IsVisible="False">
+        </Button>
+        <Button Text="Choose workout plan"
+                FontSize="20"
+                FontAttributes="Bold"
+                HorizontalOptions="FillAndExpand"
+                VerticalOptions="FillAndExpand"
+                Grid.Row="3"
+                Grid.Column="0"
+                Grid.ColumnSpan="3"
+                IsVisible="True">
+        </Button>
+    </Grid>
+    <!--<VerticalStackLayout
         Margin="0,80,0,10"
         Spacing="80">
         <Label Text="{Binding DetailsWorkoutPlan.Name}"
@@ -38,5 +123,5 @@
                 </DataTemplate>
             </CollectionView.ItemTemplate>
         </CollectionView>
-    </VerticalStackLayout>
+    </VerticalStackLayout>-->
 </ContentPage>

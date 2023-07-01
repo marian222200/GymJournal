@@ -46,7 +46,7 @@ namespace GymJournal.App.Services.API
 			if (response.IsSuccessStatusCode)
 			{
 				var responseObject = await response.Content.ReadFromJsonAsync<GetAllMuscleResponse>();
-				return responseObject.Muscles;
+				return responseObject.Muscles.OrderBy(m => m.Name).ToList();
 			}
 			else
 			{

@@ -7,28 +7,39 @@
              x:Class="GymJournal.App.View.ExercisePages.ExerciseDetailsPage"
              Title="{Binding Title}">
 
-    <VerticalStackLayout
-        Margin="0,80,0,10"
-        Spacing="80">
+    <Grid ColumnDefinitions="*,*,*"
+          RowDefinitions="auto,auto,*,auto"
+          RowSpacing="20"
+          ColumnSpacing="5"
+          Margin="20">
         <Label Text="{Binding DetailsExercise.Name}"
-                   FontSize="35"
-                   FontAttributes="Bold"
-                   HorizontalOptions="Center"
-                   VerticalOptions="Center">
+               FontSize="35"
+               FontAttributes="Bold"
+               HorizontalOptions="Center"
+               VerticalOptions="Center"
+               Grid.ColumnSpan="3"
+               Grid.Column="0"
+               Grid.Row="0">
         </Label>
         <Label Text="{Binding DetailsExercise.Description}"
-                   FontSize="20"
-                   HorizontalOptions="Center"
-                   VerticalOptions="Center">
+               FontSize="15"
+               HorizontalOptions="Start"
+               VerticalOptions="Center"
+               Grid.ColumnSpan="3"
+               Grid.Column="0"
+               Grid.Row="1">
         </Label>
         <CollectionView Background="Transparent"
                         SelectionMode="None"
-                        ItemsSource="{Binding DetailsExercise.Muscles}">
+                        ItemsSource="{Binding DetailsExercise.Muscles}"
+                        Grid.ColumnSpan="3"
+                        Grid.Column="0"
+                        Grid.Row="2">
             <CollectionView.ItemTemplate>
                 <DataTemplate x:DataType="model:MuscleDto">
                     <Grid Padding="10">
-                        <Frame Padding="20">
-                            <Label FontSize="20"
+                        <Frame Padding="10">
+                            <Label FontSize="15"
                                    Text="{Binding Name}"
                                    VerticalOptions="Center"
                                    HorizontalOptions="Center"
@@ -39,5 +50,42 @@
                 </DataTemplate>
             </CollectionView.ItemTemplate>
         </CollectionView>
-    </VerticalStackLayout>
+        <Button Text="Delete"
+                FontSize="15"
+                FontAttributes="Bold"
+                HorizontalOptions="FillAndExpand"
+                VerticalOptions="FillAndExpand"
+                Grid.Row="3"
+                Grid.Column="0"
+                IsVisible="False">
+        </Button>
+        <Button Text="Edit"
+                FontSize="15"
+                FontAttributes="Bold"
+                HorizontalOptions="FillAndExpand"
+                VerticalOptions="FillAndExpand"
+                Grid.Row="3"
+                Grid.Column="1"
+                IsVisible="False">
+        </Button>
+        <Button Text="History"
+                FontSize="15"
+                FontAttributes="Bold"
+                HorizontalOptions="FillAndExpand"
+                VerticalOptions="FillAndExpand"
+                Grid.Row="3"
+                Grid.Column="2"
+                IsVisible="False">
+        </Button>
+        <Button Text="History"
+                FontSize="20"
+                FontAttributes="Bold"
+                HorizontalOptions="FillAndExpand"
+                VerticalOptions="FillAndExpand"
+                Grid.Row="3"
+                Grid.Column="0"
+                Grid.ColumnSpan="3"
+                IsVisible="True">
+        </Button>
+    </Grid>
 </ContentPage>

@@ -2,6 +2,7 @@
 using CommunityToolkit.Mvvm.Input;
 using GymJournal.App.Services;
 using GymJournal.App.Services.API;
+using GymJournal.App.View.ExercisePages;
 using GymJournal.Domain.DTOs;
 using System;
 using System.Collections.Generic;
@@ -71,6 +72,21 @@ namespace GymJournal.App.ViewModel.WorkoutViewModels
 			{
 				IsBusy = false;
 			}
+		}
+
+
+
+		[RelayCommand]
+		public async Task GoToDetailsAsync(ExerciseDto exercise)
+		{
+			if (exercise is null)
+				return;
+
+			await Shell.Current.GoToAsync($"{nameof(ExerciseDetailsPage)}", true,
+				new Dictionary<string, object>
+				{
+					{"ExerciseId", exercise.Id}
+				});
 		}
 	}
 }

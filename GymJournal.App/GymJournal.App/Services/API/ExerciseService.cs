@@ -117,7 +117,7 @@ namespace GymJournal.App.Services.API
             if (response.IsSuccessStatusCode)
             {
 				var responseObject = await response.Content.ReadFromJsonAsync<GetAllExerciseResponse>();
-                return responseObject.Exercises;
+                return responseObject.Exercises.OrderBy(e => e.Name).ToList();
             }
 			else
 			{
