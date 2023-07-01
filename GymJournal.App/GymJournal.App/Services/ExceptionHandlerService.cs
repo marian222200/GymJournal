@@ -11,6 +11,7 @@ namespace GymJournal.App.Services
 	{
 		public async Task HandleException(Exception ex)
 		{
+
 			if (ex is ServerRequestException)
 				await Shell.Current.DisplayAlert("Server Request Error", ex.Message, "OK");
 			else

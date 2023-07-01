@@ -11,7 +11,6 @@ namespace GymJournal.App.Services.API
 	{
 		public Task<WorkSetDto> Add(WorkSetDto workSet);
 		public Task Delete(Guid id);
-		public Task<WorkSetDto> Update(WorkSetDto workSet);
 		public Task<List<WorkSetDto>> GetAll();
 		public Task<WorkSetDto> GetById(Guid id);
 	}
