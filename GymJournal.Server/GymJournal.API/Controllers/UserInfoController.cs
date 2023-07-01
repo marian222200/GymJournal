@@ -135,5 +135,21 @@ namespace GymJournal.API.Controllers
 				return _exceptionHandler.HandleException(ex);
 			}
 		}
+		[HttpPost("ChangeWorkoutPlan")]
+		public async Task<IActionResult> ChangeWorkoutPlan([FromBody] ChangeWorkoutPlanCommand command)
+		{
+			try
+			{
+				await _userInfoValidators.Validate(command);
+
+				await _userInfoRepository.ChangeWorkoutPlan(command);
+
+				return StatusCode(StatusCodes.Status204NoContent);
+			}
+			catch (Exception ex)
+			{
+				return _exceptionHandler.HandleException(ex);
+			}
+		}
 	}
 }

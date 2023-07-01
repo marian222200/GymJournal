@@ -17,6 +17,9 @@ namespace GymJournal.Data.Configuration
 			builder
 				.HasMany(w => w.Workouts)
 				.WithMany(w => w.WorkoutPlans);
+			builder
+				.HasMany(w => w.UserInfos)
+				.WithOne(u => u.WorkoutPlan);
 		}
 	}
 }

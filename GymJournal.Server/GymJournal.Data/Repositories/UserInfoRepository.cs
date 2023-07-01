@@ -34,6 +34,8 @@ namespace GymJournal.Data.Repositories
 				Password = BCryptNet.HashPassword(command.Password),
 				Role = "Regular",
 				Token = Guid.NewGuid(),
+				WorkoutPlanId = Guid.Empty,
+				WorkoutPlanStart = "",
 			};
 
 			await _dbContext.UserInfos.AddAsync(entity, cancellationToken);
@@ -46,6 +48,24 @@ namespace GymJournal.Data.Repositories
 				UserName = entity.Name,
 				UserRole = entity.Role,
 			};
+		}
+
+		public async Task ChangeWorkoutPlan(ChangeWorkoutPlanCommand command, CancellationToken cancellationToken = default)
+		{
+			var entityToUpdate = await _dbContext.UserInfos
+				.FirstOrDefaultAsync(e => e.Id == command.UserId, cancellationToken);
+
+			var workoutPlan = await _dbContext.WorkoutPlans
+				.FirstOrDefaultAsync(w => w.Id == command.WorkoutPlanId, cancellationToken);
+
+			if (entityToUpdate == null)
+			{
+				throw new BadRequestException("invalid UserId");
+			}
+
+			entityToUpdate.WorkoutPlan = workoutPlan;
+
+			await SaveChanges(cancellationToken);
 		}
 
 		public async Task Delete(DeleteUserInfoCommand command, CancellationToken cancellationToken = default)
@@ -92,6 +112,8 @@ namespace GymJournal.Data.Repositories
 				Id = entity.Id,
 				Name = entity.Name,
 				Role = entity.Role,
+				WorokoutPlanId = entity.WorkoutPlanId ?? Guid.Empty,
+				WorkoutPlanStart = entity.WorkoutPlanStart ?? "",
 			};
 
 			return x;

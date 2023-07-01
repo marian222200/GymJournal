@@ -8,7 +8,7 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 #nullable disable
 
-namespace GymJournal.Interface.Data.Migrations
+namespace GymJournal.Data.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
     partial class ApplicationDbContextModelSnapshot : ModelSnapshot
@@ -174,10 +174,18 @@ namespace GymJournal.Interface.Data.Migrations
                     b.Property<Guid>("Token")
                         .HasColumnType("uniqueidentifier");
 
+                    b.Property<Guid?>("WorkoutPlanId")
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<string>("WorkoutPlanStart")
+                        .HasColumnType("nvarchar(max)");
+
                     b.HasKey("Id");
 
                     b.HasIndex("Name")
                         .IsUnique();
+
+                    b.HasIndex("WorkoutPlanId");
 
                     b.ToTable("UserInfos");
 
@@ -186,7 +194,7 @@ namespace GymJournal.Interface.Data.Migrations
                         {
                             Id = new Guid("42282faf-05a4-48ff-b062-65fed7b5e84a"),
                             Name = "Admin",
-                            Password = "$2a$11$WnQ466XOcR.TMa0QJ2fBm.ev8HhQG.NvyKD/BE5PuMeYrd7meb9ce",
+                            Password = "$2a$11$UGVpOHQKT1mMw5YLrCJ4A.P1RWVvkZ0.ItcTb146/e5yoVvDwd7xS",
                             Role = "Admin",
                             Token = new Guid("8ae01d7d-3965-4b7e-b8af-e12fd5f588f6")
                         });
@@ -308,6 +316,15 @@ namespace GymJournal.Interface.Data.Migrations
                         .IsRequired();
                 });
 
+            modelBuilder.Entity("GymJournal.Data.Entities.UserInfo", b =>
+                {
+                    b.HasOne("GymJournal.Data.Entities.WorkoutPlan", "WorkoutPlan")
+                        .WithMany("UserInfos")
+                        .HasForeignKey("WorkoutPlanId");
+
+                    b.Navigation("WorkoutPlan");
+                });
+
             modelBuilder.Entity("GymJournal.Data.Entities.WorkSet", b =>
                 {
                     b.HasOne("GymJournal.Data.Entities.Exercise", "Exercise")
@@ -350,6 +367,11 @@ namespace GymJournal.Interface.Data.Migrations
             modelBuilder.Entity("GymJournal.Data.Entities.UserInfo", b =>
                 {
                     b.Navigation("WorkSets");
+                });
+
+            modelBuilder.Entity("GymJournal.Data.Entities.WorkoutPlan", b =>
+                {
+                    b.Navigation("UserInfos");
                 });
 #pragma warning restore 612, 618
         }

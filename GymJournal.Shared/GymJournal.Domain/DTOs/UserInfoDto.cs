@@ -11,5 +11,7 @@ namespace GymJournal.Domain.DTOs
         public Guid Id { get; set; }
         public string Name { get; set; }
         public string Role { get; set; }
-    }
+		public Guid WorokoutPlanId { get; set; }
+		public string WorkoutPlanStart { get; set; }
+	}
 }

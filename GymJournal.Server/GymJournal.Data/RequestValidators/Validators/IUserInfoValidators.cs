@@ -18,5 +18,6 @@ namespace GymJournal.Data.RequestValidators.Validators
 		public Task Validate(GetAllUserInfoQuery query);
 		public Task Validate(GetByIdUserInfoQuery query);
 		public Task Validate(LoginUserInfoQuery query);
+		public Task Validate(ChangeWorkoutPlanCommand command);
 	}
 }

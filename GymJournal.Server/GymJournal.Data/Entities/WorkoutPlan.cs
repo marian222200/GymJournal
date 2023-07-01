@@ -12,5 +12,6 @@ namespace GymJournal.Data.Entities
 		public string Name { get; set; }
 		public string Description { get; set; }
 		public ICollection<Workout> Workouts { get; set; }
+		public ICollection<UserInfo> UserInfos { get; set; }
 	}
 }

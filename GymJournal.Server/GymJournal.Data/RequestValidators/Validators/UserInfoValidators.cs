@@ -8,6 +8,8 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using static Microsoft.EntityFrameworkCore.DbLoggerCategory;
+using static Microsoft.EntityFrameworkCore.DbLoggerCategory.Database;
 
 namespace GymJournal.Data.RequestValidators.Validators
 {
@@ -97,6 +99,21 @@ namespace GymJournal.Data.RequestValidators.Validators
 		public Task Validate(LoginUserInfoQuery query)
 		{
 			return Task.CompletedTask;
+		}
+
+		public async Task Validate(ChangeWorkoutPlanCommand command)
+		{
+			if (command == null)
+			{
+				throw new InvalidRequestException("null command");
+			}
+
+			if (!await _dbContext.WorkoutPlans.AnyAsync(e => e.Id == command.WorkoutPlanId))
+			{
+				throw new BadRequestException("inexistent workoutPlan");
+			}
+
+			await _validationAuthorization.ValidateRegularUser(command.UserId, command.UserToken);
 		}
 	}
 }

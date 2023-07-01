@@ -14,5 +14,8 @@ namespace GymJournal.Data.Entities
 		public string Password { get; set; }
 		public string Role { get; set; }
 		public ICollection<WorkSet> WorkSets { get; set; }
+		public Guid? WorkoutPlanId { get; set; }
+		public WorkoutPlan? WorkoutPlan { get; set; }
+		public string? WorkoutPlanStart { get; set; }
 	}
 }

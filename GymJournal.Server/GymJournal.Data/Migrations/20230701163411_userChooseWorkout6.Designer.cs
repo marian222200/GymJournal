@@ -9,11 +9,11 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 #nullable disable
 
-namespace GymJournal.Interface.Data.Migrations
+namespace GymJournal.Data.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    [Migration("20230527152927_AddedMoreMuscles")]
-    partial class AddedMoreMuscles
+    [Migration("20230701163411_userChooseWorkout6")]
+    partial class userChooseWorkout6
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -62,6 +62,7 @@ namespace GymJournal.Interface.Data.Migrations
                         .HasColumnType("uniqueidentifier");
 
                     b.Property<string>("Description")
+                        .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("Name")
@@ -155,6 +156,86 @@ namespace GymJournal.Interface.Data.Migrations
                         });
                 });
 
+            modelBuilder.Entity("GymJournal.Data.Entities.UserInfo", b =>
+                {
+                    b.Property<Guid>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<string>("Name")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(450)");
+
+                    b.Property<string>("Password")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("Role")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<Guid>("Token")
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<Guid?>("WorkoutPlanId")
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<string>("WorkoutPlanStart")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("Name")
+                        .IsUnique();
+
+                    b.HasIndex("WorkoutPlanId");
+
+                    b.ToTable("UserInfos");
+
+                    b.HasData(
+                        new
+                        {
+                            Id = new Guid("42282faf-05a4-48ff-b062-65fed7b5e84a"),
+                            Name = "Admin",
+                            Password = "$2a$11$UGVpOHQKT1mMw5YLrCJ4A.P1RWVvkZ0.ItcTb146/e5yoVvDwd7xS",
+                            Role = "Admin",
+                            Token = new Guid("8ae01d7d-3965-4b7e-b8af-e12fd5f588f6")
+                        });
+                });
+
+            modelBuilder.Entity("GymJournal.Data.Entities.WorkSet", b =>
+                {
+                    b.Property<Guid>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<string>("Date")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<Guid>("ExerciseId")
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<string>("Reps")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<Guid>("UserId")
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<string>("Weight")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("ExerciseId");
+
+                    b.HasIndex("UserId");
+
+                    b.ToTable("WorkSets");
+                });
+
             modelBuilder.Entity("GymJournal.Data.Entities.Workout", b =>
                 {
                     b.Property<Guid>("Id")
@@ -238,6 +319,34 @@ namespace GymJournal.Interface.Data.Migrations
                         .IsRequired();
                 });
 
+            modelBuilder.Entity("GymJournal.Data.Entities.UserInfo", b =>
+                {
+                    b.HasOne("GymJournal.Data.Entities.WorkoutPlan", "WorkoutPlan")
+                        .WithMany("UserInfos")
+                        .HasForeignKey("WorkoutPlanId");
+
+                    b.Navigation("WorkoutPlan");
+                });
+
+            modelBuilder.Entity("GymJournal.Data.Entities.WorkSet", b =>
+                {
+                    b.HasOne("GymJournal.Data.Entities.Exercise", "Exercise")
+                        .WithMany("WorkSets")
+                        .HasForeignKey("ExerciseId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("GymJournal.Data.Entities.UserInfo", "User")
+                        .WithMany("WorkSets")
+                        .HasForeignKey("UserId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Exercise");
+
+                    b.Navigation("User");
+                });
+
             modelBuilder.Entity("WorkoutWorkoutPlan", b =>
                 {
                     b.HasOne("GymJournal.Data.Entities.WorkoutPlan", null)
@@ -251,6 +360,21 @@ namespace GymJournal.Interface.Data.Migrations
                         .HasForeignKey("WorkoutsId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
+                });
+
+            modelBuilder.Entity("GymJournal.Data.Entities.Exercise", b =>
+                {
+                    b.Navigation("WorkSets");
+                });
+
+            modelBuilder.Entity("GymJournal.Data.Entities.UserInfo", b =>
+                {
+                    b.Navigation("WorkSets");
+                });
+
+            modelBuilder.Entity("GymJournal.Data.Entities.WorkoutPlan", b =>
+                {
+                    b.Navigation("UserInfos");
                 });
 #pragma warning restore 612, 618
         }

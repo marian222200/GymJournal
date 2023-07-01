@@ -26,16 +26,13 @@ namespace GymJournal.Data.Repositories
 
 		public async Task<AddWorkSetResponse> Add(AddWorkSetCommand command, CancellationToken cancellationToken = default)
 		{
-			var commandExercise = await _dbContext.Exercises.FirstOrDefaultAsync(e => e.Id == command.ExerciseId);
 			var entity = new WorkSet
 			{
 				Date = command.Date,
 				Weight = command.Weight,
 				Reps = command.Reps,
 				ExerciseId = command.ExerciseId,
-				Exercise = await _dbContext.Exercises.FirstOrDefaultAsync(e => e.Id == command.ExerciseId),
 				UserId = command.UserId,
-				User = await _dbContext.UserInfos.FirstOrDefaultAsync(e => e.Id == command.ExerciseId),
 			};
 
 			await _dbContext.WorkSets.AddAsync(entity, cancellationToken);

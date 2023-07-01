@@ -16,6 +16,7 @@ namespace GymJournal.Data.Repositories
 		public Task<GetAllUserInfoResponse> GetAll(GetAllUserInfoQuery query, CancellationToken cancellationToken = default);
 		public Task<GetByIdUserInfoResponse> GetById(GetByIdUserInfoQuery query, CancellationToken cancellationToken = default);
 		public Task<LoginUserInfoResponse> Login(LoginUserInfoQuery query, CancellationToken cancellationToken = default);
+		public Task ChangeWorkoutPlan(ChangeWorkoutPlanCommand command, CancellationToken cancellationToken = default);
 		Task SaveChanges(CancellationToken cancellationToken = default);
 	}
 }
