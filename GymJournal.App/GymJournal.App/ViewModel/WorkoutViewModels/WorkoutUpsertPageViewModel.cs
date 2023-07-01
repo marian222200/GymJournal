@@ -25,18 +25,6 @@ namespace GymJournal.App.ViewModel.WorkoutViewModels
 			_exerciseService = exerciseService ?? throw new ArgumentNullException(nameof(exerciseService));
 			_exceptionHandlerService = exceptionHandlerService ?? throw new ArgumentNullException(nameof(exceptionHandlerService));
 
-			if (WorkoutId == Guid.Empty)
-			{
-				Title = "Add a new Workout";
-				ButtonName = "Add";
-				UpsertWorkout = new WorkoutDto();
-			}
-			else
-			{
-				Title = "Update Workout";
-				ButtonName = "Update";
-			}
-
 			SelectedExercises = new ObservableCollection<object>();
 		}
 
@@ -70,6 +58,18 @@ namespace GymJournal.App.ViewModel.WorkoutViewModels
 			{
 				IsBusy = true;
 
+				if (WorkoutId == Guid.Empty)
+				{
+					Title = "Add a new Workout";
+					ButtonName = "Add";
+					UpsertWorkout = new WorkoutDto();
+				}
+				else
+				{
+					Title = "Update Workout";
+					ButtonName = "Update";
+				}
+
 				var exercises = new ObservableCollection<ExerciseDto>(await _exerciseService.GetAll());
 				
 				if (Exercises.Count > 0)
@@ -85,7 +85,7 @@ namespace GymJournal.App.ViewModel.WorkoutViewModels
 					{
 						if(UpsertWorkout.Exercises.Any(e => e.Id == exercise.Id))
 						{
-							SelectedExercises.Append(exercise);
+							SelectedExercises.Add(exercise);
 						}
 					}
 				}

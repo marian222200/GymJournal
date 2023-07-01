@@ -3,6 +3,7 @@ using CommunityToolkit.Mvvm.Input;
 using GymJournal.App.Services;
 using GymJournal.App.Services.API;
 using GymJournal.App.View.ExercisePages;
+using GymJournal.App.View.WorkoutPages;
 using GymJournal.Domain.DTOs;
 using System;
 using System.Collections.Generic;
@@ -17,11 +18,13 @@ namespace GymJournal.App.ViewModel.WorkoutViewModels
 	{
 		private readonly IWorkoutService _workoutService;
 		private readonly ExceptionHandlerService _exceptionHandlerService;
+		private readonly IdentityService _identityService;
 
-		public WorkoutDetailsPageViewModel(IWorkoutService workoutService, ExceptionHandlerService exceptionHandlerService)
+		public WorkoutDetailsPageViewModel(IWorkoutService workoutService, ExceptionHandlerService exceptionHandlerService, IdentityService identityService)
 		{
 			_workoutService = workoutService ?? throw new ArgumentNullException(nameof(workoutService));
 			_exceptionHandlerService = exceptionHandlerService ?? throw new ArgumentNullException(nameof(exceptionHandlerService));
+			_identityService = identityService ?? throw new ArgumentNullException(nameof(identityService));
 
 			Title = "Workout Details";
 		}
@@ -31,6 +34,9 @@ namespace GymJournal.App.ViewModel.WorkoutViewModels
 		[ObservableProperty]
 		public WorkoutDto detailsWorkout;
 
+		[ObservableProperty]
+		public bool isAdmin;
+
 		public async Task OnAppearing()
 		{
 			if (IsBusy) return;
@@ -38,6 +44,8 @@ namespace GymJournal.App.ViewModel.WorkoutViewModels
 			try
 			{
 				IsBusy = true;
+
+				IsAdmin = _identityService.IsAdmin;
 
 				DetailsWorkout = await _workoutService.GetById(WorkoutId);
 
@@ -86,6 +94,16 @@ namespace GymJournal.App.ViewModel.WorkoutViewModels
 				new Dictionary<string, object>
 				{
 					{"ExerciseId", exercise.Id}
+				});
+		}
+
+		[RelayCommand]
+		public async Task GoToUpdateAsync()
+		{
+			await Shell.Current.GoToAsync($"{nameof(WorkoutUpsertPage)}", true,
+				new Dictionary<string, object>
+				{
+					{"WorkoutId", WorkoutId}
 				});
 		}
 	}

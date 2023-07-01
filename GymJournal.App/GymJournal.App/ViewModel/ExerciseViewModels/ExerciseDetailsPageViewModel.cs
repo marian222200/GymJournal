@@ -2,6 +2,7 @@
 using CommunityToolkit.Mvvm.Input;
 using GymJournal.App.Services;
 using GymJournal.App.Services.API;
+using GymJournal.App.View.ExercisePages;
 using GymJournal.Domain.DTOs;
 using System;
 using System.Collections.Generic;
@@ -16,11 +17,13 @@ namespace GymJournal.App.ViewModel.ExerciseViewModels
 	{
 		private readonly IExerciseService _exerciseService;
 		private readonly ExceptionHandlerService _exceptionHandlerService;
+		private readonly IdentityService _identityService;
 
-		public ExerciseDetailsPageViewModel(IExerciseService exerciseService, ExceptionHandlerService exceptionHandlerService)
+		public ExerciseDetailsPageViewModel(IExerciseService exerciseService, ExceptionHandlerService exceptionHandlerService, IdentityService identityService)
 		{
 			_exerciseService = exerciseService ?? throw new ArgumentNullException(nameof(exerciseService));
 			_exceptionHandlerService = exceptionHandlerService ?? throw new ArgumentNullException(nameof(exceptionHandlerService));
+			_identityService = identityService ?? throw new ArgumentNullException(nameof(identityService));
 
 			Title = "Exercise Details";
 		}
@@ -30,6 +33,12 @@ namespace GymJournal.App.ViewModel.ExerciseViewModels
 		[ObservableProperty]
 		public ExerciseDto detailsExercise;
 
+		[ObservableProperty]
+		public bool isAdmin;
+
+		[ObservableProperty]
+		public bool isNotAdmin;
+
 		public async Task OnAppearing()
 		{
 			if (IsBusy) return;
@@ -37,6 +46,9 @@ namespace GymJournal.App.ViewModel.ExerciseViewModels
 			try
 			{
 				IsBusy = true;
+
+				IsAdmin = _identityService.IsAdmin;
+				IsNotAdmin = !_identityService.IsAdmin;
 
 				DetailsExercise = await _exerciseService.GetById(ExerciseId);
 
@@ -71,6 +83,16 @@ namespace GymJournal.App.ViewModel.ExerciseViewModels
 			{
 				IsBusy = false;
 			}
+		}
+
+		[RelayCommand]
+		public async Task GoToUpdateAsync()
+		{
+			await Shell.Current.GoToAsync($"{nameof(ExerciseUpsertPage)}", true,
+				new Dictionary<string, object>
+				{
+					{"ExerciseId", ExerciseId}
+				});
 		}
 	}
 }

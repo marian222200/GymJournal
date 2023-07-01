@@ -60,7 +60,7 @@
                 VerticalOptions="FillAndExpand"
                 Grid.Row="3"
                 Grid.Column="0"
-                IsVisible="False">
+                IsVisible="{Binding IsAdmin}">
         </Button>
         <Button Text="Edit"
                 FontSize="15"
@@ -69,7 +69,8 @@
                 VerticalOptions="FillAndExpand"
                 Grid.Row="3"
                 Grid.Column="1"
-                IsVisible="False">
+                IsVisible="{Binding IsAdmin}"
+                Command="{Binding GoToUpdateCommand}">
         </Button>
     </Grid>
 </ContentPage>

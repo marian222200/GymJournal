@@ -60,7 +60,7 @@
                 VerticalOptions="FillAndExpand"
                 Grid.Row="3"
                 Grid.Column="0"
-                IsVisible="False">
+                IsVisible="{Binding IsAdmin}">
         </Button>
         <Button Text="Edit"
                 FontSize="15"
@@ -69,7 +69,8 @@
                 VerticalOptions="FillAndExpand"
                 Grid.Row="3"
                 Grid.Column="1"
-                IsVisible="False">
+                IsVisible="{Binding IsAdmin}"
+                Command="{Binding GoToUpdateCommand}">
         </Button>
         <Button Text="Choose"
                 FontSize="15"
@@ -78,7 +79,7 @@
                 VerticalOptions="FillAndExpand"
                 Grid.Row="3"
                 Grid.Column="2"
-                IsVisible="False">
+                IsVisible="{Binding IsAdmin}">
         </Button>
         <Button Text="Choose workout plan"
                 FontSize="20"
@@ -88,40 +89,7 @@
                 Grid.Row="3"
                 Grid.Column="0"
                 Grid.ColumnSpan="3"
-                IsVisible="True">
+                IsVisible="{Binding IsNotAdmin}">
         </Button>
     </Grid>
-    <!--<VerticalStackLayout
-        Margin="0,80,0,10"
-        Spacing="80">
-        <Label Text="{Binding DetailsWorkoutPlan.Name}"
-                   FontSize="35"
-                   FontAttributes="Bold"
-                   HorizontalOptions="Center"
-                   VerticalOptions="Center">
-        </Label>
-        <Label Text="{Binding DetailsWorkoutPlan.Description}"
-                   FontSize="20"
-                   HorizontalOptions="Center"
-                   VerticalOptions="Center">
-        </Label>
-        <CollectionView Background="Transparent"
-                        SelectionMode="None"
-                        ItemsSource="{Binding DetailsWorkoutPlan.Workouts}">
-            <CollectionView.ItemTemplate>
-                <DataTemplate x:DataType="model:WorkoutDto">
-                    <Grid Padding="10">
-                        <Frame Padding="20">
-                            <Label FontSize="20"
-                                   Text="{Binding Name}"
-                                   VerticalOptions="Center"
-                                   HorizontalOptions="Center"
-                                   FontAttributes="Bold">
-                            </Label>
-                        </Frame>
-                    </Grid>
-                </DataTemplate>
-            </CollectionView.ItemTemplate>
-        </CollectionView>
-    </VerticalStackLayout>-->
 </ContentPage>

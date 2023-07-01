@@ -3,6 +3,7 @@ using CommunityToolkit.Mvvm.Input;
 using GymJournal.App.Services;
 using GymJournal.App.Services.API;
 using GymJournal.App.View.WorkoutPages;
+using GymJournal.App.View.WorkoutPlanPages;
 using GymJournal.Domain.DTOs;
 using System;
 using System.Collections.Generic;
@@ -17,11 +18,13 @@ namespace GymJournal.App.ViewModel.WorkoutPlanViewModels
 	{
 		private readonly IWorkoutPlanService _workoutPlanService;
 		private readonly ExceptionHandlerService _exceptionHandlerService;
+		private readonly IdentityService _identityService;
 
-		public WorkoutPlanDetailsPageViewModel(IWorkoutPlanService workoutPlanService, ExceptionHandlerService exceptionHandlerService)
+		public WorkoutPlanDetailsPageViewModel(IWorkoutPlanService workoutPlanService, ExceptionHandlerService exceptionHandlerService, IdentityService identityService)
 		{
 			_workoutPlanService = workoutPlanService ?? throw new ArgumentNullException(nameof(workoutPlanService));
 			_exceptionHandlerService = exceptionHandlerService ?? throw new ArgumentNullException(nameof(exceptionHandlerService));
+			_identityService = identityService ?? throw new ArgumentNullException(nameof(identityService));
 
 			Title = "Workout Plan Details";
 		}
@@ -31,6 +34,12 @@ namespace GymJournal.App.ViewModel.WorkoutPlanViewModels
 		[ObservableProperty]
 		public WorkoutPlanDto detailsWorkoutPlan;
 
+		[ObservableProperty]
+		public bool isAdmin;
+
+		[ObservableProperty]
+		public bool isNotAdmin;
+
 		public async Task OnAppearing()
 		{
 			if (IsBusy) return;
@@ -38,6 +47,9 @@ namespace GymJournal.App.ViewModel.WorkoutPlanViewModels
 			try
 			{
 				IsBusy = true;
+
+				IsAdmin = _identityService.IsAdmin;
+				IsNotAdmin = !_identityService.IsAdmin;
 
 				DetailsWorkoutPlan = await _workoutPlanService.GetById(WorkoutPlanId);
 
@@ -84,6 +96,16 @@ namespace GymJournal.App.ViewModel.WorkoutPlanViewModels
 				new Dictionary<string, object>
 				{
 					{"WorkoutId", workout.Id}
+				});
+		}
+
+		[RelayCommand]
+		public async Task GoToUpdateAsync()
+		{
+			await Shell.Current.GoToAsync($"{nameof(WorkoutPlanUpsertPage)}", true,
+				new Dictionary<string, object>
+				{
+					{"WorkoutPlanId", WorkoutPlanId}
 				});
 		}
 	}
