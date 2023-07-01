@@ -37,6 +37,7 @@ namespace GymJournal.API
 			builder.Services.AddScoped<IWorkoutPlanRepository, WorkoutPlanRepository>();
 			builder.Services.AddScoped<IMuscleRepository, MuscleRepository>();
 			builder.Services.AddScoped<IUserInfoRepository, UserInfoRepository>();
+			builder.Services.AddScoped<IWorkSetRepository, WorkSetRepository>();
 
 			builder.Services.AddScoped<IApplicationDbContext, ApplicationDbContext>();
 			builder.Services.AddScoped<ApplicationDbContextInitializer>();
@@ -51,6 +52,7 @@ namespace GymJournal.API
 			builder.Services.AddScoped<IWorkoutValidators, WorkoutValidators>();
 			builder.Services.AddScoped<IWorkoutPlanValidators, WorkoutPlanValidators>();
 			builder.Services.AddScoped<IUserInfoValidators, UserInfoValidators>();
+			builder.Services.AddScoped<IWorkSetValidators, WorkSetValidators>();
 
 
 			var app = builder.Build();

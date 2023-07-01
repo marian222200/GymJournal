@@ -13,6 +13,7 @@ namespace GymJournal.Data.Context
         public virtual DbSet<Workout> Workouts { get; set; }
         public virtual DbSet<WorkoutPlan> WorkoutPlans { get; set; }
 		public virtual DbSet<UserInfo> UserInfos { get; set; }
+		public virtual DbSet<WorkSet> WorkSets { get; set; }
 
 		public ApplicationDbContext(DbContextOptions<ApplicationDbContext>
 			options) : base(options) { }

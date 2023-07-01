@@ -13,5 +13,6 @@ namespace GymJournal.Data.Entities
 		public string Name { get; set; }
 		public string Password { get; set; }
 		public string Role { get; set; }
+		public ICollection<WorkSet> WorkSets { get; set; }
 	}
 }

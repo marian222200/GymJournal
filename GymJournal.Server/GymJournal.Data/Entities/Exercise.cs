@@ -13,5 +13,6 @@ namespace GymJournal.Data.Entities
         public string Description { get; set; }
 		public ICollection<Muscle> Muscles { get; set; }
         public ICollection<Workout> Workouts { get; set; }
-    }
+		public ICollection<WorkSet> WorkSets { get; set; }
+	}
 }

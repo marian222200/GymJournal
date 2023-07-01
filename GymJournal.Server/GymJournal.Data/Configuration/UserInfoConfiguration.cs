@@ -18,6 +18,7 @@ namespace GymJournal.Data.Configuration
 				Password = BCryptNet.HashPassword("AsdAsd1!"),
 				Role = "Admin",
 				Token = Guid.Parse("8ae01d7d-3965-4b7e-b8af-e12fd5f588f6"),
+				WorkSets = new List<WorkSet>()
 			});
 		}
 	}
