@@ -57,7 +57,8 @@
                 VerticalOptions="FillAndExpand"
                 Grid.Row="3"
                 Grid.Column="0"
-                IsVisible="{Binding IsAdmin}">
+                IsVisible="{Binding IsAdmin}"
+                Command="{Binding DeleteCommand}">
         </Button>
         <Button Text="Edit"
                 FontSize="15"

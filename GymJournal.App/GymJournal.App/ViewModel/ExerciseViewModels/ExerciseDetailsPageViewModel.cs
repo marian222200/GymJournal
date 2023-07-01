@@ -73,7 +73,13 @@ namespace GymJournal.App.ViewModel.ExerciseViewModels
 			{
 				IsBusy = true;
 
-				await _exerciseService.Delete(DetailsExercise.Id);
+				bool answer = await Shell.Current.DisplayAlert("Are you sure?", $"Are you sure you want to delete {DetailsExercise.Name}?", "Yes", "No");
+
+				if (answer)
+				{
+					await _exerciseService.Delete(ExerciseId);
+					await Shell.Current.Navigation.PopAsync();
+				}
 			}
 			catch (Exception ex)
 			{
