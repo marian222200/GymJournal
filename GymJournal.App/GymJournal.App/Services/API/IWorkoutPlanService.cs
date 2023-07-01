@@ -14,5 +14,6 @@ namespace GymJournal.App.Services.API
 		public Task<WorkoutPlanDto> Update(WorkoutPlanDto workoutPlan);
 		public Task<List<WorkoutPlanDto>> GetAll();
 		public Task<WorkoutPlanDto> GetById(Guid id);
+		public Task ChooseWorkoutPlan(Guid workoutPlanId);
 	}
 }

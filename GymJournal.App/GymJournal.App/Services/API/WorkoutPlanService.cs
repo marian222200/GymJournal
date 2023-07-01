@@ -1,5 +1,6 @@
 ﻿using GymJournal.App.Models;
 using GymJournal.Domain.Commands.ExerciseCommands;
+using GymJournal.Domain.Commands.UserInfoCommands;
 using GymJournal.Domain.Commands.WorkoutPlanCommands;
 using GymJournal.Domain.DTOs;
 using GymJournal.Domain.Queries.ExerciseQueries;
@@ -58,6 +59,38 @@ namespace GymJournal.App.Services.API
 					Description = responseObject.Description,
 					Workouts = responseObject.Workouts,
 				};
+			}
+			else
+			{
+				throw new ServerRequestException(await response.Content.ReadAsStringAsync());
+			}
+		}
+
+		public async Task ChooseWorkoutPlan(Guid workoutPlanId)
+		{
+			HttpClient httpClient = new HttpClient();
+
+			UriBuilder builder = new UriBuilder(_constantsService.HostAddress)
+			{
+				Path = "/UserInfo/ChangeWorkoutPlan"
+			};
+			var url = builder.Uri.ToString();
+
+			var command = new ChangeWorkoutPlanCommand
+			{
+				UserId = _identityService.UserId,
+				UserToken = _identityService.UserToken,
+				WorkoutPlanId = workoutPlanId,
+				WorkoutPlanStart = DateTime.UtcNow.ToString(),
+
+			};
+
+			HttpContent content = new StringContent(JsonSerializer.Serialize(command), Encoding.UTF8, "application/json");
+
+			var response = await httpClient.PostAsync(url, content);
+			if (response.IsSuccessStatusCode)
+			{
+				await Shell.Current.DisplayAlert("Chosen", "You changed your current WorkoutPlan", "OK");
 			}
 			else
 			{

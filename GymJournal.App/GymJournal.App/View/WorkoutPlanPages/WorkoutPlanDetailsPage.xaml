@@ -80,7 +80,8 @@
                 VerticalOptions="FillAndExpand"
                 Grid.Row="3"
                 Grid.Column="2"
-                IsVisible="{Binding IsAdmin}">
+                IsVisible="{Binding IsAdmin}"
+                Command="{Binding ChooseWorkoutPlanCommand}">
         </Button>
         <Button Text="Choose workout plan"
                 FontSize="20"
@@ -90,7 +91,8 @@
                 Grid.Row="3"
                 Grid.Column="0"
                 Grid.ColumnSpan="3"
-                IsVisible="{Binding IsNotAdmin}">
+                IsVisible="{Binding IsNotAdmin}"
+                Command="{Binding ChooseWorkoutPlanCommand}">
         </Button>
     </Grid>
 </ContentPage>

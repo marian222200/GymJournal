@@ -114,5 +114,31 @@ namespace GymJournal.App.ViewModel.WorkoutPlanViewModels
 					{"WorkoutPlanId", WorkoutPlanId}
 				});
 		}
+
+		[RelayCommand]
+		public async Task ChooseWorkoutPlan()
+		{
+			if (IsBusy) return;
+
+			try
+			{
+				IsBusy = true;
+
+				bool answer = await Shell.Current.DisplayAlert("Are you sure?", $"Are you sure you want to change to {DetailsWorkoutPlan.Name} plan?", "Yes", "No");
+
+				if (answer)
+				{
+					await _workoutPlanService.ChooseWorkoutPlan(WorkoutPlanId);
+				}
+			}
+			catch (Exception ex)
+			{
+				await _exceptionHandlerService.HandleException(ex);
+			}
+			finally
+			{
+				IsBusy = false;
+			}
+		}
 	}
 }
