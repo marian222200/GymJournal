@@ -152,6 +152,8 @@ namespace GymJournal.App.Services.API
 					Id = responseObject.Id,
 					Name = responseObject.Name,
 					Role = responseObject.Role,
+					WorkoutPlanId = responseObject.WorkoutPlanId,
+					WorkoutPlanStart = responseObject.WorkoutPlanStart,
 				};
 			}
 			else

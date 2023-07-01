@@ -7,11 +7,13 @@ using GymJournal.App.View.ExercisePages;
 using GymJournal.App.View.UserInfoPages;
 using GymJournal.App.View.WorkoutPages;
 using GymJournal.App.View.WorkoutPlanPages;
+using GymJournal.App.View.WorkSetPages;
 using GymJournal.App.ViewModel;
 using GymJournal.App.ViewModel.ExerciseViewModels;
 using GymJournal.App.ViewModel.UserInfoViewModels;
 using GymJournal.App.ViewModel.WorkoutPlanViewModels;
 using GymJournal.App.ViewModel.WorkoutViewModels;
+using GymJournal.App.ViewModel.WorkSetViewModels;
 using Microsoft.Extensions.Logging;
 
 namespace GymJournal.App;
@@ -58,6 +60,8 @@ public static class MauiProgram
 		builder.Services.AddTransient<WorkoutPlanListPageViewModel>();
 		builder.Services.AddTransient<WorkoutPlanUpsertPageViewModel>();
 
+		builder.Services.AddTransient<WorkSetUpsertPageViewModel>();
+
 
 		builder.Services.AddSingleton<MainPage>();
 
@@ -79,6 +83,8 @@ public static class MauiProgram
 		builder.Services.AddTransient<WorkoutPlanDetailsPage>();
 		builder.Services.AddTransient<WorkoutPlanListPage>();
 		builder.Services.AddTransient<WorkoutPlanUpsertPage>();
+
+		builder.Services.AddTransient<WorkSetUpsertPage>();
 
 
 		builder.Services.AddSingleton<IdentityService>();

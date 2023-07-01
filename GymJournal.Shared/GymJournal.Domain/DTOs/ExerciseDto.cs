@@ -13,5 +13,6 @@ namespace GymJournal.Domain.DTOs
         public string Description { get; set; }
         public ICollection<MuscleDto> Muscles { get; set; }
         public ICollection<WorkoutDto> Workouts { get; set; }
+        public ICollection<WorkSetDto> WorkSets { get; set; }
     }
 }

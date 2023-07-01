@@ -1,0 +1,60 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:model="clr-namespace:GymJournal.Domain.DTOs;assembly=GymJournal.Domain"
+             xmlns:viewmodel="clr-namespace:GymJournal.App.ViewModel.WorkSetViewModels"
+             x:DataType="viewmodel:WorkSetUpsertPageViewModel"
+             x:Class="GymJournal.App.View.WorkSetPages.WorkSetUpsertPage"
+             Title="{Binding Title}">
+    <Grid ColumnDefinitions="*"
+          RowDefinitions="auto,auto,auto,auto,auto"
+          RowSpacing="10"
+          Margin="20">
+        <Label Text="Reps"
+               FontSize="20"
+               FontAttributes="Bold"
+               HorizontalOptions="Start"
+               VerticalOptions="Center"
+               Grid.Row="0"
+               Margin="0,15,0,0">
+        </Label>
+        <Entry Text="{Binding UpsertWorkSet.Reps}"
+               Placeholder="User Name"
+               FontSize="15"
+               HorizontalOptions="Start"
+               VerticalOptions="Center"
+               Grid.Row="1"
+               ReturnType="Next"
+               MaxLength="20"
+               MinimumWidthRequest="200">
+        </Entry>
+        <Label Text="Weight"
+               FontSize="20"
+               FontAttributes="Bold"
+               HorizontalOptions="Start"
+               VerticalOptions="Center"
+               Grid.Row="2"
+               Margin="0,50,0,0">
+        </Label>
+        <Entry Text="{Binding UpsertWorkSet.Weight}"
+               FontSize="15"
+               HorizontalOptions="Start"
+               VerticalOptions="Center"
+               Grid.Row="3"
+               MaxLength="20"
+               MinimumWidthRequest="200"
+               ReturnType="Done"
+               ReturnCommand="{Binding SendFormCommand}">
+        </Entry>
+        <Button Text="Add"
+                FontSize="15"
+                FontAttributes="Bold"
+                HorizontalOptions="End"
+                VerticalOptions="Center"
+                Grid.Row="4"
+                Margin="0,35,0,0"
+                Padding="30,10,30,10"
+                Command="{Binding SendFormCommand}">
+        </Button>
+    </Grid>
+</ContentPage>

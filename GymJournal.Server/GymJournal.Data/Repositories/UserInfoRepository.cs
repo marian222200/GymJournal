@@ -64,6 +64,8 @@ namespace GymJournal.Data.Repositories
 			}
 
 			entityToUpdate.WorkoutPlan = workoutPlan;
+			entityToUpdate.WorkoutPlanId = command.WorkoutPlanId;
+			entityToUpdate.WorkoutPlanStart = command.WorkoutPlanStart;
 
 			await SaveChanges(cancellationToken);
 		}
@@ -100,6 +102,7 @@ namespace GymJournal.Data.Repositories
 		public async Task<GetByIdUserInfoResponse> GetById(GetByIdUserInfoQuery query, CancellationToken cancellationToken = default)
 		{
 			var entity = await _dbContext.UserInfos
+				.Include(u => u.WorkoutPlan)
 				.FirstOrDefaultAsync(e => e.Id == query.GetId, cancellationToken);
 
 			if (entity == null)
@@ -112,7 +115,7 @@ namespace GymJournal.Data.Repositories
 				Id = entity.Id,
 				Name = entity.Name,
 				Role = entity.Role,
-				WorokoutPlanId = entity.WorkoutPlanId ?? Guid.Empty,
+				WorkoutPlanId = entity.WorkoutPlanId ?? Guid.Empty,
 				WorkoutPlanStart = entity.WorkoutPlanStart ?? "",
 			};
 

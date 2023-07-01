@@ -30,6 +30,7 @@ namespace GymJournal.Data.Repositories
 				Description = command.Description,
 				Muscles = await _dbContext.Muscles.Where(m => command.MuscleIds.Contains(m.Id)).ToListAsync(),
 				Workouts = await _dbContext.Workouts.Where(w => command.WorkoutIds.Contains(w.Id)).ToListAsync(),
+				WorkSets = new List<WorkSet>(),
 			};
 
 			await _dbContext.Exercises.AddAsync(entity, cancellationToken);
@@ -53,6 +54,13 @@ namespace GymJournal.Data.Repositories
 					Description = w.Description,
 					Exercises = new List<ExerciseDto>(),
 					WorkoutPlans = new List<WorkoutPlanDto>(),
+				}).ToList(),
+				WorkSets = entity.WorkSets.Select(w => new WorkSetDto
+				{
+					Id = w.Id,
+					Date = w.Date,
+					Weight = w.Weight,
+					Reps = w.Reps,
 				}).ToList(),
 			};
 		}
@@ -96,6 +104,13 @@ namespace GymJournal.Data.Repositories
 						Exercises = new List<ExerciseDto>(),
 						WorkoutPlans = new List<WorkoutPlanDto>(),
 					}).ToList(),
+					WorkSets = entity.WorkSets.Select(w => new WorkSetDto
+					{
+						Id = w.Id,
+						Date = w.Date,
+						Weight = w.Weight,
+						Reps = w.Reps,
+					}).ToList(),
 				})
 				.ToListAsync(cancellationToken);
 
@@ -107,6 +122,7 @@ namespace GymJournal.Data.Repositories
 			var entity = await _dbContext.Exercises
 				.Include(e => e.Muscles)
 				.Include(e => e.Workouts)
+				.Include(e => e.WorkSets)
 				.FirstOrDefaultAsync(e => e.Id == query.ExerciseId, cancellationToken);
 
 			if (entity == null)
@@ -133,6 +149,13 @@ namespace GymJournal.Data.Repositories
 					Exercises = new List<ExerciseDto>(),
 					WorkoutPlans = new List<WorkoutPlanDto>(),
 				}).ToList(),
+				WorkSets = entity.WorkSets.Select(w => new WorkSetDto
+				{
+					Id = w.Id,
+					Date = w.Date,
+					Weight = w.Weight,
+					Reps = w.Reps,
+				}).ToList(),
 			};
 
 			return x;
@@ -148,6 +171,7 @@ namespace GymJournal.Data.Repositories
 			var entityToUpdate = await _dbContext.Exercises
 				.Include(e => e.Muscles)
 				.Include(e => e.Workouts)
+				.Include(e => e.WorkSets)
 				.FirstOrDefaultAsync(e => e.Id == command.ExerciseId, cancellationToken);
 
 			if (entityToUpdate == null)
@@ -182,6 +206,13 @@ namespace GymJournal.Data.Repositories
 					Description = w.Description,
 					Exercises = new List<ExerciseDto>(),
 					WorkoutPlans = new List<WorkoutPlanDto>(),
+				}).ToList(),
+				WorkSets = entityToUpdate.WorkSets.Select(w => new WorkSetDto
+				{
+					Id = w.Id,
+					Date = w.Date,
+					Weight = w.Weight,
+					Reps = w.Reps,
 				}).ToList(),
 			};
 		}

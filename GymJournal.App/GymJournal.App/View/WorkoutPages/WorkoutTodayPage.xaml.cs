@@ -10,4 +10,13 @@ public partial class WorkoutTodayPage : ContentPage
 		BindingContext = viewModel;
 		Title = viewModel.Title;
 	}
+
+	protected override async void OnAppearing()
+	{
+		base.OnAppearing();
+		if (BindingContext is WorkoutTodayPageViewModel viewModel)
+		{
+			await viewModel.OnAppearing();
+		}
+	}
 }
