@@ -61,6 +61,7 @@ public static class MauiProgram
 		builder.Services.AddTransient<WorkoutPlanUpsertPageViewModel>();
 
 		builder.Services.AddTransient<WorkSetUpsertPageViewModel>();
+		builder.Services.AddTransient<WorkSetListPageViewModel>();
 
 
 		builder.Services.AddSingleton<MainPage>();
@@ -85,6 +86,7 @@ public static class MauiProgram
 		builder.Services.AddTransient<WorkoutPlanUpsertPage>();
 
 		builder.Services.AddTransient<WorkSetUpsertPage>();
+		builder.Services.AddTransient<WorkSetListPage>();
 
 
 		builder.Services.AddSingleton<IdentityService>();

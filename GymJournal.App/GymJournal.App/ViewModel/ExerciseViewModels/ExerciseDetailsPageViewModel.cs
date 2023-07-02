@@ -3,6 +3,7 @@ using CommunityToolkit.Mvvm.Input;
 using GymJournal.App.Services;
 using GymJournal.App.Services.API;
 using GymJournal.App.View.ExercisePages;
+using GymJournal.App.View.WorkSetPages;
 using GymJournal.Domain.DTOs;
 using System;
 using System.Collections.Generic;
@@ -95,6 +96,16 @@ namespace GymJournal.App.ViewModel.ExerciseViewModels
 		public async Task GoToUpdateAsync()
 		{
 			await Shell.Current.GoToAsync($"{nameof(ExerciseUpsertPage)}", true,
+				new Dictionary<string, object>
+				{
+					{"ExerciseId", ExerciseId}
+				});
+		}
+
+		[RelayCommand]
+		public async Task GoToWorkSetListAsync()
+		{
+			await Shell.Current.GoToAsync($"{nameof(WorkSetListPage)}", true,
 				new Dictionary<string, object>
 				{
 					{"ExerciseId", ExerciseId}

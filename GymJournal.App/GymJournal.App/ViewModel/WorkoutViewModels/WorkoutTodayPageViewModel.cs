@@ -123,12 +123,12 @@ namespace GymJournal.App.ViewModel.WorkoutViewModels
 
 			var workoutPlan = await _workoutPlanService.GetById(CurrentUser.WorkoutPlanId);
 
-			var timeSinceStarted = DateTime.UtcNow.Date.Subtract(DateTime.Parse(CurrentUser.WorkoutPlanStart).Date).Days;
+			var timeSinceStarted = DateTime.Now.Date.Subtract(DateTime.Parse(CurrentUser.WorkoutPlanStart).Date).Days;
 
 			var todaysWorkout = await _workoutService.GetById(workoutPlan.Workouts.OrderBy(w => w.Name).ToList()[timeSinceStarted % workoutPlan.Workouts.Count].Id);
 
 			var todaysWorkSets = (await _workSetService.GetAll()).Where(
-				w => w.UserId == CurrentUser.Id && DateTime.Parse(w.Date).Date == DateTime.UtcNow.Date);
+				w => w.UserId == CurrentUser.Id && DateTime.Parse(w.Date).Date == DateTime.Now.Date);
 
 			TodaysWorkoutName = todaysWorkout.Name;
 

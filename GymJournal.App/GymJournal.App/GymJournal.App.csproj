@@ -112,6 +112,9 @@
 	  <MauiXaml Update="View\WorkoutPlanPages\WorkoutPlanUpsertPage.xaml">
 	    <Generator>MSBuild:Compile</Generator>
 	  </MauiXaml>
+	  <MauiXaml Update="View\WorkSetPages\WorkSetListPage.xaml">
+	    <Generator>MSBuild:Compile</Generator>
+	  </MauiXaml>
 	  <MauiXaml Update="View\WorkSetPages\WorkSetUpsertPage.xaml">
 	    <Generator>MSBuild:Compile</Generator>
 	  </MauiXaml>

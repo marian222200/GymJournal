@@ -40,7 +40,7 @@ namespace GymJournal.App.Services.API
 				UserId = _identityService.UserId,
 				UserToken = _identityService.UserToken,
 				ExerciseId = workSet.ExerciseId,
-				Date = DateTime.UtcNow.ToString(),
+				Date = DateTime.Now.ToString(),
 				Weight = workSet.Weight,
 				Reps = workSet.Reps,
 			};

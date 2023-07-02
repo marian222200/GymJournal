@@ -57,7 +57,7 @@ namespace GymJournal.App.Services.API
 					Id = responseObject.Id,
 					Name = responseObject.Name,
 					Description = responseObject.Description,
-					Workouts = responseObject.Workouts,
+					Workouts = responseObject.Workouts.OrderBy(w => w.Name).ToList(),
 				};
 			}
 			else
@@ -81,7 +81,7 @@ namespace GymJournal.App.Services.API
 				UserId = _identityService.UserId,
 				UserToken = _identityService.UserToken,
 				WorkoutPlanId = workoutPlanId,
-				WorkoutPlanStart = DateTime.UtcNow.ToString(),
+				WorkoutPlanStart = DateTime.Now.ToString(),
 
 			};
 
@@ -185,7 +185,7 @@ namespace GymJournal.App.Services.API
 					Id = responseObject.Id,
 					Name = responseObject.Name,
 					Description = responseObject.Description,
-					Workouts = responseObject.Workouts,
+					Workouts = responseObject.Workouts.OrderBy(w => w.Name).ToList(),
 				};
 			}
 			else
@@ -226,7 +226,7 @@ namespace GymJournal.App.Services.API
 					Id = responseObject.Id,
 					Name = responseObject.Name,
 					Description = responseObject.Description,
-					Workouts = responseObject.Workouts,
+					Workouts = responseObject.Workouts.OrderBy(w => w.Name).ToList(),
 				};
 			}
 			else

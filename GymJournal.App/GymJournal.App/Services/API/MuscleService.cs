@@ -82,7 +82,7 @@ namespace GymJournal.App.Services.API
 				{
 					Id = responseObject.Id,
 					Name = responseObject.Name,
-					Exercises = responseObject.Exercises,
+					Exercises = responseObject.Exercises.OrderBy(e => e.Name).ToList(),
 				};
 			}
 			else

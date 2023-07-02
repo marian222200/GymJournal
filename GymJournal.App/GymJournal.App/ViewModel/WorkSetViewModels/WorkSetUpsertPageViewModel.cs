@@ -63,7 +63,7 @@ namespace GymJournal.App.ViewModel.WorkSetViewModels
 
 				var workSet = await _workSetService.Add(new WorkSetDto
 				{
-					Date = DateTime.UtcNow.ToString(),
+					Date = DateTime.Now.ToString(),
 					Weight = UpsertWorkSet.Weight,
 					Reps = UpsertWorkSet.Reps,
 					ExerciseId = ExerciseId,
