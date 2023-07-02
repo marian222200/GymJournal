@@ -90,7 +90,7 @@ namespace GymJournal.App.ViewModel.WorkSetViewModels
 
 		public async Task LoadData()
 		{
-			var workSets = (await _workSetService.GetAll()).Where(w => w.ExerciseId == ExerciseId);
+			var workSets = (await _workSetService.GetAll()).Where(w => w.ExerciseId == ExerciseId && w.UserId == _identityService.UserId);
 			var dates = workSets.Select(w => DateTime.Parse(w.Date).Date).Distinct();
 
 			if (WorkSets.Count > 0)

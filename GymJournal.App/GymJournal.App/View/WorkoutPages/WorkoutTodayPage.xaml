@@ -22,6 +22,16 @@
                Grid.Column="0"
                Grid.Row="0">
         </Label>
+        <Label Text="No WorkoutPlan chosen"
+               IsVisible="{Binding IsEmpty}"
+               FontSize="35"
+               FontAttributes="Bold"
+               HorizontalOptions="Center"
+               VerticalOptions="Center"
+               Grid.ColumnSpan="2"
+               Grid.Column="0"
+               Grid.Row="0">
+        </Label>
         <CollectionView Background="Transparent"
                         SelectionMode="None"
                         ItemsSource="{Binding Exercises}"

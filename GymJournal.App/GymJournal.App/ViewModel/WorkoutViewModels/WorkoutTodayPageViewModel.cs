@@ -60,6 +60,9 @@ namespace GymJournal.App.ViewModel.WorkoutViewModels
 
 				if (CurrentUser.WorkoutPlanId == Guid.Empty)
 				{
+					Exercises.Clear();
+					TodaysWorkoutName = "";
+
 					IsEmpty = true; return;
 				}
 

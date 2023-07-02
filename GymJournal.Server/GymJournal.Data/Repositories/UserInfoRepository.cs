@@ -34,8 +34,8 @@ namespace GymJournal.Data.Repositories
 				Password = BCryptNet.HashPassword(command.Password),
 				Role = "Regular",
 				Token = Guid.NewGuid(),
-				WorkoutPlanId = Guid.Empty,
-				WorkoutPlanStart = "",
+				WorkoutPlanId = null,
+				WorkoutPlanStart = null,
 			};
 
 			await _dbContext.UserInfos.AddAsync(entity, cancellationToken);
