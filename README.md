@@ -38,3 +38,5 @@ GymJournal is a mobile app designed to track your gym progress. The creation of 
 ### Track your current workout
 
 ### See your past lifts
+
+### App theme (dark/light) - the same as device theme
