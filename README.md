@@ -25,18 +25,14 @@ GymJournal is a mobile app designed to track your gym progress. The creation of 
 
 ## Functionalities
 
-### Create an account in order to use the app
+🔹 Create an account in order to use the app
 
-![image](https://github.com/marian222200/GymJournal/assets/30511514/88839f38-9f80-454a-b2f5-e71579e580c3)
+🔹 Add an exercise/workout/workout-plan
 
-### Add an exercise/workout/workout-plan
+🔹 Choose your workout-plan
 
-![image](https://github.com/marian222200/GymJournal/assets/30511514/a1fcd975-8bf8-472c-af0d-756f456c30f7)
+🔹 Track your current workout
 
-### Choose your workout-plan
+🔹 See your past lifts
 
-### Track your current workout
-
-### See your past lifts
-
-### App theme (dark/light) - the same as device theme
+🔹 App theme (dark/light) - the same as device theme
